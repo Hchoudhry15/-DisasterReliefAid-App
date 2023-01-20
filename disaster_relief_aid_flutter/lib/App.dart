@@ -6,6 +6,7 @@ import 'DRA.config.dart';
 // import screens
 import 'view/Register.view.dart';
 import 'view/Home.view.dart';
+import 'view/UserSelection.view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: Config.appName,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: !isLoggedIn ? const RegisterView() : const HomeView(),
+      home: !isLoggedIn ? const UserSelectionView() : const HomeView(),
     );
   }
 }
