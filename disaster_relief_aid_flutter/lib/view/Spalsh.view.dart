@@ -26,13 +26,37 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Container(
-        child: const Text(
-          'Disaster Relief Aid',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.green[800]),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Container(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: <Widget>[
+                    const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 50.0,
+                        child: Icon(
+                          Icons.public,
+                          color: Colors.green,
+                          size: 50.0,
+                        ))
+                  ],
+                )),
+              )
+            ],
+          )
+        ],
       ),
-    ));
+    );
   }
 }
