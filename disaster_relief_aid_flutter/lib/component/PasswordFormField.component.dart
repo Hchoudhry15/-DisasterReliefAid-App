@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 /// TODO: In the future may need some way to visualize the strength needed for password.
 /// ex: password requires 1 uppercase, 1 lowercase, 1 number, 1 special character, and 8 characters long.
 
-class PasswordField extends StatefulWidget {
-  const PasswordField(
+class PasswordFormField extends StatefulWidget {
+  const PasswordFormField(
       {required this.onSaved,
       this.labelText = "Password",
       this.hintText = "Enter your password",
@@ -28,10 +28,10 @@ class PasswordField extends StatefulWidget {
   final dynamic Function(String password) onSaved;
 
   @override
-  State<PasswordField> createState() => _PasswordFieldState();
+  State<PasswordFormField> createState() => _PasswordFormFieldState();
 }
 
-class _PasswordFieldState extends State<PasswordField> {
+class _PasswordFormFieldState extends State<PasswordFormField> {
   bool _obscureText = true;
 
   @override
