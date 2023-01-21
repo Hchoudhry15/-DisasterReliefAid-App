@@ -1,0 +1,66 @@
+on:
+  push:
+    tags:
+      - "*"
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+    tags:
+      - "*"
+jobs:
+  tagged-release:
+    name: "Tagged Release"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.9"
+      - run: flutter pub get
+      - run: flutter test
+      - run: flutter build apk
+      - run: flutter build appbundle
+
+      - name: do flutter stuff
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.9"
+
+      - uses: olegtarasov/get-tag@v2 # that generate $GIT_TAG_NAME env
+        id: tagName
+
+      - name: Replace YAML version with tag version
+        run: |
+          sed -i 's/99.99.99+99/'$GIT_TAG_NAME'/g' pubspec.yaml|
+          echo "Tag used version:"$GIT_TAG_NAME
+
+      - run: flutter pub get
+      - run: flutter test
+      - run: flutter build apk
+      - run: flutter build appbundle
+
+      # - name: Bump version and push tag
+      #   id: tag_version
+      #   uses: mathieudutour/github-tag-action@v6.1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: automatic release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: ${{ steps.tagName.outputs.tag }}
+          prerelease: false
+          files: |
+            LICENSE.txt
+            build/app/outputs/bundle/release/app-release.aab
+            build/app/outputs/flutter-apk/app-release.apk
