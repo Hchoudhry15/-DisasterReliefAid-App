@@ -87,6 +87,8 @@ class Config {
     'something else'
   ];
 
+  static String passwordWeakMessage = "Password is too weak";
+
   static passwordValidator(String value) {
     /// used when validating passwords
     /// returns null if valid, otherwise returns a string with the error message
@@ -94,13 +96,13 @@ class Config {
     /// all values given are guaranteed to be non-null
     /// the value is guaranteed to be non-empty
 
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters';
-    }
+    // if (value.length < 8) {
+    //   return 'Password must be at least 8 characters';
+    // }
 
     double strength = estimatePasswordStrength(value);
     if (strength < 0.3) {
-      return 'Password is too weak';
+      return passwordWeakMessage;
     }
 
     // TODO: add more checks?
