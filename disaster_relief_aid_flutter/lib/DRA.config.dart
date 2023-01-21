@@ -84,4 +84,19 @@ class Config {
     'something',
     'something else'
   ];
+
+  static passwordValidator(String value) {
+    /// used when validating passwords
+    /// returns null if valid, otherwise returns a string with the error message
+
+    /// all values given are guaranteed to be non-null
+    /// the value is guaranteed to be non-empty
+
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    // TODO: add more checks
+
+    return null;
+  }
 }
