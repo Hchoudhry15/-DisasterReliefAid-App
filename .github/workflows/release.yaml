@@ -1,3 +1,4 @@
+name: Release - build apk and app bundle
 on:
   push:
     tags:
