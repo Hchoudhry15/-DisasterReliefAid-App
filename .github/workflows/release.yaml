@@ -10,6 +10,10 @@ jobs:
     name: "Tagged Release"
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: disaster_relief_aid_flutter
+
     steps:
       - uses: actions/checkout@v3
 
