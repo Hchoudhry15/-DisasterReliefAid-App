@@ -1,3 +1,5 @@
+import 'package:password_strength/password_strength.dart';
+
 class Config {
   /// The name of the app
   static const String appName = 'Disaster Relief Aid';
@@ -95,7 +97,13 @@ class Config {
     if (value.length < 8) {
       return 'Password must be at least 8 characters';
     }
-    // TODO: add more checks
+
+    double strength = estimatePasswordStrength(value);
+    if (strength < 0.3) {
+      return 'Password is too weak';
+    }
+
+    // TODO: add more checks?
 
     return null;
   }
