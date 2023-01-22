@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '308081012121',
     projectId: 'lunar-linker-366702',
     authDomain: 'lunar-linker-366702.firebaseapp.com',
+    databaseURL: 'https://lunar-linker-366702-default-rtdb.firebaseio.com',
     storageBucket: 'lunar-linker-366702.appspot.com',
   );
 
@@ -57,6 +58,7 @@ class DefaultFirebaseOptions {
     appId: '1:308081012121:android:a7fe8b36a26b4f84f7f708',
     messagingSenderId: '308081012121',
     projectId: 'lunar-linker-366702',
+    databaseURL: 'https://lunar-linker-366702-default-rtdb.firebaseio.com',
     storageBucket: 'lunar-linker-366702.appspot.com',
   );
 
@@ -65,6 +67,7 @@ class DefaultFirebaseOptions {
     appId: '1:308081012121:ios:ef20fa5c7f96eb71f7f708',
     messagingSenderId: '308081012121',
     projectId: 'lunar-linker-366702',
+    databaseURL: 'https://lunar-linker-366702-default-rtdb.firebaseio.com',
     storageBucket: 'lunar-linker-366702.appspot.com',
     iosClientId:
         '308081012121-864l98cin79jk125d3a011dpqfucru85.apps.googleusercontent.com',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:308081012121:ios:ef20fa5c7f96eb71f7f708',
     messagingSenderId: '308081012121',
     projectId: 'lunar-linker-366702',
+    databaseURL: 'https://lunar-linker-366702-default-rtdb.firebaseio.com',
     storageBucket: 'lunar-linker-366702.appspot.com',
     iosClientId:
         '308081012121-864l98cin79jk125d3a011dpqfucru85.apps.googleusercontent.com',
