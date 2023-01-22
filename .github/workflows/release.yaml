@@ -55,6 +55,11 @@ jobs:
       #   with:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      # delete the existing tag
+      - name: Delete tag
+        run: git push --delete origin ${{ steps.vars.outputs.tag }}
+
+      # create the new release tag
       - name: automatic release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
