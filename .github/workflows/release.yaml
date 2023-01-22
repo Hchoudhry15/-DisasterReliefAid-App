@@ -58,7 +58,12 @@ jobs:
         id: tag_version
         run: |
           echo "tag=${GITHUB_REF#refs/*/}-auto" >> $GITHUB_ENV
-          echo "Tag used version:"$RELEASE_VERSION
+      - name: Check output
+        env:
+          RELEASE_VERSION_AUTO: ${{ steps.tag_version.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION_AUTO
+          echo ${{ steps.tag_version.outputs.tag }}
 
       # create the new release tag
       - name: automatic release
@@ -69,5 +74,5 @@ jobs:
           prerelease: false
           files: |
             LICENSE.txt
-            build/app/outputs/bundle/release/app-release.aab
-            build/app/outputs/flutter-apk/app-release.apk
+            disaster_relief_aid_flutter/build/app/outputs/bundle/release/app-release.aab
+            disaster_relief_aid_flutter/build/app/outputs/flutter-apk/app-release.apk
