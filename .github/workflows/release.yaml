@@ -30,7 +30,8 @@ jobs:
       - name: save tag without 'v' prefix
         id: tag_without_v
         run: |
-          echo "tag_without_v=${RELEASE_VERSION#v}" >> $GITHUB_ENV
+          VERSION=${{ github.vars.release.tag }}
+          echo "tag_without_v=${VERSION#v}" >> $GITHUB_ENV
       - name: Check output
         env:
           RELEASE_VERSION_V: ${{ steps.tag_without_v.outputs.tag_without_v }}
