@@ -27,6 +27,12 @@ jobs:
           echo $RELEASE_VERSION
           echo ${{ steps.vars.outputs.tag }}
 
+      # delete the existing tag
+      - name: Delete tag
+        uses: cb80/delrel@latest
+        with:
+          tag: ${{ steps.vars.outputs.tag }}
+
   
       - uses: actions/setup-java@v2
         with:
@@ -55,10 +61,6 @@ jobs:
       #   with:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      # delete the existing tag
-      - name: Delete tag
-        run: git push --delete origin ${{ steps.vars.outputs.tag }}
-
       # create the new release tag
       - name: automatic release
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -66,6 +68,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: ${{ steps.vars.outputs.tag }}
           prerelease: false
+          draft: true
           files: |
             LICENSE.txt
             build/app/outputs/bundle/release/app-release.aab
