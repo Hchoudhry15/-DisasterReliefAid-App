@@ -66,7 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '308081012121',
     projectId: 'lunar-linker-366702',
     storageBucket: 'lunar-linker-366702.appspot.com',
-    iosClientId: '308081012121-864l98cin79jk125d3a011dpqfucru85.apps.googleusercontent.com',
+    iosClientId:
+        '308081012121-864l98cin79jk125d3a011dpqfucru85.apps.googleusercontent.com',
     iosBundleId: 'com.example.disasterReliefAidFlutter',
   );
 
@@ -76,7 +77,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '308081012121',
     projectId: 'lunar-linker-366702',
     storageBucket: 'lunar-linker-366702.appspot.com',
-    iosClientId: '308081012121-864l98cin79jk125d3a011dpqfucru85.apps.googleusercontent.com',
+    iosClientId:
+        '308081012121-864l98cin79jk125d3a011dpqfucru85.apps.googleusercontent.com',
     iosBundleId: 'com.example.disasterReliefAidFlutter',
   );
 }

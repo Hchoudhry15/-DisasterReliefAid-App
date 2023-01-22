@@ -1,6 +1,7 @@
 import 'package:disaster_relief_aid_flutter/component/DatePicker.component.dart';
 import 'package:disaster_relief_aid_flutter/component/FormDropDown.component.dart';
 import 'package:disaster_relief_aid_flutter/component/MultiSelectDropDown.component.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -37,11 +38,13 @@ class CreateProfileForm extends StatefulWidget {
 }
 
 class _CreateProfileFormState extends State<CreateProfileForm> {
+  final database = FirebaseDatabase.instance.ref();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     User user = User();
+    final userRef = database.child('/users');
 
     return Form(
         key: _formKey,
@@ -119,12 +122,23 @@ class _CreateProfileFormState extends State<CreateProfileForm> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             // process data woo!
                             //print form data
                             _formKey.currentState!.save();
-                            print(user);
+                            try {
+                              await userRef.set({
+                                'uID': 0, // Placeholder for UserID
+                                'description': user.fname,
+                                'language': user.language,
+                                'birthdate': user.birthdate,
+                                'vulnerabilities': user.vulnerabilities
+                              });
+                              print(user);
+                            } catch (e) {
+                              print("An error has occured");
+                            }
                             // navigate to home page
                             Navigator.pushReplacement(
                                 context,
