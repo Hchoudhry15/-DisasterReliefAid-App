@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 // import the widget to test
 
-import 'package:disaster_relief_aid_flutter/view/Register.view.dart';
+import 'package:disaster_relief_aid_flutter/view/CreateProfile.view.dart';
 
 void main() {
-  testWidgets("Register View renders", (WidgetTester tester) async {
+  testWidgets("CreateProfile View renders", (WidgetTester tester) async {
     // Render the widget
     await tester.pumpWidget(const MaterialApp(
       home: CreateProfileView(),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'DRA.config.dart';
 
 // import screens
-import 'view/Register.view.dart';
+import 'view/CreateProfile.view.dart';
 import 'view/Main.view.dart';
 
 class MyApp extends StatelessWidget {

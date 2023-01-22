@@ -44,7 +44,7 @@ class _CreateProfileFormState extends State<CreateProfileForm> {
   @override
   Widget build(BuildContext context) {
     User user = User();
-    final userRef = database.child('/users');
+    final userRef = database.child('/users/');
 
     return Form(
         key: _formKey,
@@ -127,17 +127,20 @@ class _CreateProfileFormState extends State<CreateProfileForm> {
                             // process data woo!
                             //print form data
                             _formKey.currentState!.save();
+                            final usernameRef = userRef.child(user.fname);
                             try {
-                              await userRef.set({
+                              await usernameRef.set({
                                 'uID': 0, // Placeholder for UserID
-                                'description': user.fname,
+                                'fname': user.fname,
                                 'language': user.language,
-                                'birthdate': user.birthdate,
-                                'vulnerabilities': user.vulnerabilities
+                                'birthdate': user.birthdate.toString(),
+                                'vulnerabilities':
+                                    user.vulnerabilities.toString()
                               });
                               print(user);
                             } catch (e) {
                               print("An error has occured");
+                              print(e);
                             }
                             // navigate to home page
                             Navigator.pushReplacement(
