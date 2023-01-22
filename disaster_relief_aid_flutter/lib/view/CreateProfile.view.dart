@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import "package:intl/intl.dart";
+import 'package:uuid/uuid.dart';
 
 import '../DRA.config.dart';
 import '../model/user.model.dart';
@@ -45,6 +46,7 @@ class _CreateProfileFormState extends State<CreateProfileForm> {
   Widget build(BuildContext context) {
     User user = User();
     final userRef = database.child('/users/');
+    final userIDRef = database.child('/userids/');
 
     return Form(
         key: _formKey,
@@ -127,16 +129,25 @@ class _CreateProfileFormState extends State<CreateProfileForm> {
                             // process data woo!
                             //print form data
                             _formKey.currentState!.save();
-                            final usernameRef = userRef.child(user.fname);
+                            //usernameRef will be changed to user.username when
+                            //it is created
+                            var uuid = Uuid();
+                            var uID = uuid.v1();
+                            final usernameEntry = userRef.child(uID);
+                            final useridEntry = userIDRef.child(uID);
+
                             try {
-                              await usernameRef.set({
-                                'uID': 0, // Placeholder for UserID
+                              await usernameEntry.set({
                                 'fname': user.fname,
                                 'language': user.language,
                                 'birthdate': user.birthdate.toString(),
                                 'vulnerabilities':
                                     user.vulnerabilities.toString()
                               });
+
+                              await useridEntry
+                                  .set({'usrID': uID, 'username': user.fname});
+
                               print(user);
                             } catch (e) {
                               print("An error has occured");
