@@ -67,7 +67,6 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: ${{ steps.tag_version.outputs.tag }}
           prerelease: false
-          draft: true
           files: |
             LICENSE.txt
             build/app/outputs/bundle/release/app-release.aab
