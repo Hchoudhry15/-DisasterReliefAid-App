@@ -26,13 +26,6 @@ jobs:
         run: |
           echo $RELEASE_VERSION
           echo ${{ steps.vars.outputs.tag }}
-
-      # delete the existing tag
-      - name: Delete tag
-        uses: cb80/delrel@latest
-        with:
-          tag: ${{ steps.vars.outputs.tag }}
-
   
       - uses: actions/setup-java@v2
         with:
@@ -61,12 +54,18 @@ jobs:
       #   with:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create new env var for tag with "-auto" suffix
+        id: tag_version
+        run: |
+          echo "tag=${GITHUB_REF#refs/*/}-auto" >> $GITHUB_ENV
+          echo "Tag used version:"$RELEASE_VERSION
+
       # create the new release tag
       - name: automatic release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ steps.vars.outputs.tag }}
+          automatic_release_tag: ${{ steps.tag_version.outputs.tag }}
           prerelease: false
           draft: true
           files: |
