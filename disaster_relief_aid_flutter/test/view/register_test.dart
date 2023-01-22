@@ -9,7 +9,7 @@ void main() {
   testWidgets("Register View renders", (WidgetTester tester) async {
     // Render the widget
     await tester.pumpWidget(const MaterialApp(
-      home: RegisterView(),
+      home: CreateProfileView(),
     ));
   });
 }

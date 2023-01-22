@@ -11,32 +11,32 @@ import '../DRA.config.dart';
 import '../model/user.model.dart';
 import 'Main.view.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class CreateProfileView extends StatefulWidget {
+  const CreateProfileView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<CreateProfileView> createState() => _CreateProfileViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _CreateProfileViewState extends State<CreateProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Register"),
+          title: const Text("Create Profile"),
         ),
-        body: const SingleChildScrollView(child: RegistrationForm()));
+        body: const SingleChildScrollView(child: CreateProfileForm()));
   }
 }
 
-class RegistrationForm extends StatefulWidget {
-  const RegistrationForm({super.key});
+class CreateProfileForm extends StatefulWidget {
+  const CreateProfileForm({super.key});
 
   @override
-  State<RegistrationForm> createState() => _RegistrationFormState();
+  State<CreateProfileForm> createState() => _CreateProfileFormState();
 }
 
-class _RegistrationFormState extends State<RegistrationForm> {
+class _CreateProfileFormState extends State<CreateProfileForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

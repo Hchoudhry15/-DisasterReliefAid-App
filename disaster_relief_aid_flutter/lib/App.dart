@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: Config.appName,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: !isLoggedIn ? const RegisterView() : const MainView(),
+      home: !isLoggedIn ? const CreateProfileView() : const MainView(),
     );
   }
 }
