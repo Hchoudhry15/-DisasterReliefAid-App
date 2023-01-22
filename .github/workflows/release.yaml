@@ -27,17 +27,17 @@ jobs:
           echo $RELEASE_VERSION
           echo ${{ steps.vars.outputs.tag }}
 
-      - name: save tag without 'v' prefix
-        id: tag_without_v
-        run: |
-          VERSION=${{ github.vars.release.tag }}
-          echo "tag_without_v=${VERSION#v}" >> $GITHUB_ENV
-      - name: Check output
-        env:
-          RELEASE_VERSION_V: ${{ steps.tag_without_v.outputs.tag_without_v }}
-        run: |
-          echo $RELEASE_VERSION_V
-          echo ${{ steps.tag_without_v.outputs.tag_without_v }}
+      # - name: save tag without 'v' prefix
+      #   id: tag_without_v
+      #   run: |
+      #     VERSION=${{ github.vars.release.tag }}
+      #     echo "tag_without_v=${VERSION#v}" >> $GITHUB_ENV
+      # - name: Check output
+      #   env:
+      #     RELEASE_VERSION_V: ${{ steps.tag_without_v.outputs.tag_without_v }}
+      #   run: |
+      #     echo $RELEASE_VERSION_V
+      #     echo ${{ steps.tag_without_v.outputs.tag_without_v }}
   
       - uses: actions/setup-java@v2
         with:
@@ -52,8 +52,8 @@ jobs:
 
       - name: Replace YAML version with tag version
         run: |
-          sed -i 's/99.99.99+99/'$RELEASE_VERSION_V'/g' pubspec.yaml|
-          echo "Tag used version:"$RELEASE_VERSION_V
+          sed -i 's/99.99.99+99/'$RELEASE_VERSION'/g' pubspec.yaml|
+          echo "Tag used version:"$RELEASE_VERSION
 
       - run: flutter pub get
       - run: flutter test
