@@ -1,4 +1,4 @@
-import 'package:disaster_relief_aid_flutter/view/Spalsh.view.dart';
+import 'package:disaster_relief_aid_flutter/view/Splash.view.dart';
 import 'package:flutter/material.dart';
 
 // import config
