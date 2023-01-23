@@ -1,20 +1,17 @@
 import 'package:disaster_relief_aid_flutter/firebase_options.dart';
+import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../mock.dart'; // from: https://github.com/FirebaseExtended/flutterfire/blob/master/packages/firebase_auth/firebase_auth/test/mock.dart
-
 // import the widget to test
 
 import 'package:disaster_relief_aid_flutter/view/CreateProfile.view.dart';
 
 void main() {
-  setupFirebaseAuthMocks();
-  testWidgets("CreateProfile View renders", (WidgetTester tester) async {
-    await Firebase.initializeApp();
+  testWidgets("Registration Page view renders", (WidgetTester tester) async {
     // Render the widget
     await tester.pumpWidget(const MaterialApp(
-      home: CreateProfileView(),
+      home: RegistrationPage(),
     ));
   });
 }
