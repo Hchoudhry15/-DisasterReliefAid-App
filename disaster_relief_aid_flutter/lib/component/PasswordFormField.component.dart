@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 /// ex: password requires 1 uppercase, 1 lowercase, 1 number, 1 special character, and 8 characters long.
 
 class PasswordFormField extends StatefulWidget {
-  const PasswordFormField(
+  PasswordFormField(
       {required this.onSaved,
+      this.onChanged,
       this.labelText = "Password",
       this.hintText = "Enter your password",
       this.checkStrength = false,
@@ -30,6 +31,7 @@ class PasswordFormField extends StatefulWidget {
   /// Called when the form is submitted.
   /// If `checkStrength` is `true`, the password will be checked for strength.
   final dynamic Function(String password) onSaved;
+  dynamic Function(String password)? onChanged;
 
   @override
   State<PasswordFormField> createState() => _PasswordFormFieldState();
@@ -73,6 +75,11 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
       onSaved: ((pwd) {
         if (pwd != null && pwd.isNotEmpty) widget.onSaved(pwd);
       }),
+      onChanged: (pwd) {
+        if (pwd != null && pwd.isNotEmpty && widget.onChanged != null) {
+          widget.onChanged!(pwd);
+        }
+      },
       validator: ((pwd) {
         if (pwd == null || pwd.isEmpty) {
           return 'Please enter a password';

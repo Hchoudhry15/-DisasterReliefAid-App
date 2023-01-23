@@ -88,7 +88,10 @@ class _CreateProfile2 extends State<CreateProfile2> {
                           // ignore: prefer_const_constructors
                           child: PasswordFormField(
                             checkStrength: true,
-                            onSaved: ((newValue) {
+                            onSaved: ((password) {
+                              _profile.password = password;
+                            }),
+                            onChanged: ((newValue) {
                               _profile.password = newValue;
                             }),
                           ),
