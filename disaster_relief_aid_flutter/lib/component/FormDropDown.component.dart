@@ -1,10 +1,7 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import "package:flutter/material.dart";
 
 class FormDropDown extends StatefulWidget {
-  FormDropDown(
+  const FormDropDown(
       {required this.items,
       required this.labelText,
       required this.onSaved,
@@ -15,7 +12,7 @@ class FormDropDown extends StatefulWidget {
   final List<dynamic> items;
   final String labelText;
   final String? hintText;
-  final dynamic? initialValue;
+  final dynamic initialValue;
   final dynamic Function(dynamic value) onSaved;
 
   @override

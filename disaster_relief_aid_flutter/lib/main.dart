@@ -5,6 +5,8 @@ import 'firebase_options.dart';
 // import app
 import 'App.dart';
 
+GlobalKey globalKey = GlobalKey();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

@@ -6,7 +6,7 @@ import 'DRA.config.dart';
 
 // import screens
 import 'view/Register.view.dart';
-import 'view/Home.view.dart';
+import 'view/Main.view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -1,3 +1,5 @@
+import 'package:password_strength/password_strength.dart';
+
 class Config {
   /// The name of the app
   static const String appName = 'Disaster Relief Aid';
@@ -84,4 +86,27 @@ class Config {
     'something',
     'something else'
   ];
+
+  static String passwordWeakMessage = "Password is too weak";
+
+  static passwordValidator(String value) {
+    /// used when validating passwords
+    /// returns null if valid, otherwise returns a string with the error message
+
+    /// all values given are guaranteed to be non-null
+    /// the value is guaranteed to be non-empty
+
+    // if (value.length < 8) {
+    //   return 'Password must be at least 8 characters';
+    // }
+
+    double strength = estimatePasswordStrength(value);
+    if (strength < 0.3) {
+      return passwordWeakMessage;
+    }
+
+    // TODO: add more checks?
+
+    return null;
+  }
 }

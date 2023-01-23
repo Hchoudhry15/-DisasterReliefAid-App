@@ -9,7 +9,7 @@ import "package:intl/intl.dart";
 
 import '../DRA.config.dart';
 import '../model/user.model.dart';
-import 'Home.view.dart';
+import 'Main.view.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -129,7 +129,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeView()));
+                                    builder: (context) => MainView()));
                           }
                         },
                         child: const Text("Submit"))
