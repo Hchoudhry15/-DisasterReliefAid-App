@@ -10,14 +10,14 @@ import 'package:disaster_relief_aid_flutter/model/profile.model.dart';
 
 import '../DRA.config.dart';
 
-class CreateProfile2 extends StatefulWidget {
-  const CreateProfile2({super.key});
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<CreateProfile2> createState() => _CreateProfile2();
+  State<RegistrationPage> createState() => _RegistrationPageView();
 }
 
-class _CreateProfile2 extends State<CreateProfile2> {
+class _RegistrationPageView extends State<RegistrationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Profile _profile = Profile();
 
