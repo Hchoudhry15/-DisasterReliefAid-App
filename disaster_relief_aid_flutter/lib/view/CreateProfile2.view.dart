@@ -27,6 +27,7 @@ class _CreateProfile2 extends State<CreateProfile2> {
         body: SafeArea(
           child: SingleChildScrollView(
               child: Form(
+            key: _formKey,
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
