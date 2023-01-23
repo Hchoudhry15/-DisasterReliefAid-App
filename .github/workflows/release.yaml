@@ -48,19 +48,15 @@ jobs:
         env:
           RELEASE_VERSION_V: ${{ steps.tag_without_v.outputs.tag_without_v }}
         run: |
-          echo $RELEASE_VERSION_V
-          echo ${{ steps.tag_without_v.outputs.tag_without_v }}
+          echo $tag_without_v
 
       - name: Update pubspec.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: "disaster_relief_aid_flutter/pubspec.yaml"
           propertyPath: "version"
-          value: ${{ steps.tag_without_v.outputs.tag_without_v }}
-          commitChange: true
-          targetBranch: main
-          masterBranchName: main
-          message: "Update pubspec.yaml version to ${{ steps.tag_without_v.outputs.tag_without_v }}"
+          value: $tag_without_v
+          commitChange: false
 
       - name: "Read file contents"
         uses: andstor/file-reader-action@v1
