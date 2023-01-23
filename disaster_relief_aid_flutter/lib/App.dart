@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/view/Splash.view.dart';
 import 'package:flutter/material.dart';
 
 // import config
@@ -17,10 +18,10 @@ class MyApp extends StatelessWidget {
 
     // if user is not logged in, show register screen, else show home screen
     return MaterialApp(
-      title: Config.appName,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: !isLoggedIn ? const RegisterView() : const MainView(),
-    );
+        title: Config.appName,
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        // ignore: prefer_const_constructors
+        home: Splash());
   }
 }
