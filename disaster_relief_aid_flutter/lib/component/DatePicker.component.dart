@@ -10,12 +10,15 @@ class DatePicker extends StatefulWidget {
       required this.onChanged,
       this.required = false,
       // this.initialValue,
+      this.border = false,
       super.key});
 
   final String label;
   // final DateTime? initialValue;
   final dynamic Function(DateTime value) onChanged;
   bool required;
+
+  final bool border;
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -38,6 +41,8 @@ class _DatePickerState extends State<DatePicker> {
       decoration: InputDecoration(
         icon: const Icon(Icons.calendar_today),
         labelText: widget.label,
+        enabledBorder:
+            widget.border ? const UnderlineInputBorder() : InputBorder.none,
       ),
       readOnly: true,
       validator: (value) {
