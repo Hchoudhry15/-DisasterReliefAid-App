@@ -35,6 +35,7 @@ class _CreateProfile2 extends State<CreateProfile2> {
 
       backgroundColor: Colors.grey[300],
       body: SafeArea(
+          child: SingleChildScrollView(
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Icon(
@@ -216,7 +217,7 @@ class _CreateProfile2 extends State<CreateProfile2> {
             )
           ]),
         ),
-      ),
+      )),
     );
   }
 }
