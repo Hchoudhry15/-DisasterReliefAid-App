@@ -62,6 +62,12 @@ jobs:
           masterBranchName: main
           message: "Update pubspec.yaml version to ${{ steps.tag_without_v.outputs.tag_without_v }}"
 
+      - name: "Read file contents"
+        uses: andstor/file-reader-action@v1
+        with:
+          path: "disaster_relief_aid_flutter/pubspec.yaml"
+          print: true
+
       - uses: actions/setup-java@v2
         with:
           distribution: "zulu"
