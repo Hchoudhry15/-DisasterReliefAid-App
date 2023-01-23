@@ -41,7 +41,8 @@ class _DatePickerState extends State<DatePicker> {
       decoration: InputDecoration(
         icon: const Icon(Icons.calendar_today),
         labelText: widget.label,
-        enabledBorder: widget.border ? const UnderlineInputBorder() : null,
+        enabledBorder:
+            widget.border ? const UnderlineInputBorder() : InputBorder.none,
       ),
       readOnly: true,
       validator: (value) {
