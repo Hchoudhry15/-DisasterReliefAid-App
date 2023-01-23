@@ -58,7 +58,8 @@ jobs:
           propertyPath: "file.version"
           value: ${{ steps.tag_without_v.outputs.tag_without_v }}
           commitChange: true
-          targetBranch: ${{ github.ref }}
+          targetBranch: main
+          message: "Update pubspec.yaml version to ${{ steps.tag_without_v.outputs.tag_without_v }}"
 
       - uses: actions/setup-java@v2
         with:
