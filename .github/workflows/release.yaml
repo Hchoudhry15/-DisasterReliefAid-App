@@ -55,7 +55,7 @@ jobs:
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: "disaster_relief_aid_flutter/pubspec.yaml"
-          propertyPath: "file.version"
+          propertyPath: "version"
           value: ${{ steps.tag_without_v.outputs.tag_without_v }}
           commitChange: true
           targetBranch: main
