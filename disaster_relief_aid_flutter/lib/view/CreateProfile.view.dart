@@ -1,47 +1,53 @@
 import 'package:disaster_relief_aid_flutter/component/DatePicker.component.dart';
 import 'package:disaster_relief_aid_flutter/component/FormDropDown.component.dart';
 import 'package:disaster_relief_aid_flutter/component/MultiSelectDropDown.component.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import "package:intl/intl.dart";
+import 'package:uuid/uuid.dart';
 
 import '../DRA.config.dart';
 import '../model/user.model.dart';
 import 'Main.view.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class CreateProfileView extends StatefulWidget {
+  const CreateProfileView({super.key});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<CreateProfileView> createState() => _CreateProfileViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _CreateProfileViewState extends State<CreateProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Register"),
+          title: const Text("Create Profile"),
         ),
-        body: const SingleChildScrollView(child: RegistrationForm()));
+        body: const SingleChildScrollView(child: CreateProfileForm()));
   }
 }
 
-class RegistrationForm extends StatefulWidget {
-  const RegistrationForm({super.key});
+class CreateProfileForm extends StatefulWidget {
+  const CreateProfileForm({super.key});
 
   @override
-  State<RegistrationForm> createState() => _RegistrationFormState();
+  State<CreateProfileForm> createState() => _CreateProfileFormState();
 }
 
-class _RegistrationFormState extends State<RegistrationForm> {
+class _CreateProfileFormState extends State<CreateProfileForm> {
+  final database = FirebaseDatabase.instance.ref();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     User user = User();
+    final userRef = database.child('/users/');
+    final userIDRef = database.child('/userids/');
 
     return Form(
         key: _formKey,
@@ -119,12 +125,35 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             // process data woo!
                             //print form data
                             _formKey.currentState!.save();
-                            print(user);
+                            //usernameRef will be changed to user.username when
+                            //it is created
+                            var uuid = Uuid();
+                            var uID = uuid.v1();
+                            final usernameEntry = userRef.child(uID);
+                            final useridEntry = userIDRef.child(uID);
+
+                            try {
+                              await usernameEntry.set({
+                                'fname': user.fname,
+                                'language': user.language,
+                                'birthdate': user.birthdate.toString(),
+                                'vulnerabilities':
+                                    user.vulnerabilities.toString()
+                              });
+
+                              await useridEntry
+                                  .set({'usrID': uID, 'username': user.fname});
+
+                              print(user);
+                            } catch (e) {
+                              print("An error has occured");
+                              print(e);
+                            }
                             // navigate to home page
                             Navigator.pushReplacement(
                                 context,

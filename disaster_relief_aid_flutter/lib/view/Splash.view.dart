@@ -1,4 +1,4 @@
-import 'package:disaster_relief_aid_flutter/view/Register.view.dart';
+import 'package:disaster_relief_aid_flutter/view/CreateProfile.view.dart';
 import 'package:flutter/material.dart';
 
 import 'LogIn.view.dart';
