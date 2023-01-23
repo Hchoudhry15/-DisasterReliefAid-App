@@ -57,7 +57,8 @@ jobs:
           valueFile: "disaster_relief_aid_flutter/pubspec.yaml"
           propertyPath: "file.version"
           value: ${{ steps.tag_without_v.outputs.tag_without_v }}
-          commitChange: false
+          commitChange: true
+          targetBranch: ${{ github.ref }}
 
       - uses: actions/setup-java@v2
         with:
