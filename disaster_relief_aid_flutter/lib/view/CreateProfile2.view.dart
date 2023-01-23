@@ -1,3 +1,5 @@
+import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:disaster_relief_aid_flutter/component/DatePicker.component.dart';
 import 'package:disaster_relief_aid_flutter/component/MultiSelectDropDown.component.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../model/user.model.dart';
 import '../DRA.config.dart';
 
 class CreateProfile2 extends StatefulWidget {
@@ -16,9 +18,21 @@ class CreateProfile2 extends StatefulWidget {
 }
 
 class _CreateProfile2 extends State<CreateProfile2> {
+  //import database
+  final database = FirebaseDatabase.instance.ref();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    //making user
+    User user = User();
+    final userRef = database.child('/users/');
+    final userIDRef = database.child('/userids/');
+
     return Scaffold(
+      //key
+      key: _formKey,
+
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
@@ -54,9 +68,13 @@ class _CreateProfile2 extends State<CreateProfile2> {
                   padding: const EdgeInsets.only(left: 20.0),
                   // ignore: prefer_const_constructors
                   child: TextField(
-                    decoration: const InputDecoration(
-                        border: InputBorder.none, hintText: "Email"),
-                  ),
+                      decoration: const InputDecoration(
+                          border: InputBorder.none, hintText: "Email"),
+                      onChanged: (String? value) {
+                        if (value != null && value.isNotEmpty) {
+                          user.fname = value;
+                        }
+                      }),
                 ),
               ),
             ),
@@ -72,12 +90,15 @@ class _CreateProfile2 extends State<CreateProfile2> {
                 // ignore: prefer_const_constructors
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  // ignore: prefer_const_constructors
-                  child: TextField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                        border: InputBorder.none, hintText: "Password"),
+                  child: PasswordFormField(
+                    onSaved: (password) => "non",
                   ),
+                  // ignore: prefer_const_constructors
+                  // child: TextField(
+                  //   obscureText: true,
+                  //   decoration: const InputDecoration(
+                  //       border: InputBorder.none, hintText: "Password"),
+                  // ),
                 ),
               ),
             ),
@@ -117,7 +138,9 @@ class _CreateProfile2 extends State<CreateProfile2> {
                   // ignore: prefer_const_constructors
                   child: DatePicker(
                     label: "Birthdate",
-                    onChanged: (DateTime value) {},
+                    onChanged: (value) {
+                      user.birthdate = value;
+                    },
                   ),
                 ),
               ),
@@ -138,7 +161,7 @@ class _CreateProfile2 extends State<CreateProfile2> {
                   child: CustomMultiselectDropDown(
                     listOFStrings: Config.vulnerabilities.toList(),
                     onSelected: (List<dynamic> values) {
-                      var user; //need to implement later
+                      //var user; //need to implement later
                       user.vulnerabilities =
                           values.map((e) => e as String).toList();
                     },
