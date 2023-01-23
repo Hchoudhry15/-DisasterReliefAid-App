@@ -11,6 +11,7 @@ class PasswordFormField extends StatefulWidget {
       this.hintText = "Enter your password",
       this.checkStrength = false,
       this.eye = true,
+      this.border = false,
       super.key});
 
   final String labelText;
@@ -22,6 +23,9 @@ class PasswordFormField extends StatefulWidget {
 
   /// Whether the field should show an eye icon to toggle visibility.
   final bool eye;
+
+  /// whether to show the bottom border of the field.
+  final bool border;
 
   /// Called when the form is submitted.
   /// If `checkStrength` is `true`, the password will be checked for strength.
@@ -41,6 +45,8 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
       decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
+          enabledBorder:
+              widget.border ? const UnderlineInputBorder() : InputBorder.none,
           suffixIcon: widget.eye
               ? InkWell(
                   onTap: (() {
