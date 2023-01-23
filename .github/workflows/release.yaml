@@ -55,7 +55,7 @@ jobs:
         with:
           valueFile: "disaster_relief_aid_flutter/pubspec.yaml"
           propertyPath: "version"
-          value: $tag_without_v
+          value: ${{ env.tag_without_v }}
           commitChange: false
 
       - name: "Read file contents"
