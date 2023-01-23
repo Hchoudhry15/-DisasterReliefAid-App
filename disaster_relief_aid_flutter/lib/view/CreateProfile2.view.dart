@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:flutter/material.dart';
 
@@ -85,10 +86,8 @@ class _CreateProfile2 extends State<CreateProfile2> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           // ignore: prefer_const_constructors
-                          child: TextFormField(
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                                border: InputBorder.none, hintText: "Password"),
+                          child: PasswordFormField(
+                            checkStrength: true,
                             onSaved: ((newValue) {
                               _profile.password = newValue;
                             }),
