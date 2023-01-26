@@ -11,10 +11,11 @@ class _LogInViewState extends State<LogInView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: const Text(
-      "LogIn Screen \n needs to be implemented",
-      style: TextStyle(fontSize: 20.0, color: Colors.black),
-      textAlign: TextAlign.center,
-    ));
+      child: const Text(
+        "LogIn Screen \n needs to be implemented",
+        style: TextStyle(fontSize: 20.0, color: Colors.black),
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 }

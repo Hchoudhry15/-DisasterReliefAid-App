@@ -29,13 +29,11 @@ class _RegistrationPageView extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userRef = database.child('/users/');
-    final userIDRef = database.child('/userids/');
     return Scaffold(
-        backgroundColor: Colors.grey[300],
-        body: SafeArea(
-          child: SingleChildScrollView(
-              child: Form(
+      backgroundColor: Colors.grey[300],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
             key: _formKey,
             child: Center(
               child: Column(
@@ -239,8 +237,10 @@ class _RegistrationPageView extends State<RegistrationPage> {
                     )
                   ]),
             ),
-          )),
-        ));
+          ),
+        ),
+      ),
+    );
   }
 
   Future addProfileDatabase(
