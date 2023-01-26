@@ -1,5 +1,6 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:disaster_relief_aid_flutter/component/DatePicker.component.dart';
@@ -7,8 +8,10 @@ import 'package:disaster_relief_aid_flutter/component/MultiSelectDropDown.compon
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:disaster_relief_aid_flutter/model/profile.model.dart';
+import 'package:uuid/uuid.dart';
 
 import '../DRA.config.dart';
+import '../model/user.model.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -18,11 +21,16 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageView extends State<RegistrationPage> {
+  User user = User();
+  final database = FirebaseDatabase.instance.ref();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // ignore: prefer_final_fields
   Profile _profile = Profile();
 
   @override
   Widget build(BuildContext context) {
+    final userRef = database.child('/users/');
+    final userIDRef = database.child('/userids/');
     return Scaffold(
         backgroundColor: Colors.grey[300],
         body: SafeArea(
@@ -195,13 +203,41 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             ),
                           ),
                         ),
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
+                            // ignore: todo
                             // TODO: add _profile to database
+                            // ignore: prefer_const_constructors
+                            var uuid = Uuid();
+                            var uID = uuid.v1();
+                            final usernameEntry = userRef.child(uID);
+                            final useridEntry = userIDRef.child(uID);
+                            // ignore: avoid_print
                             print(_profile);
+                            try {
+                              await usernameEntry.set({
+                                'fname': _profile.email,
+                                'language': Config.languages[0],
+                                'birthdate': user.birthdate.toString(),
+                                'vulnerabilities':
+                                    user.vulnerabilities.toString()
+                              });
 
+                              await useridEntry.set(
+                                  {'usrID': uID, 'username': _profile.email});
+
+                              // ignore: avoid_print
+                              print(user);
+                            } catch (e) {
+                              // ignore: avoid_print
+                              print("An error has occured");
+                              // ignore: avoid_print
+                              print(e);
+                            }
+
+                            // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
