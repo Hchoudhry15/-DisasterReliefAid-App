@@ -206,37 +206,8 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-
-                            // ignore: todo
-                            // TODO: add _profile to database
-                            // ignore: prefer_const_constructors
-                            var uuid = Uuid();
-                            var uID = uuid.v1();
-                            final usernameEntry = userRef.child(uID);
-                            final useridEntry = userIDRef.child(uID);
-                            // ignore: avoid_print
-                            print(_profile);
-                            try {
-                              await usernameEntry.set({
-                                'fname': _profile.email,
-                                'language': Config.languages[0],
-                                'birthdate': user.birthdate.toString(),
-                                'vulnerabilities':
-                                    user.vulnerabilities.toString()
-                              });
-
-                              await useridEntry.set(
-                                  {'usrID': uID, 'username': _profile.email});
-
-                              // ignore: avoid_print
-                              print(user);
-                            } catch (e) {
-                              // ignore: avoid_print
-                              print("An error has occured");
-                              // ignore: avoid_print
-                              print(e);
-                            }
-
+                            addProfileDatabase(_profile.email,
+                                _profile.birthdate, _profile.vulnerabilities);
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,
@@ -270,5 +241,33 @@ class _RegistrationPageView extends State<RegistrationPage> {
             ),
           )),
         ));
+  }
+
+  Future addProfileDatabase(
+      String? email, DateTime? birthdate, List<String>? vulnerabilities) async {
+    final userRef = database.child('/users/');
+    final userIDRef = database.child('/userids/');
+    var uuid = const Uuid();
+    var uID = uuid.v1();
+    final usernameEntry = userRef.child(uID);
+    final useridEntry = userIDRef.child(uID);
+    try {
+      await usernameEntry.set({
+        'fname': email,
+        'language': Config.languages[0],
+        'birthdate': birthdate.toString(),
+        'vulnerabilities': vulnerabilities.toString()
+      });
+
+      await useridEntry.set({'usrID': uID, 'username': email});
+
+      // ignore: avoid_print
+      print("added");
+    } catch (e) {
+      // ignore: avoid_print
+      print("An error has occured");
+      // ignore: avoid_print
+      print(e);
+    }
   }
 }
