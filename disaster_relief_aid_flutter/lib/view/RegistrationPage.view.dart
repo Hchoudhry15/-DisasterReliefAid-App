@@ -7,7 +7,7 @@ import 'package:disaster_relief_aid_flutter/component/MultiSelectDropDown.compon
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:disaster_relief_aid_flutter/model/profile.model.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../DRA.config.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -200,6 +200,9 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             _formKey.currentState!.save();
 
                             // TODO: add _profile to database
+
+                            register(_profile);
+                            
                             print(_profile);
 
                             Navigator.pushReplacement(
@@ -234,5 +237,22 @@ class _RegistrationPageView extends State<RegistrationPage> {
             ),
           )),
         ));
+  }
+}
+
+Future register(Profile profile) async {
+  try {
+    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: profile.email!, password: profile.password!);
+    return credential;
+  } on FirebaseAuthException catch(e) {
+    if (e.code == 'weak-password') {
+      // actions for weak password
+    } else if (e.code == 'email-already-in-user') {
+      //actions for existing password
+    }
+    
+  }
+  catch(e) {
+    print(e);
   }
 }
