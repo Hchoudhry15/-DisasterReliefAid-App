@@ -1,5 +1,6 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/InputProfileInfo.view.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -210,7 +211,8 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomeView()));
+                                    builder: (context) =>
+                                        const InputProfileInfo()));
                           }
                         },
                       ),
