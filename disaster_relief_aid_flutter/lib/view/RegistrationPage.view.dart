@@ -229,6 +229,8 @@ class _RegistrationPageView extends State<RegistrationPage> {
     final useridEntry = userIDRef.child(uID);
     try {
       await usernameEntry.set({
+        'userType': 'na',
+        'skills': 'na',
         'fname': email,
         'language': Config.languages[0],
         'birthdate': birthdate.toString(),
