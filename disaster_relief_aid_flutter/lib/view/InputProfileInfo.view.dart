@@ -36,14 +36,14 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                     ),
                     // ignore: prefer_const_constructors
                     Text(
-                      "Disaster Relief Aid",
+                      changeUserText(isUser),
                       style: GoogleFonts.bebasNeue(
                         fontSize: 36,
                       ),
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Create an Account",
+                      "Disaster Relief Aid",
                       style: GoogleFonts.bebasNeue(
                         fontSize: 20,
                       ),
@@ -51,10 +51,12 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                     const SizedBox(height: 30),
                     // ignore: prefer_const_constructors
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Switch(
                           value: isUser,
-                          activeColor: Colors.red,
+                          activeColor: Colors.blueGrey,
+                          inactiveThumbColor: Colors.red,
                           onChanged: ((value) => setState(
                                 () {
                                   isUser = value;
@@ -77,20 +79,20 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                           padding: const EdgeInsets.only(left: 20.0),
                           // ignore: prefer_const_constructors
                           child: CustomMultiselectDropDown(
-                            listOFStrings: Config.vulnerabilities.toList(),
+                            listOFStrings:
+                                changeConfigBasedOnUser(isUser).toList(),
                             onSelected: (List<dynamic> values) {
                               //_profile.vulnerabilities =
                               values.map((e) => e as String).toList();
                             },
-                            labelText:
-                                "Vulnerabilities", //need to make black, don't now how, maybe FocusNode() ?
-                            hintText: "Select your vulnerabilities",
+                            labelText: changeLabelTextBasedOnUser(
+                                isUser), //need to make black, don't now how, maybe FocusNode() ?
+                            hintText: changeHintTextBasedOnUser(isUser),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
-                    //register button
                     // ignore: avoid_unnecessary_containers
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -103,7 +105,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                               borderRadius: BorderRadius.circular(12)),
                           child: const Center(
                             child: Text(
-                              "Sign Up",
+                              "Continue",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -123,26 +125,6 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 25),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        const Text(
-                          "Already Have an Account?",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Text(
-                          " Back to Login",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    )
                   ]),
             ),
           ),
@@ -152,11 +134,34 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
   }
 
   Color? changeColorBasedOnUser(bool isUser) {
-    var backgroundColor;
+    // ignore: unused_local_variable
+    Color? backgroundColor;
     if (isUser) {
       return backgroundColor = Colors.grey[300];
-    } else {
-      return backgroundColor = const Color.fromARGB(244, 197, 108, 135);
     }
+    return backgroundColor = Color.fromARGB(201, 197, 108, 135);
+  }
+
+  String? changeLabelTextBasedOnUser(bool isUser) {
+    String labelText = isUser ? "Vulnerabilites" : "Skills";
+    return labelText;
+  }
+
+  String? changeHintTextBasedOnUser(bool isUser) {
+    String hintText =
+        isUser ? "Select your vulnerabilites" : "Select your skills";
+    return hintText;
+  }
+
+  List<dynamic> changeConfigBasedOnUser(bool isUser) {
+    if (isUser) {
+      return Config.vulnerabilities;
+    }
+    return Config.skills;
+  }
+
+  String changeUserText(bool isUser) {
+    String userType = (isUser ? "User" : "Volunteer");
+    return userType;
   }
 }

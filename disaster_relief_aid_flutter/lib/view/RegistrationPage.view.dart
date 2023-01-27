@@ -155,32 +155,6 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    //Dropdown
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12)),
-                        // ignore: prefer_const_constructors
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          // ignore: prefer_const_constructors
-                          child: CustomMultiselectDropDown(
-                            listOFStrings: Config.vulnerabilities.toList(),
-                            onSelected: (List<dynamic> values) {
-                              _profile.vulnerabilities =
-                                  values.map((e) => e as String).toList();
-                            },
-                            labelText:
-                                "Vulnerabilities", //need to make black, don't now how, maybe FocusNode() ?
-                            hintText: "Select your vulnerabilities",
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
                     //register button
                     // ignore: avoid_unnecessary_containers
                     Padding(
@@ -258,13 +232,13 @@ class _RegistrationPageView extends State<RegistrationPage> {
         'fname': email,
         'language': Config.languages[0],
         'birthdate': birthdate.toString(),
-        'vulnerabilities': vulnerabilities.toString()
+        'vulnerabilities': 'na'
       });
 
       await useridEntry.set({'usrID': uID, 'username': email});
 
       // ignore: avoid_print
-      print("added");
+      print("added $uID");
     } catch (e) {
       // ignore: avoid_print
       print("An error has occured");
