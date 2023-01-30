@@ -9,6 +9,7 @@ import 'package:disaster_relief_aid_flutter/component/MultiSelectDropDown.compon
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:disaster_relief_aid_flutter/model/profile.model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
 import '../DRA.config.dart';
@@ -22,7 +23,6 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageView extends State<RegistrationPage> {
-  User user = User();
   final database = FirebaseDatabase.instance.ref();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // ignore: prefer_final_fields
@@ -179,6 +179,7 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+                            register(_profile);
                             addProfileDatabase(_profile.email,
                                 _profile.birthdate, _profile.vulnerabilities);
                             // ignore: use_build_context_synchronously
@@ -247,5 +248,22 @@ class _RegistrationPageView extends State<RegistrationPage> {
       // ignore: avoid_print
       print(e);
     }
+  }
+}
+
+Future register(Profile profile) async {
+  try {
+    final credential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: profile.email!, password: profile.password!);
+    return credential;
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      // actions for weak password
+    } else if (e.code == 'email-already-in-user') {
+      //actions for existing password
+    }
+  } catch (e) {
+    print(e);
   }
 }
