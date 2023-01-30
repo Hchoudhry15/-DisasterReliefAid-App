@@ -179,19 +179,10 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-<<<<<<< HEAD
-
-                            // TODO: add _profile to database
-
                             register(_profile);
-                            
-                            print(_profile);
-
-=======
                             addProfileDatabase(_profile.email,
                                 _profile.birthdate, _profile.vulnerabilities);
                             // ignore: use_build_context_synchronously
->>>>>>> f25c73b00592b3fe6e26f6cb470359c7a0f82a1e
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -262,17 +253,17 @@ class _RegistrationPageView extends State<RegistrationPage> {
 
 Future register(Profile profile) async {
   try {
-    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: profile.email!, password: profile.password!);
+    final credential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: profile.email!, password: profile.password!);
     return credential;
-  } on FirebaseAuthException catch(e) {
+  } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       // actions for weak password
     } else if (e.code == 'email-already-in-user') {
       //actions for existing password
     }
-    
-  }
-  catch(e) {
+  } catch (e) {
     print(e);
   }
 }
