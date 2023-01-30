@@ -7,14 +7,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:disaster_relief_aid_flutter/view/CreateProfile.view.dart';
 
+import '../mock.dart';
+
 void main() {
-  testWidgets("Registration Page view renders", (WidgetTester tester) async {
+  setupFirebaseAuthMocks();
+  testWidgets("CreateProfile View renders", (WidgetTester tester) async {
+    await Firebase.initializeApp();
     // Render the widget
     await tester.pumpWidget(const MaterialApp(
-      home: RegistrationPage(),
+      home: CreateProfileView(),
     ));
   });
 }
+
 
 /*
 testWidgets('Counter increments smoke test', (WidgetTester tester) async {

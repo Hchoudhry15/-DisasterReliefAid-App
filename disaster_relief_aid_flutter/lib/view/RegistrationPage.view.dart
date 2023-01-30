@@ -1,5 +1,7 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/InputProfileInfo.view.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:disaster_relief_aid_flutter/component/DatePicker.component.dart';
@@ -8,7 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:disaster_relief_aid_flutter/model/profile.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uuid/uuid.dart';
+
 import '../DRA.config.dart';
+import '../model/user.model.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -18,16 +23,18 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageView extends State<RegistrationPage> {
+  final database = FirebaseDatabase.instance.ref();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // ignore: prefer_final_fields
   Profile _profile = Profile();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
-        body: SafeArea(
-          child: SingleChildScrollView(
-              child: Form(
+      backgroundColor: Colors.grey[300],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
             key: _formKey,
             child: Center(
               child: Column(
@@ -148,32 +155,6 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    //Dropdown
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12)),
-                        // ignore: prefer_const_constructors
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          // ignore: prefer_const_constructors
-                          child: CustomMultiselectDropDown(
-                            listOFStrings: Config.vulnerabilities.toList(),
-                            onSelected: (List<dynamic> values) {
-                              _profile.vulnerabilities =
-                                  values.map((e) => e as String).toList();
-                            },
-                            labelText:
-                                "Vulnerabilities", //need to make black, don't now how, maybe FocusNode() ?
-                            hintText: "Select your vulnerabilities",
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
                     //register button
                     // ignore: avoid_unnecessary_containers
                     Padding(
@@ -195,9 +176,10 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             ),
                           ),
                         ),
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+<<<<<<< HEAD
 
                             // TODO: add _profile to database
 
@@ -205,10 +187,16 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             
                             print(_profile);
 
+=======
+                            addProfileDatabase(_profile.email,
+                                _profile.birthdate, _profile.vulnerabilities);
+                            // ignore: use_build_context_synchronously
+>>>>>>> f25c73b00592b3fe6e26f6cb470359c7a0f82a1e
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomeView()));
+                                    builder: (context) =>
+                                        const InputProfileInfo()));
                           }
                         },
                       ),
@@ -235,8 +223,40 @@ class _RegistrationPageView extends State<RegistrationPage> {
                     )
                   ]),
             ),
-          )),
-        ));
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future addProfileDatabase(
+      String? email, DateTime? birthdate, List<String>? vulnerabilities) async {
+    final userRef = database.child('/users/');
+    final userIDRef = database.child('/userids/');
+    var uuid = const Uuid();
+    var uID = uuid.v1();
+    final usernameEntry = userRef.child(uID);
+    final useridEntry = userIDRef.child(uID);
+    try {
+      await usernameEntry.set({
+        'userType': 'na',
+        'skills': 'na',
+        'fname': email,
+        'language': Config.languages[0],
+        'birthdate': birthdate.toString(),
+        'vulnerabilities': 'na'
+      });
+
+      await useridEntry.set({'usrID': uID, 'username': email});
+
+      // ignore: avoid_print
+      print("added $uID");
+    } catch (e) {
+      // ignore: avoid_print
+      print("An error has occured");
+      // ignore: avoid_print
+      print(e);
+    }
   }
 }
 

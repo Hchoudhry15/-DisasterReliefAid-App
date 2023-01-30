@@ -86,6 +86,7 @@ class Config {
     'something',
     'something else'
   ];
+  static final skills = ['Strong', 'Have Boat', 'CPR Certified'];
 
   static String passwordWeakMessage = "Password is too weak";
 
