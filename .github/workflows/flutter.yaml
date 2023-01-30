@@ -5,11 +5,13 @@ on:
       - main
     paths-ignore:
       - "**/*.md"
+      - ".github/workflows/**"
   pull_request:
     branches:
       - main
     paths-ignore:
       - "**/*.md"
+      - ".github/workflows/**"
 jobs:
   build_apk:
     runs-on: ubuntu-latest
