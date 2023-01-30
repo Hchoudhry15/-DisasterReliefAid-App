@@ -1,5 +1,7 @@
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Splash.view.dart';
+import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
+import 'package:disaster_relief_aid_flutter/view/LogIn.view.dart';
 import 'package:flutter/material.dart';
 
 // import config
