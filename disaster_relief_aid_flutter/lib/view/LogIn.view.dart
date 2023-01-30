@@ -88,7 +88,7 @@ class _LogInViewState extends State<LogInView> {
                           padding: const EdgeInsets.only(left: 20.0),
                           // ignore: prefer_const_constructors
                           child: PasswordFormField(
-                            checkStrength: true,
+                            checkStrength: false,
                             onSaved: ((password) {
                               _profile.password = password;
                             }),
