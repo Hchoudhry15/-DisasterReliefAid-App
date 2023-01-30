@@ -22,7 +22,6 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageView extends State<RegistrationPage> {
-  User user = User();
   final database = FirebaseDatabase.instance.ref();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // ignore: prefer_final_fields
