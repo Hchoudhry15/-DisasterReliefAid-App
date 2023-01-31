@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../DRA.config.dart';
 import '../component/DatePicker.component.dart';
@@ -17,6 +19,7 @@ class InputProfileInfo extends StatefulWidget {
 }
 
 class _InputProfileInfoState extends State<InputProfileInfo> {
+  final database = FirebaseDatabase.instance.ref();
   bool isUser = true;
   @override
   Widget build(BuildContext context) {
@@ -117,6 +120,32 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                           //if (_formKey.currentState!.validate()) {
                           // _formKey.currentState!.save();
                           // ignore: use_build_context_synchronously
+                          FirebaseAuth.instance
+                              .authStateChanges()
+                              .listen((User? user) async {
+                            if (user != null) {
+                              String userID = user.uid;
+                              final userRef = database.child('/users/');
+                              final usernameEntry = userRef.child(userID);
+                              try {
+                                if (isUser) {
+                                  await usernameEntry.update({
+                                    'userType': 'User',
+                                    'vulnerabilities':
+                                        Config.vulnerabilities.toString()
+                                  });
+                                } else if (!isUser) {
+                                  await usernameEntry.update({
+                                    'userType': 'Volunteer',
+                                    'skills': Config.skills.toString()
+                                  });
+                                }
+                              } catch (e) {
+                                print("An error has occured");
+                                print(e);
+                              }
+                            }
+                          });
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

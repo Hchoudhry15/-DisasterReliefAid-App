@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/view/CreateProfile.view.dart';
+import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:flutter/material.dart';
 
 import 'LogIn.view.dart';
@@ -27,7 +28,7 @@ class _SplashState extends State<Splash> {
         (() => print("Splash!")));
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LogInView()));
+        context, MaterialPageRoute(builder: (context) => RegistrationPage()));
   }
 
   @override
