@@ -179,9 +179,12 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            register(_profile);
-                            addProfileDatabase(_profile.email,
-                                _profile.birthdate, _profile.vulnerabilities);
+                            Future<dynamic> uCredential = register(_profile);
+                            uCredential.then((userCred) => addProfileDatabase(
+                                userCred.user.uid,
+                                _profile.email,
+                                _profile.birthdate,
+                                _profile.vulnerabilities));
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
                                 context,
@@ -220,14 +223,11 @@ class _RegistrationPageView extends State<RegistrationPage> {
     );
   }
 
-  Future addProfileDatabase(
-      String? email, DateTime? birthdate, List<String>? vulnerabilities) async {
+  Future addProfileDatabase(String uID, String? email, DateTime? birthdate,
+      List<String>? vulnerabilities) async {
     final userRef = database.child('/users/');
-    final userIDRef = database.child('/userids/');
-    var uuid = const Uuid();
-    var uID = uuid.v1();
-    final usernameEntry = userRef.child(uID);
-    final useridEntry = userIDRef.child(uID);
+    var userID = uID;
+    final usernameEntry = userRef.child(userID);
     try {
       await usernameEntry.set({
         'userType': 'na',
@@ -238,10 +238,8 @@ class _RegistrationPageView extends State<RegistrationPage> {
         'vulnerabilities': 'na'
       });
 
-      await useridEntry.set({'usrID': uID, 'username': email});
-
       // ignore: avoid_print
-      print("added $uID");
+      //print("added $uID");
     } catch (e) {
       // ignore: avoid_print
       print("An error has occured");
@@ -256,6 +254,7 @@ Future register(Profile profile) async {
     final credential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
             email: profile.email!, password: profile.password!);
+    //print(credential.user);
     return credential;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
