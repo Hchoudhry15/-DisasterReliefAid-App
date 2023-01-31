@@ -1,4 +1,6 @@
-# DisasterReliefAid
+<h1 align="center">DisasterReliedAid</h1>
+
+<div style="display:flex;align-items:center;justify-content:center;">
 
 <!-- [![GitHub branches](https://badgen.net/github/branches/JohnRamberger/DisasterReliefAid-JIB-2320)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320) -->
 
@@ -7,17 +9,18 @@
 <!-- [![Checks](https://badgen.net/github/checks/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320)
 [![Pull Requests](https://badgen.net/github/prs/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320) -->
 
+</div>
+
 ## Table of Contents
 
-- [DisasterReliefAid](#disasterreliefaid)
-  - [Table of Contents](#table-of-contents)
-  - [Description](#description)
-  - [Team](#team)
-  - [Incremental Release Notes](#incremental-release-notes)
-    - [v0.1.0](#v010)
-      - [Features](#features)
-      - [Bug Fixes](#bug-fixes)
-      - [Known Issues](#known-issues)
+- [Table of Contents](#table-of-contents)
+- [Description](#description)
+- [Team](#team)
+- [Release Notes](#release-notes)
+  - [v0.1.0](#v010)
+    - [Features](#features)
+    - [Bug Fixes](#bug-fixes)
+    - [Known Issues](#known-issues)
 
 ## Description
 
@@ -38,13 +41,21 @@ We will be making our app using Flutter, and the backend for our app will be mad
 | Max Ho            | mho61@gatech.edu       | (925) 309-9352 | [acoustic-git-tar](https://github.com/acoustic-git-tar) |
 | Medhana Kadiyala  | mkadiyala7@gatech.edu  | (470) 509-2394 | [medhanak](https://github.com/medhanak)                 |
 
-## Incremental Release Notes
+## Release Notes
 
 ### v0.1.0
 
 #### Features
 
--
+- User account creation
+  - Firebase authentication to prevent duplicate emails
+  - password strength checking
+  - Privacy statement placeholder
+  - Vulnerabilities section
+- Volunteer account creation
+  - Skillset section to include strengths
+- Ability for users to log in
+- 
 
 #### Bug Fixes
 
@@ -52,7 +63,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 #### Known Issues
 
--
+- 
 
 
-___
+***
