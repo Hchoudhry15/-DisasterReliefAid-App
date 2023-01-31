@@ -1,4 +1,4 @@
-<h1 align="center">DisasterReliedAid</h1>
+<h1 align="center">DisasterReliefAid</h1>
 
 <div style="display:flex;align-items:center;justify-content:center;">
 
