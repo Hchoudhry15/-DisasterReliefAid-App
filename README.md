@@ -57,6 +57,8 @@ We will be making our app using Flutter, and the backend for our app will be mad
 - Volunteer account creation
   - Skillset section to include strengths
 - Ability for users to log in
+- Home screen
+  - 
 
 #### Bug Fixes
 
@@ -64,6 +66,6 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 #### Known Issues
 
-- N/A
+- When creating a profile, there is currently no way to differentiate between base user and volunteer profiles.
 
 ---
