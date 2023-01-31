@@ -47,15 +47,16 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 #### Features
 
+- Database setup and connected to app
 - User account creation
   - Firebase authentication to prevent duplicate emails
   - password strength checking
   - Privacy statement placeholder
-  - Vulnerabilities section
+- Allow users to setup their profile
+  - allow users to select their language, birthdate, and any vulnerabilities
 - Volunteer account creation
   - Skillset section to include strengths
 - Ability for users to log in
-- 
 
 #### Bug Fixes
 
@@ -63,7 +64,6 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 #### Known Issues
 
-- 
+- N/A
 
-
-***
+---
