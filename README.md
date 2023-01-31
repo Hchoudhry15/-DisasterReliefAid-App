@@ -9,6 +9,16 @@
 
 ## Table of Contents
 
+- [DisasterReliefAid](#disasterreliefaid)
+  - [Table of Contents](#table-of-contents)
+  - [Description](#description)
+  - [Team](#team)
+  - [Incremental Release Notes](#incremental-release-notes)
+    - [v0.1.0](#v010)
+      - [Features](#features)
+      - [Bug Fixes](#bug-fixes)
+      - [Known Issues](#known-issues)
+
 ## Description
 
 Our project aims to decrease the chaos that occurs in the case of disasters by increasing the preparedness of users and making the recovery process more efficient. Currently, when a natural disaster occurs, those who need help flood local authority call lines resulting in a long queue to be helped. We plan to make an app that can help solve this problem.
@@ -30,14 +40,19 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 ## Incremental Release Notes
 
-
 ### v0.1.0
 
 #### Features
-* 
+
+-
+
 #### Bug Fixes
-* N/A
+
+- N/A
+
 #### Known Issues
-* 
+
+-
 
 
+___
