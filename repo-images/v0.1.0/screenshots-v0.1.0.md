@@ -1,6 +1,6 @@
 # v0.1.0 App Images
 
-<div style="display:flex;flex-direction:column;align-items:center;">
+<p align="center">
 
 ### Splash
 
@@ -26,4 +26,4 @@
 
 <img style="height:300px;" src="volunteerprofile.png"/>
 
-</div>
+</p>
