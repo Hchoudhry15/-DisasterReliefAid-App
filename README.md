@@ -4,7 +4,7 @@
 
 <!-- [![GitHub branches](https://badgen.net/github/branches/JohnRamberger/DisasterReliefAid-JIB-2320)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320) -->
 
-[![GitHub release](https://img.shields.io/github/release/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320)
+[![GitHub release](https://img.shields.io/github/release/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases)
 
 <!-- [![Checks](https://badgen.net/github/checks/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320)
 [![Pull Requests](https://badgen.net/github/prs/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320) -->
@@ -44,8 +44,10 @@ We will be making our app using Flutter, and the backend for our app will be mad
 ## Release Notes
 
 ### v0.1.0
+[![GitHub release](https://badgen.net/badge/Release/v0.1.0/green?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.1.0) 
+[![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/green?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md)
 
-[View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md)
+<!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
 
 #### Features
 
