@@ -45,6 +45,8 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 ### v0.1.0
 
+[View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md)
+
 #### Features
 
 - Database setup and connected to app
