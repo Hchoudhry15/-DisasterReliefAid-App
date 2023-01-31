@@ -50,6 +50,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
 #### Features
 
 - Database setup and connected to app
+- Splash screen while loading
 - User account creation
   - Firebase authentication to prevent duplicate emails
   - password strength checking
