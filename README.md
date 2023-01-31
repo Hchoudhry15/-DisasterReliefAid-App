@@ -44,8 +44,8 @@ We will be making our app using Flutter, and the backend for our app will be mad
 ## Release Notes
 
 ### v0.1.0
-[![GitHub release](https://badgen.net/badge/Release/v0.1.0/green?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.1.0) 
-[![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/green?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md)
+[![GitHub release](https://badgen.net/badge/Release/v0.1.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.1.0) 
+[![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md)
 
 <!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
 
