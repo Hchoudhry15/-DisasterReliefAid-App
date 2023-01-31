@@ -1,12 +1,23 @@
 # DisasterReliefAid
 
+<!-- [![GitHub branches](https://badgen.net/github/branches/JohnRamberger/DisasterReliefAid-JIB-2320)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320) -->
+
+[![GitHub release](https://img.shields.io/github/release/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320)
+
+<!-- [![Checks](https://badgen.net/github/checks/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320)
+[![Pull Requests](https://badgen.net/github/prs/JohnRamberger/DisasterReliefAid-JIB-2320)](https://GitHub.com/JohnRamberger/DisasterReliefAid-JIB-2320) -->
+
+## Table of Contents
+
+## Description
+
 Our project aims to decrease the chaos that occurs in the case of disasters by increasing the preparedness of users and making the recovery process more efficient. Currently, when a natural disaster occurs, those who need help flood local authority call lines resulting in a long queue to be helped. We plan to make an app that can help solve this problem.
 
 Our app will have 3 user types: the base user (or victim), volunteers, and control admins. In the case of a natural disaster, our app will match volunteers with victims in order to more efficiently help out those in need. Control admins will monitor the overall situation. You can think of this app as uber eats/doordash but instead of picking up food, the volunteers are picking up those who need help.
 
 We will be making our app using Flutter, and the backend for our app will be made using Firebase and Google Cloud Platform.
 
-# Team
+## Team
 
 | Name              | Email                  | Phone          | Github                                                  |
 | ----------------- | ---------------------- | -------------- | ------------------------------------------------------- |
@@ -17,22 +28,16 @@ We will be making our app using Flutter, and the backend for our app will be mad
 | Max Ho            | mho61@gatech.edu       | (925) 309-9352 | [acoustic-git-tar](https://github.com/acoustic-git-tar) |
 | Medhana Kadiyala  | mkadiyala7@gatech.edu  | (470) 509-2394 | [medhanak](https://github.com/medhanak)                 |
 
-# Incremental Release Notes
+## Incremental Release Notes
+
 
 ### v0.1.0
 
-### v0.2.0
+#### Features
+* 
+#### Bug Fixes
+* N/A
+#### Known Issues
+* 
 
-TBD
 
-### v0.3.0
-
-TBD
-
-### v0.4.0
-
-TBD
-
-### v1.0.0
-
-TBD
