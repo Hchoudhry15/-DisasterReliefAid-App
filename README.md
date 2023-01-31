@@ -66,6 +66,6 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 #### Known Issues
 
-- When creating a profile, there is currently no way to differentiate between base user and volunteer profiles.
+- N/A
 
 ---
