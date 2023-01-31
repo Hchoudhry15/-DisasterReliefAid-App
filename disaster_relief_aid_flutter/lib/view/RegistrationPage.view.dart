@@ -226,10 +226,8 @@ class _RegistrationPageView extends State<RegistrationPage> {
   Future addProfileDatabase(String uID, String? email, DateTime? birthdate,
       List<String>? vulnerabilities) async {
     final userRef = database.child('/users/');
-    final userIDRef = database.child('/userids/');
     var userID = uID;
     final usernameEntry = userRef.child(userID);
-    final useridEntry = userIDRef.child(userID);
     try {
       await usernameEntry.set({
         'userType': 'na',
@@ -239,8 +237,6 @@ class _RegistrationPageView extends State<RegistrationPage> {
         'birthdate': birthdate.toString(),
         'vulnerabilities': 'na'
       });
-
-      await useridEntry.set({'usrID': uID, 'username': email});
 
       // ignore: avoid_print
       //print("added $uID");
