@@ -58,7 +58,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
   - Skillset section to include strengths
 - Ability for users to log in
 - Home screen
-  - 
+  - template cards created
 
 #### Bug Fixes
 
