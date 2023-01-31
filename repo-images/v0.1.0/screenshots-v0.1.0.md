@@ -1,7 +1,5 @@
 # v0.1.0 App Images
 
-<p align="center">
-
 ### Splash
 
 <img style="height:300px;" src="splash.png"/>
@@ -25,5 +23,3 @@
 ### Create Volunteer Profile
 
 <img style="height:300px;" src="volunteerprofile.png"/>
-
-</p>
