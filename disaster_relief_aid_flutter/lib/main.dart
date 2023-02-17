@@ -12,5 +12,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  //ToDo: stream: FirebaseAuth.instance.authStateChanges() so if user logged in, redirect to home screen
   runApp(const MyApp());
 }

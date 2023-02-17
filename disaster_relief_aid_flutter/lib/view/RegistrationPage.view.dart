@@ -235,7 +235,8 @@ class _RegistrationPageView extends State<RegistrationPage> {
         'fname': email,
         'language': Config.languages[0],
         'birthdate': birthdate.toString(),
-        'vulnerabilities': 'na'
+        'vulnerabilities': 'na',
+        'uid': userID.toString()
       });
 
       // ignore: avoid_print
