@@ -13,14 +13,16 @@ class RequestHelpView extends StatelessWidget {
         ),
         body: Column(
           children: [
-            // const Text("test"),
-            // const Text("testt"),
             ElevatedButton(
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (c) => const HelpCallInProgressView())),
-                child: const Text("Check Status"))
+                child: const Text("Check Status")),
+            ElevatedButton(
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (c) => const liveChatView())),
+                child: const Text("Chat with Volunteer"))
           ],
         ));
   }

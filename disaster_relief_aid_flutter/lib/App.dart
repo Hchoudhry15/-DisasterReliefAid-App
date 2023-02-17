@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
+import 'package:disaster_relief_aid_flutter/view/RequestHelp.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Splash.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:disaster_relief_aid_flutter/view/LogIn.view.dart';
@@ -25,6 +26,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         // ignore: prefer_const_constructors
-        home: Splash());
+        home: RequestHelpView());
   }
 }
