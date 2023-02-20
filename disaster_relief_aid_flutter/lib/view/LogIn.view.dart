@@ -1,5 +1,6 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:disaster_relief_aid_flutter/component/DatePicker.component.dart';
@@ -176,7 +177,7 @@ class _LogInViewState extends State<LogInView> {
                         ),
                         MaterialButton(
                             onPressed: () => Navigator.push(context,
-                                MaterialPageRoute(builder: (c) => LogInView())),
+                                MaterialPageRoute(builder: (c) => RegistrationPage())),
                             child: const Text("Create Account",
                               style: TextStyle(
                                 color: Colors.blue,
