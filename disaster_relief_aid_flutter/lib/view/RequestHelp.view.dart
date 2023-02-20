@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 
-class RequestHelpView extends StatelessWidget {
+class RequestHelpView extends StatefulWidget {
   const RequestHelpView({super.key});
+
+  @override
+  State<RequestHelpView> createState() => _RequestHelpViewState();
+}
+
+class _RequestHelpViewState extends State<RequestHelpView> {
+  String requestDetails = "";
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +34,21 @@ class RequestHelpView extends StatelessWidget {
                 labelText: 'Please describe your situation',
               ),
               maxLines: 5,
+              onChanged: (value) {
+                setState(() {
+                  requestDetails = value;
+                });
+              },
             ),
             ElevatedButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (c) => HelpCallInProgressView())),
+                onPressed: () {
+                  // TODO: do something with the request details
+                  // TODO: make the request to the backend
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (c) => HelpCallInProgressView()));
+                },
                 child: const Text("Request Help"))
           ],
         ));
