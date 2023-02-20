@@ -13,6 +13,12 @@ class RequestHelpView extends StatelessWidget {
           children: [
             // const Text("test"),
             // const Text("testt"),
+            TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Describe Situation',
+                  ),
+                ),
             ElevatedButton(
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (c) => HelpCallInProgressView())),
