@@ -62,11 +62,16 @@ We will be making our app using Flutter, and the backend for our app will be mad
   - shows user that their location is being captured
 - Improved navigation
   - changed page layout and button mappings
+- UI improvements
+  - increased contrast on text
+  - more consistent layout
 
 #### Bug Fixes
 
 - Added error catching
   - On login page and registration page
+- Email field (on register) now checks to make sure email is valid
+- Login now correctly validates username/password
 
 #### Known Issues
 
