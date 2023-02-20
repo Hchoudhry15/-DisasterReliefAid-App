@@ -1,6 +1,7 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/InputProfileInfo.view.dart';
+import 'package:disaster_relief_aid_flutter/view/LogIn.view.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -73,8 +74,13 @@ class _RegistrationPageView extends State<RegistrationPage> {
                           child: TextFormField(
                             decoration: const InputDecoration(
                                 border: InputBorder.none, hintText: "Email"),
-                            onSaved: (value) {
-                              _profile.email = value;
+                            validator: (value) {
+                              if ((value == null) | (!isEmailValid(value!))) {
+                                return "Invalid email";
+                              } else {
+                                _profile.email = value;
+                              }
+                              return null;
                             },
                           ),
                         ),
@@ -206,13 +212,16 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Text(
-                          " Back to Login",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
+                        MaterialButton(
+                            onPressed: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (c) => LogInView())),
+                            child: const Text("Back to Login ",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
                           ),
-                        )
+                        ))
+                        
                       ],
                     )
                   ]),
@@ -265,4 +274,13 @@ Future register(Profile profile) async {
   } catch (e) {
     print(e);
   }
+}
+
+bool isEmailValid(String email) {
+/// Regular expression pattern for email validation
+/// This pattern allows any combination of letters, numbers, and symbols 
+/// followed by an "@" symbol, followed by any combination of letters, numbers, and symbols
+/// followed by a "." symbol, followed by 2-6 letters.
+  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,6}$');
+  return emailRegex.hasMatch(email);
 }
