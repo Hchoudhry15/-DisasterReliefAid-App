@@ -27,7 +27,7 @@ class _LogInViewState extends State<LogInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        // backgroundColor: Colors.grey[300],
         body: SafeArea(
           child: SingleChildScrollView(
               child: Form(
@@ -59,7 +59,7 @@ class _LogInViewState extends State<LogInView> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            // color: Colors.grey[200],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         // ignore: prefer_const_constructors
@@ -83,7 +83,7 @@ class _LogInViewState extends State<LogInView> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            // color: Colors.grey[200],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         // ignore: prefer_const_constructors
