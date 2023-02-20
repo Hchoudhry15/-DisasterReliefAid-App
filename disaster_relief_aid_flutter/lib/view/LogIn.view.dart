@@ -23,7 +23,6 @@ class LogInView extends StatefulWidget {
 class _LogInViewState extends State<LogInView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Profile _profile = Profile();
-  bool? checkBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,8 @@ class _LogInViewState extends State<LogInView> {
                           // ignore: prefer_const_constructors
                           child: TextFormField(
                             decoration: const InputDecoration(
-                                border: InputBorder.none, hintText: "Username/Email"),
+                                border: InputBorder.none,
+                                hintText: "Username/Email"),
                             onSaved: (value) {
                               _profile.email = value;
                             },
@@ -104,29 +104,11 @@ class _LogInViewState extends State<LogInView> {
                     ),
                     const SizedBox(height: 5),
                     Row(
-                      mainAxisAlignment:  MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                      TextButton(onPressed: (){}, child: const Text(
-                        "Forgot Password?"
-                        ))
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: <Widget>[
-                        Checkbox(
-                          value:checkBoxValue,
-                          onChanged: (value) {
-                            print(value);
-
-                            setState(() {
-                              checkBoxValue = value;
-                            });
-                          },
-                        ),
-                        TextButton(onPressed: (){}, child: const Text(
-                        "Terms and Conditions"
-                        ))
+                        TextButton(
+                            onPressed: () {},
+                            child: const Text("Forgot Password?"))
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -155,15 +137,16 @@ class _LogInViewState extends State<LogInView> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             try {
-                              final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                              final credential = await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
                                 email: _profile.email!,
                                 password: _profile.password!,
                               );
                               // ignore: use_build_context_synchronously
                               Navigator.pushReplacement(
-                                context, 
-                                MaterialPageRoute(
-                                    builder: (context) => const MainView()));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MainView()));
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
                                 print("No user found for that email.");
@@ -189,14 +172,17 @@ class _LogInViewState extends State<LogInView> {
                           ),
                         ),
                         MaterialButton(
-                            onPressed: () => Navigator.push(context,
-                                MaterialPageRoute(builder: (c) => RegistrationPage())),
-                            child: const Text("Create Account",
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (c) => RegistrationPage())),
+                            child: const Text(
+                              "Create Account",
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,
-                          ),
-                        ))
+                              ),
+                            ))
                       ],
                     )
                   ]),

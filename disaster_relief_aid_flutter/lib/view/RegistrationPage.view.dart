@@ -28,6 +28,7 @@ class _RegistrationPageView extends State<RegistrationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // ignore: prefer_final_fields
   Profile _profile = Profile();
+  bool? checkBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +162,24 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    Row(
+                      children: <Widget>[
+                        Checkbox(
+                          value: checkBoxValue,
+                          onChanged: (value) {
+                            print(value);
+
+                            setState(() {
+                              checkBoxValue = value;
+                            });
+                          },
+                        ),
+                        TextButton(
+                            onPressed: () {},
+                            child: const Text("Terms and Conditions"))
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                     //register button
                     // ignore: avoid_unnecessary_containers
                     Padding(
@@ -215,13 +234,13 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         MaterialButton(
                             onPressed: () => Navigator.push(context,
                                 MaterialPageRoute(builder: (c) => LogInView())),
-                            child: const Text("Back to Login ",
+                            child: const Text(
+                              "Back to Login ",
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,
-                          ),
-                        ))
-                        
+                              ),
+                            ))
                       ],
                     )
                   ]),
@@ -277,10 +296,10 @@ Future register(Profile profile) async {
 }
 
 bool isEmailValid(String email) {
-/// Regular expression pattern for email validation
-/// This pattern allows any combination of letters, numbers, and symbols 
-/// followed by an "@" symbol, followed by any combination of letters, numbers, and symbols
-/// followed by a "." symbol, followed by 2-6 letters.
+  /// Regular expression pattern for email validation
+  /// This pattern allows any combination of letters, numbers, and symbols
+  /// followed by an "@" symbol, followed by any combination of letters, numbers, and symbols
+  /// followed by a "." symbol, followed by 2-6 letters.
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,6}$');
   return emailRegex.hasMatch(email);
 }
