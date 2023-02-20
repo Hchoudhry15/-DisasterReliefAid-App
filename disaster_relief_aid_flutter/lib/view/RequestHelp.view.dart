@@ -63,7 +63,7 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                   },
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // do form validation
                       if (!_formKey.currentState!.validate()) {
                         return;
@@ -93,7 +93,7 @@ toProgress(context) {
       final usernameEntry = userRef.child(userID);
       try {
         await usernameEntry.update({
-          'location': _determinePosition(),
+          'location': await _determinePosition(),
         });
       } catch (e) {
         print("An error has occured");
@@ -124,7 +124,7 @@ Future<Position> _determinePosition() async {
       return Future.error('Location permissions are denied');
     }
   }
-  _currentPosition = _determinePosition();
+
   if (permission == LocationPermission.deniedForever) {
     // Permissions are denied forever, handle appropriately.
     return Future.error(
