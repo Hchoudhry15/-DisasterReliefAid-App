@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
