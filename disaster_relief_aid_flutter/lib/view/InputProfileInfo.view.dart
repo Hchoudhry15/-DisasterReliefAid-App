@@ -25,7 +25,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: changeColorBasedOnUser(isUser),
+      // backgroundColor: changeColorBasedOnUser(isUser),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -75,7 +75,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            // color: Colors.grey[200],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         // ignore: prefer_const_constructors
@@ -168,6 +168,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
     Color? backgroundColor;
     if (isUser) {
       return backgroundColor = Colors.grey[300];
+      
     }
     return backgroundColor = Color.fromARGB(201, 197, 108, 135);
   }

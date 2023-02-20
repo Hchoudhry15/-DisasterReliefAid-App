@@ -28,11 +28,12 @@ class _RegistrationPageView extends State<RegistrationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // ignore: prefer_final_fields
   Profile _profile = Profile();
+  bool? checkBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      // backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -64,7 +65,7 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            // color: Colors.grey[200],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         // ignore: prefer_const_constructors
@@ -92,7 +93,7 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            // color: Colors.grey[200],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         // ignore: prefer_const_constructors
@@ -117,7 +118,7 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            // color: Colors.grey[200],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         // ignore: prefer_const_constructors
@@ -144,7 +145,7 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            // color: Colors.grey[200],
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         // ignore: prefer_const_constructors
@@ -160,6 +161,26 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 10),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: checkBoxValue,
+                              onChanged: (value) {
+                                print(value);
+
+                                setState(() {
+                                  checkBoxValue = value;
+                                });
+                              },
+                            ),
+                            TextButton(
+                                onPressed: () {},
+                                child: const Text("Terms and Conditions"))
+                          ],
+                        )),
                     const SizedBox(height: 10),
                     //register button
                     // ignore: avoid_unnecessary_containers
@@ -215,13 +236,13 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         MaterialButton(
                             onPressed: () => Navigator.push(context,
                                 MaterialPageRoute(builder: (c) => LogInView())),
-                            child: const Text("Back to Login ",
+                            child: const Text(
+                              "Back to Login ",
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,
-                          ),
-                        ))
-                        
+                              ),
+                            ))
                       ],
                     )
                   ]),
@@ -277,10 +298,10 @@ Future register(Profile profile) async {
 }
 
 bool isEmailValid(String email) {
-/// Regular expression pattern for email validation
-/// This pattern allows any combination of letters, numbers, and symbols 
-/// followed by an "@" symbol, followed by any combination of letters, numbers, and symbols
-/// followed by a "." symbol, followed by 2-6 letters.
+  /// Regular expression pattern for email validation
+  /// This pattern allows any combination of letters, numbers, and symbols
+  /// followed by an "@" symbol, followed by any combination of letters, numbers, and symbols
+  /// followed by a "." symbol, followed by 2-6 letters.
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,6}$');
   return emailRegex.hasMatch(email);
 }
