@@ -1,6 +1,7 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/InputProfileInfo.view.dart';
+import 'package:disaster_relief_aid_flutter/view/LogIn.view.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -206,13 +207,16 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Text(
-                          " Back to Login",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
+                        MaterialButton(
+                            onPressed: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (c) => LogInView())),
+                            child: const Text("Back to Login ",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
                           ),
-                        )
+                        ))
+                        
                       ],
                     )
                   ]),
