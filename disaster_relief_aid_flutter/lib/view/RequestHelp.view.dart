@@ -105,7 +105,6 @@ toProgress(context) {
       context, MaterialPageRoute(builder: (c) => HelpCallInProgressView()));
 }
 
-Position _currentPosition;
 Future<Position> _determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
