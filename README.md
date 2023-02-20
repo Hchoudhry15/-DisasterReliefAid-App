@@ -57,9 +57,12 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 - Geolocation integration
   - used when requesting help
+  - permissions updated for location request
+  - privacy ensured by allowing temporary location
 - Request help page
   - updated UI to have request details
   - shows user that their location is being captured
+  - sends location to database for processing
 - Improved navigation
   - changed page layout and button mappings
 - UI improvements
