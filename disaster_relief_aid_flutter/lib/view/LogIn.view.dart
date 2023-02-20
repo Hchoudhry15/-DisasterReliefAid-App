@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
@@ -8,6 +10,7 @@ import 'package:disaster_relief_aid_flutter/component/MultiSelectDropDown.compon
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:disaster_relief_aid_flutter/model/profile.model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../DRA.config.dart';
 
@@ -128,7 +131,7 @@ class _LogInViewState extends State<LogInView> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    //register button
+                    //log in button
                     // ignore: avoid_unnecessary_containers
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -149,17 +152,28 @@ class _LogInViewState extends State<LogInView> {
                             ),
                           ),
                         ),
-                        onTap: () {
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-
-                            // TODO: add _profile to database
-                            print(_profile);
-
-                            Navigator.pushReplacement(
-                                context,
+                            try {
+                              final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                email: _profile.email!,
+                                password: _profile.password!,
+                              );
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushReplacement(
+                                context, 
                                 MaterialPageRoute(
                                     builder: (context) => const HomeView()));
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                print("No user found for that email.");
+                              } else if (e.code == 'wrong-password') {
+                                print("Wrong password for that user.");
+                              }
+                            }
+                            // TODO: add _profile to database
+                            print(_profile);
                           }
                         },
                       ),
