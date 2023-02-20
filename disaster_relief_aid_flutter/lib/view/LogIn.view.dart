@@ -72,6 +72,12 @@ class _LogInViewState extends State<LogInView> {
                     onSaved: (value) {
                       _profile.email = value;
                     },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      return null;
+                    },
                   ),
                 ),
               ),
