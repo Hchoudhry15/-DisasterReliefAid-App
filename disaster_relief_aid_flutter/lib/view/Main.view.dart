@@ -35,8 +35,8 @@ class _MainViewState extends State<MainView> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Hazard Map',
+            icon: Icon(Icons.message),
+            label: 'Community',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -56,7 +56,7 @@ Widget getCurrentPage(BuildContext context, int index) {
       return const HomeView();
     case 1:
       // TODO: Implement Hazard Map view
-      return const RequestHelpView();
+      return Container();
     case 2:
       return const SettingsView();
     default:
