@@ -17,10 +17,14 @@
 - [Description](#description)
 - [Team](#team)
 - [Release Notes](#release-notes)
-  - [v0.1.0](#v010)
+  - [v0.2.0](#v020)
     - [Features](#features)
     - [Bug Fixes](#bug-fixes)
     - [Known Issues](#known-issues)
+  - [v0.1.0](#v010)
+    - [Features](#features-1)
+    - [Bug Fixes](#bug-fixes-1)
+    - [Known Issues](#known-issues-1)
 
 ## Description
 
@@ -42,6 +46,33 @@ We will be making our app using Flutter, and the backend for our app will be mad
 | Medhana Kadiyala  | mkadiyala7@gatech.edu  | (470) 509-2394 | [medhanak](https://github.com/medhanak)                 |
 
 ## Release Notes
+
+### v0.2.0
+[![GitHub release](https://badgen.net/badge/Release/v0.1.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.2.0) 
+<!-- [![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+<!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+#### Features
+
+- Geolocation integration
+  - used when requesting help
+- Request help page
+  - updated UI to have request details
+  - shows user that their location is being captured
+- Improved navigation
+  - changed page layout and button mappings
+
+#### Bug Fixes
+
+- Added error catching
+  - On login page and registration page
+
+#### Known Issues
+
+- Firebase account does not always stay logged in
+
+---
 
 ### v0.1.0
 [![GitHub release](https://badgen.net/badge/Release/v0.1.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.1.0) 
