@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -149,7 +150,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomeView()));
+                                  builder: (context) => const MainView()));
                           // }
                         },
                       ),

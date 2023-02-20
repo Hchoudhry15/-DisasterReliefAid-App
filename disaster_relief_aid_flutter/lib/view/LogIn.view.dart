@@ -1,5 +1,6 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:flutter/material.dart';
 
@@ -162,7 +163,7 @@ class _LogInViewState extends State<LogInView> {
                               Navigator.pushReplacement(
                                 context, 
                                 MaterialPageRoute(
-                                    builder: (context) => const HomeView()));
+                                    builder: (context) => const MainView()));
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
                                 print("No user found for that email.");
