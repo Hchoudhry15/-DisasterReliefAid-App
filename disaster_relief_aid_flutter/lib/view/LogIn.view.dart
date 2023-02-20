@@ -174,13 +174,15 @@ class _LogInViewState extends State<LogInView> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Text(
-                          " Create Account",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
+                        MaterialButton(
+                            onPressed: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (c) => LogInView())),
+                            child: const Text("Create Account",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
                           ),
-                        )
+                        ))
                       ],
                     )
                   ]),

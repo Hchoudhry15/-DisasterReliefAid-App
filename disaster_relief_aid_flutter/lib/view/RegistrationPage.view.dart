@@ -210,9 +210,10 @@ class _RegistrationPageView extends State<RegistrationPage> {
                         MaterialButton(
                             onPressed: () => Navigator.push(context,
                                 MaterialPageRoute(builder: (c) => LogInView())),
-                            child: const Text("Back to Login",
+                            child: const Text("Back to Login ",
                               style: TextStyle(
                                 color: Colors.blue,
+                                fontWeight: FontWeight.bold,
                           ),
                         ))
                         
