@@ -103,14 +103,16 @@ class _LogInViewState extends State<LogInView> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: () {},
-                            child: const Text("Forgot Password?"))
-                      ],
-                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                                onPressed: () {},
+                                child: const Text("Forgot Password?"))
+                          ],
+                        )),
                     const SizedBox(height: 10),
                     //log in button
                     // ignore: avoid_unnecessary_containers

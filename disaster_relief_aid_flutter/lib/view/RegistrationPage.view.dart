@@ -162,23 +162,25 @@ class _RegistrationPageView extends State<RegistrationPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      children: <Widget>[
-                        Checkbox(
-                          value: checkBoxValue,
-                          onChanged: (value) {
-                            print(value);
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: checkBoxValue,
+                              onChanged: (value) {
+                                print(value);
 
-                            setState(() {
-                              checkBoxValue = value;
-                            });
-                          },
-                        ),
-                        TextButton(
-                            onPressed: () {},
-                            child: const Text("Terms and Conditions"))
-                      ],
-                    ),
+                                setState(() {
+                                  checkBoxValue = value;
+                                });
+                              },
+                            ),
+                            TextButton(
+                                onPressed: () {},
+                                child: const Text("Terms and Conditions"))
+                          ],
+                        )),
                     const SizedBox(height: 10),
                     //register button
                     // ignore: avoid_unnecessary_containers
