@@ -58,6 +58,7 @@ dependencies:
   # For checking the strength of passwords
   password_strength: ^0.2.0
   uuid: ^3.0.7
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
