@@ -73,10 +73,10 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                       // TODO: do something with the request details
                       // TODO: make the request to the backend
                       toProgress(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (c) => HelpCallInProgressView()));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (c) => HelpCallInProgressView()));
                     },
                     child: const Text("Request Help"))
               ],
@@ -92,17 +92,17 @@ toProgress(context) {
       final userRef = database.child('/users/');
       final usernameEntry = userRef.child(userID);
       try {
-        await usernameEntry.update({
-          'location': await _determinePosition(),
-        });
+        Position location = await _determinePosition();
+        print(location.toString());
+        await usernameEntry.update({'location': location.toJson()});
       } catch (e) {
         print("An error has occured");
         print(e);
       }
     }
+    Navigator.push(
+        context, MaterialPageRoute(builder: (c) => HelpCallInProgressView()));
   });
-  Navigator.push(
-      context, MaterialPageRoute(builder: (c) => HelpCallInProgressView()));
 }
 
 Future<Position> _determinePosition() async {

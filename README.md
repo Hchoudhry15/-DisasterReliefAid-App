@@ -79,6 +79,9 @@ We will be making our app using Flutter, and the backend for our app will be mad
 #### Known Issues
 
 - Firebase account does not always stay logged in
+- Terms and Conditions can be skipped when registering
+- Some inconsistencies in UI on registration/login views
+- skills/vulnerabilities are linked, and count stays the same when swapping pages
 
 ---
 
