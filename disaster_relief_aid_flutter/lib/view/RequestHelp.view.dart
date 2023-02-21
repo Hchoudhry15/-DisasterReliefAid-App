@@ -94,6 +94,7 @@ toProgress(context) {
       try {
         Position location = await _determinePosition();
         print(location.toString());
+        // print(location.altitude);
         await usernameEntry.update({'location': location.toJson()});
       } catch (e) {
         print("An error has occured");
