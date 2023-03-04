@@ -1,4 +1,6 @@
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
+import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:flutter/material.dart';
 
 class HelpCallInProgressView extends StatelessWidget {
@@ -9,11 +11,23 @@ class HelpCallInProgressView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Help Call in Progress"),
+          automaticallyImplyLeading: false,
         ),
-        body: const SingleChildScrollView(
-            child: Center(
-          child: Text("Help is on the way!",
+        body: SingleChildScrollView(
+            child: Column(children: [
+          const Text("Help is on the way!",
               style: TextStyle(fontSize: 32, color: Colors.red)),
-        )));
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainView()),
+                );
+              
+              }, child: const Text("Cancel Help Request"))
+        ])));
   }
 }
