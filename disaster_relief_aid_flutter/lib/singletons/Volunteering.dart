@@ -21,15 +21,20 @@ class VolunteeringSingleton {
     if (currentJob != null) {
       await currentJob!.cancel();
     }
+    await attemptVolunteering();
     currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
-      User? user = UserInformationSingleton().getFirebaseUser();
-      if (user != null) {
-        addActiveVolunteer(user.uid);
-      } else {
-        print("The user is currently null");
-      }
+      await attemptVolunteering();
       print("Update Volunteer location!");
     });
+  }
+
+  Future attemptVolunteering() async {
+    User? user = UserInformationSingleton().getFirebaseUser();
+    if (user != null) {
+      await addActiveVolunteer(user.uid);
+    } else {
+      print("The user is currently null");
+    }
   }
 
   Future stopVolunteering() async {
