@@ -23,7 +23,7 @@ class _MySettingsViewState extends State<SettingsView> {
     // check if user is a volunteer
     if (UserInformationSingleton().isRealtimeUserInfoLoaded()) {
       RealtimeUserInfo? user = UserInformationSingleton().getRealtimeUserInfo();
-      if (user != null) {
+      if (user != null && user.userType != null) {
         _userIsVolunteer = user.userType == UserType.Volunteer;
       }
     }
