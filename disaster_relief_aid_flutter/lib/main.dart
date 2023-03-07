@@ -25,6 +25,4 @@ void main() async {
       runApp( const MyApp(isLoggedIn: false));
     }
   });
-
-  
 }

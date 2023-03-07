@@ -13,6 +13,13 @@ class _MySettingsViewState extends State<SettingsView> {
   var textValue = 'Volunteer is not Active'; 
 
   @override
+  void initState() {
+    super.initState();
+    // check if user is a volunteer
+    
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
