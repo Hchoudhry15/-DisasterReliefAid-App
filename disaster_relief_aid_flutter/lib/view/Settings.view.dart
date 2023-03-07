@@ -1,5 +1,6 @@
 import 'package:disaster_relief_aid_flutter/model/realtimeuserinfo.model.dart';
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
+import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:flutter/material.dart';
 
 import 'AppInfo.view.dart';
@@ -48,6 +49,8 @@ class _MySettingsViewState extends State<SettingsView> {
           trailing: Switch(
             value: _toggleValue,
             onChanged: (value) {
+              // update the Volunteering singleton to reflect the change
+              VolunteeringSingleton().isCurrentlyVolunteering = _toggleValue;
               if (_toggleValue == true) {
                 setState(() {
                   _toggleValue = value;
