@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
+import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ void main() async {
 
   // setup singletons
   UserInformationSingleton();
+  VolunteeringSingleton();
 
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user == null) {

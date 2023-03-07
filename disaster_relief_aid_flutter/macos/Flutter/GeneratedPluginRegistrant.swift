@@ -17,7 +17,7 @@ import firebase_messaging
 import firebase_storage
 import geolocator_apple
 import package_info_plus_macos
-import path_provider_macos
+import path_provider_foundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTFirebaseFirestorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseFirestorePlugin"))
