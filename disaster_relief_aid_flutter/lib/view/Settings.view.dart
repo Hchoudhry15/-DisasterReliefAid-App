@@ -14,7 +14,7 @@ class SettingsView extends StatefulWidget {
 }
 
 class _MySettingsViewState extends State<SettingsView> {
-  bool _toggleValue = VolunteeringSingleton().currentJob != null;
+  bool _toggleValue = VolunteeringSingleton().isCurrentlyVolunteering;
   bool _userIsVolunteer = false;
 
   @override
