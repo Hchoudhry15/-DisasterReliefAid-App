@@ -10,7 +10,8 @@ class VolunteeringSingleton {
 
   VolunteeringSingleton._internal() {
     var cron = Cron();
-    cron.schedule(Schedule.parse("*/2 * * * *"), () async {
+    cron.schedule(Schedule.parse("* * * * *"), () async {
+      print(isCurrentlyVolunteering);
       if (isCurrentlyVolunteering) {
         // get volunteer's current location and send to database
       }
