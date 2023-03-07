@@ -12,8 +12,7 @@ class SettingsView extends StatefulWidget {
 }
 
 class _MySettingsViewState extends State<SettingsView> {
-  bool _toggleValue = false;
-  var textValue = 'Volunteer is not Active';
+  bool _toggleValue = VolunteeringSingleton().isCurrentlyVolunteering;
   bool _userIsVolunteer = false;
 
   @override
@@ -45,33 +44,19 @@ class _MySettingsViewState extends State<SettingsView> {
       ),
       if (_userIsVolunteer)
         ListTile(
-          title: Text('Status'),
+          title: const Text('Volunteer Status'),
+          subtitle: Text("You are currently ${_toggleValue ? "available" : "unavailable"} to volunteer"),
           trailing: Switch(
             value: _toggleValue,
             onChanged: (value) {
               // update the Volunteering singleton to reflect the change
-              VolunteeringSingleton().isCurrentlyVolunteering = _toggleValue;
-              if (_toggleValue == true) {
-                setState(() {
-                  _toggleValue = value;
-                  textValue = 'Volunteer is not Active';
-                });
-              } else {
-                setState(() {
-                  _toggleValue = value;
-                  textValue = 'Volunteer is Active';
-                });
-              }
-              ;
+              setState(() {
+                _toggleValue = value;
+                VolunteeringSingleton().isCurrentlyVolunteering = value;
+              });
             },
           ),
         ),
-      if (_userIsVolunteer)
-        Text(
-          '$textValue',
-          style: TextStyle(fontSize: 15),
-          textAlign: TextAlign.center,
-        )
     ]);
   }
 }
