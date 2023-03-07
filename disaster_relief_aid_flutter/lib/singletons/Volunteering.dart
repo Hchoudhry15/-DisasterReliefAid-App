@@ -1,4 +1,9 @@
 import 'package:cron/cron.dart';
+import 'package:disaster_relief_aid_flutter/Location.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class VolunteeringSingleton {
   static final VolunteeringSingleton _volunteeringSingleton =
@@ -30,4 +35,44 @@ class VolunteeringSingleton {
 
   late Cron cron;
   ScheduledTask? currentJob;
+    var cron = Cron();
+    cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
+      print(isCurrentlyVolunteering);
+      if (isCurrentlyVolunteering) {
+        // get volunteer's current location and send to database
+        User? user = UserInformationSingleton().getFirebaseUser();
+        if (user != null) {
+          addActiveVolunteer(user.uid);
+        } else {
+          print("The user is currently null");
+        }
+      }
+    });
+  }
+
+  Future stopVolunteering() async {
+    if (currentJob != null) {
+      await currentJob!.cancel();
+    }
+  }
+
+  late Cron cron;
+  ScheduledTask? currentJob;
+  final database = FirebaseDatabase.instance.ref();
+
+  Future addActiveVolunteer(String uID) async {
+    final userRef = database.child('/activevolunteerlist/');
+    var userID = uID;
+    final userEntry = userRef.child(userID);
+    try {
+      Position location = await Location.determinePosition();
+      await userEntry.update({
+        'timestamp': DateTime.now().toString(),
+        'location': location.toJson()
+      });
+    } catch (e) {
+      print("An error has occured");
+      print(e);
+    }
+  }
 }
