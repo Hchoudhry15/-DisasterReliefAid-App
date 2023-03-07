@@ -12,6 +12,7 @@ class RequestHelpView extends StatefulWidget {
 }
 
 class _RequestHelpViewState extends State<RequestHelpView> {
+  final database = FirebaseDatabase.instance.ref();
   String requestDetails = "";
 
   // make a key for the form
@@ -97,6 +98,10 @@ class _RequestHelpViewState extends State<RequestHelpView> {
 
                         // TODO: do something with the request details
                         // TODO: make the request to the backend
+                        User? user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          addUserToDatabase(user.uid);
+                        }
                         toProgress(context);
                         // Navigator.push(
                         //     context,
@@ -107,6 +112,21 @@ class _RequestHelpViewState extends State<RequestHelpView> {
               ],
             )));
   }
+
+  Future addUserToDatabase(String uID) async {
+    final userRef = database.child('/requesthelplist/');
+    var userID = uID;
+    final userEntry = userRef.child(userID);
+    try {
+      await userEntry.set({
+        'timestamp': DateTime.now().toString(),
+        'requestdetails': requestDetails
+      });
+    } catch (e) {
+      print("An error has occured");
+      print(e);
+    }
+  }
 }
 
 toProgress(context) {
@@ -114,7 +134,7 @@ toProgress(context) {
     final database = FirebaseDatabase.instance.ref();
     if (user != null) {
       String userID = user.uid;
-      final userRef = database.child('/users/');
+      final userRef = database.child('/requesthelplist/');
       final usernameEntry = userRef.child(userID);
       try {
         Position location = await _determinePosition();
