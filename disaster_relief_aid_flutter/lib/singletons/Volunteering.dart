@@ -9,14 +9,25 @@ class VolunteeringSingleton {
   }
 
   VolunteeringSingleton._internal() {
-    var cron = Cron();
-    cron.schedule(Schedule.parse("*/3 * * * * *"), () async {
-      print(isCurrentlyVolunteering);
-      if (isCurrentlyVolunteering) {
-        // get volunteer's current location and send to database
-      }
+    cron = Cron();
+  }
+
+  Future startVolunteering() async {
+    if (currentJob != null) {
+      await currentJob!.cancel();
+    }
+    currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
+      // do something
+      print("Update Volunteer location!");
     });
   }
 
-  bool isCurrentlyVolunteering = false;
+  Future stopVolunteering() async {
+    if (currentJob != null) {
+      await currentJob!.cancel();
+    }
+  }
+
+  late Cron cron;
+  ScheduledTask? currentJob;
 }

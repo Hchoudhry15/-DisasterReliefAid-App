@@ -14,7 +14,7 @@ class SettingsView extends StatefulWidget {
 }
 
 class _MySettingsViewState extends State<SettingsView> {
-  bool _toggleValue = VolunteeringSingleton().isCurrentlyVolunteering;
+  bool _toggleValue = VolunteeringSingleton().currentJob != null;
   bool _userIsVolunteer = false;
 
   @override
@@ -39,11 +39,17 @@ class _MySettingsViewState extends State<SettingsView> {
               "You are currently ${_toggleValue ? "available" : "unavailable"} to volunteer"),
           trailing: Switch(
             value: _toggleValue,
-            onChanged: (value) {
+            onChanged: (value) async {
               // update the Volunteering singleton to reflect the change
+              if (value == false) {
+                // user is no longer available to volunteer
+                await VolunteeringSingleton().stopVolunteering();
+              } else {
+                // user is available to volunteer
+                await VolunteeringSingleton().startVolunteering();
+              }
               setState(() {
                 _toggleValue = value;
-                VolunteeringSingleton().isCurrentlyVolunteering = value;
               });
             },
           ),
