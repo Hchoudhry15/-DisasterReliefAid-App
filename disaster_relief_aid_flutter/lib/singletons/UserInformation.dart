@@ -1,4 +1,6 @@
+import 'package:disaster_relief_aid_flutter/model/realtimeuserinfo.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class UserInformationSingleton {
   static final UserInformationSingleton _singleton =
@@ -20,6 +22,22 @@ class UserInformationSingleton {
       _firebaseUser = user;
       if (user != null) {
         _isUserLoaded = true;
+
+        // get the user data from the realtime database
+        final database = FirebaseDatabase.instance.ref();
+        final userRef = database.child('/users/');
+        final usernameEntry = userRef.child(user.uid);
+        try {
+          usernameEntry.get().then((value) {
+            _realtimeUserInfo = RealtimeUserInfo(value);
+            _isRealtimeUserInfoLoaded = true;
+            // print(user.uid);
+            // print(_realtimeUserInfo?.userType);
+          });
+        } catch (e) {
+          print("An error has occured");
+          print(e);
+        }
       }
     });
   }
@@ -34,5 +52,18 @@ class UserInformationSingleton {
   /// Returns the current user. Call [isUserLoaded] before accessing this property.
   User? getFirebaseUser() {
     return _firebaseUser;
+  }
+
+  bool _isRealtimeUserInfoLoaded = false;
+  RealtimeUserInfo? _realtimeUserInfo;
+
+  /// Returns true if the realtime user info is loaded, false otherwise. Call this method before accessing the user info.
+  bool isRealtimeUserInfoLoaded() {
+    return _isRealtimeUserInfoLoaded;
+  }
+
+  /// Returns the current user info. Call [isRealtimeUserInfoLoaded] before accessing this property.
+  RealtimeUserInfo? getRealtimeUserInfo() {
+    return _realtimeUserInfo;
   }
 }
