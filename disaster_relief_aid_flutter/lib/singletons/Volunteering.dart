@@ -22,31 +22,13 @@ class VolunteeringSingleton {
       await currentJob!.cancel();
     }
     currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
-      // do something
-      print("Update Volunteer location!");
-    });
-  }
-
-  Future stopVolunteering() async {
-    if (currentJob != null) {
-      await currentJob!.cancel();
-    }
-  }
-
-  late Cron cron;
-  ScheduledTask? currentJob;
-    var cron = Cron();
-    cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
-      print(isCurrentlyVolunteering);
-      if (isCurrentlyVolunteering) {
-        // get volunteer's current location and send to database
-        User? user = UserInformationSingleton().getFirebaseUser();
-        if (user != null) {
-          addActiveVolunteer(user.uid);
-        } else {
-          print("The user is currently null");
-        }
+      User? user = UserInformationSingleton().getFirebaseUser();
+      if (user != null) {
+        addActiveVolunteer(user.uid);
+      } else {
+        print("The user is currently null");
       }
+      print("Update Volunteer location!");
     });
   }
 
