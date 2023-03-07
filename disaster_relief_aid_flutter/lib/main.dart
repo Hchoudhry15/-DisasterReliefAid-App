@@ -26,7 +26,7 @@ void main() async {
       runApp(const MyApp(isLoggedIn: false));
     } else {
       // print('User is signed in!');
-      runApp(const MyApp(isLoggedIn: false));
+      runApp(const MyApp(isLoggedIn: true));
     }
   });
 }
