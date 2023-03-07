@@ -12,19 +12,18 @@ import 'view/CreateProfile.view.dart';
 import 'view/Main.view.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({required this.isLoggedIn, super.key});
+
+  final bool isLoggedIn;
 
   @override
   Widget build(BuildContext context) {
-    // check if user is logged in
-    const bool isLoggedIn = false;
-
     // if user is not logged in, show register screen, else show home screen
     return MaterialApp(
         title: Config.appName,
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         // ignore: prefer_const_constructors
-        home: Splash());
+        home: isLoggedIn ?  Splash() : MainView());
   }
 }

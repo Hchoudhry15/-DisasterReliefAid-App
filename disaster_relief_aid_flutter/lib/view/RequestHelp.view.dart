@@ -146,7 +146,7 @@ toProgress(context) {
         print(e);
       }
     }
-    Navigator.push(
+    Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (c) => HelpCallInProgressView()));
   });
 }
