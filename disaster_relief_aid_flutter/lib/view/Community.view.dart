@@ -28,6 +28,7 @@ class _CommunityViewState extends State<CommunityView> {
   @override
   Widget build(BuildContext context) {
     bool isUserNotFound = false;
+    String? userEmail;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Community"),
@@ -41,10 +42,10 @@ class _CommunityViewState extends State<CommunityView> {
           const SizedBox(height: 20),
           SearchBox(onSubmittedSearch: (searchText) async {
             try {
-              //red text doesnt work yet
               await getSpecificUserByEmail(searchText);
               setState(() {
                 isUserNotFound = false;
+                userEmail = searchText;
               });
             } catch (e) {
               setState(() {
@@ -59,12 +60,25 @@ class _CommunityViewState extends State<CommunityView> {
                 color: Colors.red,
               ),
             ),
+          if (userEmail != null)
+            GestureDetector(
+              onTap: () {
+                // handle onTap event
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(userEmail!),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: InkWell(
               child: Container(
                 padding: const EdgeInsets.all(25),
-                // ignore: prefer_const_constructors
                 decoration: BoxDecoration(
                   color: Colors.greenAccent,
                   borderRadius: BorderRadius.circular(12),
@@ -81,7 +95,6 @@ class _CommunityViewState extends State<CommunityView> {
                 ),
               ),
               onTap: () async {
-                // do form validation
                 if (!_formKey.currentState!.validate()) {
                   return;
                 }
@@ -90,9 +103,7 @@ class _CommunityViewState extends State<CommunityView> {
                 User? user = UserInformationSingleton().getFirebaseUser();
                 if (user != null) {
                   addMessageToDB(user.uid);
-                  // getSpecificUser(user.uid);
                 } else {
-                  // ignore: avoid_print
                   print("message did not send");
                 }
               },
@@ -110,7 +121,11 @@ class _CommunityViewState extends State<CommunityView> {
       var userID = uID;
       final userEntry = userRef.child(userID);
       await userEntry.set(
-          {'timestamp': DateTime.now().toString(), 'messageDetails': "hello"});
+        {
+          'timestamp': DateTime.now().toString(),
+          'messageDetails': "hello",
+        },
+      );
       print("worked");
     } catch (e) {
       print("Messages: An error has occured");
