@@ -53,21 +53,22 @@ class _MySettingsViewState extends State<SettingsView> {
                   _toggleValue = value;
                   textValue = 'Volunteer is not Active';
                 });
-              }
-              else {
+              } else {
                 setState(() {
                   _toggleValue = value;
                   textValue = 'Volunteer is Active';
                 });
-              };
+              }
+              ;
             },
           ),
         ),
-      Text(
-        '$textValue',
-        style: TextStyle(fontSize: 15),
-        textAlign: TextAlign.center,
-      )
+      if (_userIsVolunteer)
+        Text(
+          '$textValue',
+          style: TextStyle(fontSize: 15),
+          textAlign: TextAlign.center,
+        )
     ]);
   }
 }
