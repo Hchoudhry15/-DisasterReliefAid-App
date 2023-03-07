@@ -15,6 +15,7 @@ class VolunteeringSingleton {
 
   VolunteeringSingleton._internal() {
     cron = Cron();
+    database = FirebaseDatabase.instance.ref();
   }
 
   Future startVolunteering() async {
@@ -45,7 +46,11 @@ class VolunteeringSingleton {
 
   late Cron cron;
   ScheduledTask? currentJob;
-  final database = FirebaseDatabase.instance.ref();
+  late DatabaseReference database;
+
+  get isCurrentlyVolunteering {
+    return currentJob != null;
+  }
 
   Future addActiveVolunteer(String uID) async {
     final userRef = database.child('/activevolunteerlist/');
