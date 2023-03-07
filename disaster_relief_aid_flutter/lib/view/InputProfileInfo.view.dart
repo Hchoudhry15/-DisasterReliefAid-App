@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +148,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                               }
                             }
                           });
+                          UserInformationSingleton().loadFirebaseUser();
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -168,7 +170,6 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
     Color? backgroundColor;
     if (isUser) {
       return backgroundColor = Colors.grey[300];
-      
     }
     return backgroundColor = Color.fromARGB(201, 197, 108, 135);
   }

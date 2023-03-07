@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/component/PasswordFormField.component.dart';
+import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
@@ -164,6 +165,8 @@ class _LogInViewState extends State<LogInView> {
                         password: _profile.password!,
                       );
                       // TODO: cache login so we don't have to log in every time
+                      UserInformationSingleton().loadFirebaseUser();
+
                       // ignore: use_build_context_synchronously
                       Navigator.pushReplacement(
                           context,

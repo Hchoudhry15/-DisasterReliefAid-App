@@ -18,6 +18,10 @@ class UserInformationSingleton {
   // it's also private, so it can only be called in this class
   UserInformationSingleton._internal() {
     // initialization logic goes here
+    loadFirebaseUser();
+  }
+
+  void loadFirebaseUser() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       _firebaseUser = user;
       if (user != null) {
@@ -41,6 +45,7 @@ class UserInformationSingleton {
       }
     });
   }
+
   bool _isUserLoaded = false;
   User? _firebaseUser;
 

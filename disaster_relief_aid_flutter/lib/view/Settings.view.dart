@@ -1,5 +1,8 @@
+import 'package:disaster_relief_aid_flutter/App.dart';
 import 'package:disaster_relief_aid_flutter/model/realtimeuserinfo.model.dart';
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
+import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'AppInfo.view.dart';
@@ -11,8 +14,7 @@ class SettingsView extends StatefulWidget {
 }
 
 class _MySettingsViewState extends State<SettingsView> {
-  bool _toggleValue = false;
-  var textValue = 'Volunteer is not Active';
+  bool _toggleValue = VolunteeringSingleton().isCurrentlyVolunteering;
   bool _userIsVolunteer = false;
 
   @override
@@ -21,7 +23,7 @@ class _MySettingsViewState extends State<SettingsView> {
     // check if user is a volunteer
     if (UserInformationSingleton().isRealtimeUserInfoLoaded()) {
       RealtimeUserInfo? user = UserInformationSingleton().getRealtimeUserInfo();
-      if (user != null) {
+      if (user != null && user.userType != null) {
         _userIsVolunteer = user.userType == UserType.Volunteer;
       }
     }
@@ -30,6 +32,28 @@ class _MySettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
+      if (_userIsVolunteer)
+        ListTile(
+          title: const Text('Volunteer Status'),
+          subtitle: Text(
+              "You are currently ${_toggleValue ? "available" : "unavailable"} to volunteer"),
+          trailing: Switch(
+            value: _toggleValue,
+            onChanged: (value) async {
+              // update the Volunteering singleton to reflect the change
+              if (value == false) {
+                // user is no longer available to volunteer
+                await VolunteeringSingleton().stopVolunteering();
+              } else {
+                // user is available to volunteer
+                await VolunteeringSingleton().startVolunteering();
+              }
+              setState(() {
+                _toggleValue = value;
+              });
+            },
+          ),
+        ),
       ListTile(
         title: const Text('App Information'),
         onTap: () {
@@ -42,33 +66,43 @@ class _MySettingsViewState extends State<SettingsView> {
           );
         },
       ),
-      if (_userIsVolunteer)
-        ListTile(
-          title: Text('Status'),
-          trailing: Switch(
-            value: _toggleValue,
-            onChanged: (value) {
-              if (_toggleValue == true) {
-                setState(() {
-                  _toggleValue = value;
-                  textValue = 'Volunteer is not Active';
-                });
-              } else {
-                setState(() {
-                  _toggleValue = value;
-                  textValue = 'Volunteer is Active';
-                });
-              }
-              ;
+      ListTile(
+        title: const Text('Logout'),
+        onTap: () {
+          // logout
+          // show a dialog to confirm logout
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Logout"),
+                content: const Text("Are you sure you want to logout?"),
+                actions: [
+                  TextButton(
+                    child: const Text("Cancel"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("Logout"),
+                    onPressed: () async {
+                      // logout
+                      await FirebaseAuth.instance.signOut();
+                      // go back to login screen
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const MyApp(isLoggedIn: false),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
             },
-          ),
-        ),
-      if (_userIsVolunteer)
-        Text(
-          '$textValue',
-          style: TextStyle(fontSize: 15),
-          textAlign: TextAlign.center,
-        )
+          );
+        },
+      )
     ]);
   }
 }

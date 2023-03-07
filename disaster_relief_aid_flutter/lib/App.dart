@@ -24,6 +24,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         // ignore: prefer_const_constructors
-        home: isLoggedIn ?  Splash() : MainView());
+        home: !isLoggedIn ?  LogInView() : MainView());
   }
 }

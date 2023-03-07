@@ -59,6 +59,7 @@ dependencies:
   password_strength: ^0.2.0
   uuid: ^3.0.7
   geolocator: ^9.0.2
+  cron: ^0.5.1
 
 dev_dependencies:
   flutter_test:

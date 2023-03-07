@@ -2,11 +2,11 @@ import 'package:firebase_database/firebase_database.dart';
 
 /// This file is used to store the user information that we get from the realtime database.
 class RealtimeUserInfo {
-  late UserType userType;
-  late DateTime birthdate;
-  late String fname;
-  late String language;
-  late List<String> vulnerabilities;
+  UserType? userType;
+  DateTime? birthdate;
+  String? fname;
+  String? language;
+  List<String>? vulnerabilities;
 
   RealtimeUserInfo(DataSnapshot snapshot) {
     for (var element in snapshot.children) {
