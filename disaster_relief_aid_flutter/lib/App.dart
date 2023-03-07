@@ -24,6 +24,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         // ignore: prefer_const_constructors
-        home: !isLoggedIn ?  LogInView() : MainView());
+        home: !isLoggedIn ? LogInView() : MainView());
+    // home: liveChatView());
   }
 }
+//jamaltester@gmail.com
+//airplane123
+//uid : RFKkdPBPYrdQng5dDInRXFXpIYi2
