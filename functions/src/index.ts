@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import {initializeApp} from "firebase-admin";
 
 // // Start writing functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -22,6 +23,7 @@ export const helpRequestMade = functions.database
     functions.logger.log("location", location);
     functions.logger.log("timestamp", timestamp);
 
+    initializeApp();
     const db = admin.database();
 
     // get activeVolunteerList
