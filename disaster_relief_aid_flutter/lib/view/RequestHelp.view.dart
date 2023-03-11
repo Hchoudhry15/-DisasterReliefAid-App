@@ -103,6 +103,7 @@ class _RequestHelpViewState extends State<RequestHelpView> {
 
                       User? user = UserInformationSingleton().getFirebaseUser();
                       if (user != null) {
+                        addMessageToDB(user.uid);
                         addUserRequestHelpList(user.uid);
                         // addMessageToDB(user.uid);
                       } else {
@@ -133,6 +134,25 @@ class _RequestHelpViewState extends State<RequestHelpView> {
       print("RequestHelpList: An error has occured");
       print(e);
     }
+  }
+}
+
+Future addMessageToDB(String uID) async {
+  try {
+    final database = FirebaseDatabase.instance.ref();
+    final userRef = database.child('/messages/');
+    var userID = uID;
+    final userEntry = userRef.child(userID);
+    await userEntry.set(
+      {
+        'timestamp': DateTime.now().toString(),
+        'messageDetails': "hello",
+      },
+    );
+    print("worked");
+  } catch (e) {
+    print("Messages: An error has occured");
+    print(e);
   }
 }
 
