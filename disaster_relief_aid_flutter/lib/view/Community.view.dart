@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:disaster_relief_aid_flutter/view/ChatScreen.View.dart';
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 import 'package:geolocator/geolocator.dart';
@@ -63,7 +64,15 @@ class _CommunityViewState extends State<CommunityView> {
               if (userEmail != null)
                 GestureDetector(
                   onTap: () {
-                    // handle onTap event
+                    if (userEmail != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ChatScreenView(userEmail: userEmail!),
+                        ),
+                      );
+                    }
                   },
                   child: Container(
                     padding: const EdgeInsets.all(20),
@@ -99,7 +108,7 @@ class _CommunityViewState extends State<CommunityView> {
                       _formKey.currentState!.save();
                       User? user = UserInformationSingleton().getFirebaseUser();
                       if (user != null) {
-                        addMessageToDB("RFKkdPBPYrdQng5dDInRXFXpIYi2");
+                        addMessageToDB(user.uid);
                       } else {
                         print("USER IS NULL!!!!!!");
                       }
@@ -148,7 +157,7 @@ Future addMessageToDB(String uID) async {
     await userEntry.set(
       {
         'timestamp': DateTime.now().toString(),
-        'messageDetails': "pls",
+        'messageDetails': "finally",
       },
     );
     print("worked");
