@@ -25,6 +25,7 @@ class _CommunityViewState extends State<CommunityView> {
 
   bool isUserNotFound = false;
   String? userEmail;
+  String? recieverUUID;
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +69,8 @@ class _CommunityViewState extends State<CommunityView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              ChatScreenView(userEmail: userEmail!),
-                        ),
+                            builder: (context) =>
+                                ChatScreenView(userEmail: userEmail!)),
                       );
                     }
                   },
@@ -177,15 +177,19 @@ void getUsers() {
   });
 }
 
-void getSpecificUserByUid(String uid) {
+Future<String?> getSpecificUserByUid(String uid) async {
   final databaseReference = FirebaseDatabase.instance.ref();
+  final completer = Completer<String?>(); // create a Completer object
   databaseReference.child('users').child(uid).onValue.listen((event) {
     DataSnapshot snapshot = event.snapshot;
-    Object? userData = snapshot.value;
+    String? userData = snapshot.value as String?;
     // ignore: avoid_print
     print('Updated user data: $userData');
+    completer.complete(userData); // complete the Completer with the user ID
   });
+  return completer.future; // return the Completer's future
 }
+
 
 // Future<void> getSpecificUserByEmail(String email) async {
 //   final completer = Completer<void>();

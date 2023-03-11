@@ -7,6 +7,7 @@ import '../singletons/UserInformation.dart';
 
 class ChatScreenView extends StatefulWidget {
   final String userEmail;
+  //final String reciverUUID;
 
   const ChatScreenView({Key? key, required this.userEmail}) : super(key: key);
 
@@ -21,8 +22,10 @@ class _ChatScreenState extends State<ChatScreenView> {
 
   void _sendMessage() {
     if (_textController.text.isNotEmpty) {
-      // ignore: todo
-      // TODO: Implement message sending functionality
+      User? user = UserInformationSingleton().getFirebaseUser();
+      addMessageToDB(
+          user!.uid, user.email, _textController.text, widget.userEmail);
+      _textController.clear();
       _textController.clear();
     }
   }
@@ -67,10 +70,7 @@ class _ChatScreenState extends State<ChatScreenView> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    User? user = UserInformationSingleton().getFirebaseUser();
-                    String messageDetails = "again3";
-                    addMessageToDB(user!.uid, user.email, messageDetails,
-                        widget.userEmail, "fe");
+                    _sendMessage();
                     // _sendMessage();
                   }
                 },
@@ -85,7 +85,7 @@ class _ChatScreenState extends State<ChatScreenView> {
 }
 
 Future addMessageToDB(String uid, String? email, String messageDetails,
-    String recieverEmail, String recieverUUID) async {
+    String recieverEmail) async {
   try {
     final database = FirebaseDatabase.instance.ref();
     final messageRef = database.child('/messages/');
@@ -98,7 +98,6 @@ Future addMessageToDB(String uid, String? email, String messageDetails,
         'idFrom': uid,
         'emailFrom': email,
         'recieverEmail': recieverEmail,
-        'recieverUUID': recieverUUID,
       },
     );
     print("worked");
