@@ -1,7 +1,7 @@
 import functions = require("firebase-functions");
 import admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
-import { getDistance } from "geolib";
+import {getDistance} from "geolib";
 
 // // Start writing functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -16,25 +16,31 @@ import { getDistance } from "geolib";
 export const helpRequestMade = functions.database
   .ref("/requesthelplist/{userId}")
   .onCreate(async (snapshot, context) => {
-    const userId = context.params.userId;
+    // const userId = context.params.userId;
     const location = snapshot.child("location");
-    const timestamp = snapshot.child("timestamp");
+    // const timestamp = snapshot.child("timestamp");
+
+    const latitude = location.child("latitude").val();
+    const longitude = location.child("longitude").val();
+
+    functions.logger.debug("latitude", latitude);
+    functions.logger.debug("longitude", longitude);
 
     const db = admin.database();
 
     // get activeVolunteerList
     const activeVolunteerList = await db.ref("/activevolunteerlist").get();
     activeVolunteerList.forEach((volunteer) => {
-      const volunteerId = volunteer.key;
+      // const volunteerId = volunteer.key;
       const volunteerLocation = volunteer.child("location");
-      const volunteerTimestamp = volunteer.child("timestamp");
+      // const volunteerTimestamp = volunteer.child("timestamp");
       // check if volunteer is available
 
       // get distance between volunteer and user
       const distance = getDistance(
         {
-          latitude: location.child("latitude").val(),
-          longitude: location.child("longitude").val(),
+          latitude: latitude,
+          longitude: longitude,
         },
         {
           latitude: volunteerLocation.child("latitude").val(),
