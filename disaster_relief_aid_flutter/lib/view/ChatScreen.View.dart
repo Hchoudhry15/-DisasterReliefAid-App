@@ -3,6 +3,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../component/ChatBubble.component.dart';
+import '../model/message.model.dart';
 import '../singletons/UserInformation.dart';
 
 class ChatScreenView extends StatefulWidget {
@@ -20,12 +22,23 @@ class _ChatScreenState extends State<ChatScreenView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textController = TextEditingController();
 
+  Stream<DataSnapshot> messageStream = const Stream.empty();
+
+  @override
+  void initState() {
+    super.initState();
+    messageStream = database
+        .child('/messages/')
+        .orderByChild('timestamp')
+        .onValue
+        .map((event) => event.snapshot);
+  }
+
   void _sendMessage() {
     if (_textController.text.isNotEmpty) {
       User? user = UserInformationSingleton().getFirebaseUser();
       addMessageToDB(
           user!.uid, user.email, _textController.text, widget.userEmail);
-      _textController.clear();
       _textController.clear();
     }
   }
@@ -44,11 +57,31 @@ class _ChatScreenState extends State<ChatScreenView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                child: ListView(
-                  children: const [
-                    // ignore: todo
-                    // TODO: Implement message list display
-                  ],
+                child: StreamBuilder<DataSnapshot>(
+                  stream: messageStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DataSnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      final messages = Map<String, dynamic>.from(
+                          snapshot.data!.value as Map);
+
+                      return ListView.builder(
+                        reverse: true,
+                        itemCount: messages.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final message = messages.values.elementAt(index);
+                          final bool isCurrentUser =
+                              message['emailFrom'] == "jamaltester@gmail.com";
+                          return ChatBubble(
+                            text: message['messageDetails'],
+                            isCurrentUser: isCurrentUser,
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
               ),
               TextFormField(
@@ -71,7 +104,6 @@ class _ChatScreenState extends State<ChatScreenView> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _sendMessage();
-                    // _sendMessage();
                   }
                 },
                 child: const Text('Send'),

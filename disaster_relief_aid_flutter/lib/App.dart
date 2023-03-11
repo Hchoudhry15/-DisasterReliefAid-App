@@ -31,3 +31,7 @@ class MyApp extends StatelessWidget {
 //jamaltester@gmail.com
 //airplane123
 //uid : RFKkdPBPYrdQng5dDInRXFXpIYi2
+
+//tester to send to
+//chattester1@gmail.com
+//airplane123
