@@ -48,7 +48,7 @@ class _CommunityViewState extends State<CommunityView> {
                   if (user == null) {
                     isUserNotFound = true;
                   } else {
-                    print("User not found in DB");
+                    print("User found in DB");
                     isUserNotFound = false;
                     userEmail = searchText;
                   }
@@ -187,28 +187,27 @@ void getSpecificUserByUid(String uid) {
   });
 }
 
-  // Future<void> getSpecificUserByEmail(String email) async {
-  //   final completer = Completer<void>();
-  //   try {
-  //     final databaseReference = FirebaseDatabase.instance.ref();
-  //     databaseReference
-  //         .child('users')
-  //         .orderByChild('fname')
-  //         .equalTo(email)
-  //         .onValue
-  //         .listen((event) {
-  //       DataSnapshot snapshot = event.snapshot;
-  //       Object? userData = snapshot.value;
-  //       print('User data: $userData');
-  //       completer.complete();
-  //     });
-  //   } catch (e) {
-  //     print("User not found");
-  //     completer.complete();
-  //   }
-  //   return completer.future;
-  // }
-
+// Future<void> getSpecificUserByEmail(String email) async {
+//   final completer = Completer<void>();
+//   try {
+//     final databaseReference = FirebaseDatabase.instance.ref();
+//     databaseReference
+//         .child('users')
+//         .orderByChild('fname')
+//         .equalTo(email)
+//         .onValue
+//         .listen((event) {
+//       DataSnapshot snapshot = event.snapshot;
+//       Object? userData = snapshot.value;
+//       print('User data: $userData');
+//       completer.complete();
+//     });
+//   } catch (e) {
+//     print("User not found");
+//     completer.complete();
+//   }
+//   return completer.future;
+// }
 
 // Future<Map<dynamic, dynamic>> getUser(String uid) async {
 //   final databaseReference = FirebaseDatabase.instance.reference();
@@ -218,8 +217,34 @@ void getSpecificUserByUid(String uid) {
 //   return userData;
 // }
 
-  //idFrom: uid
-  //idTo: uid
-  //msg: msgContext
-  //time: timeStamp
-
+//idFrom: uid
+//idTo: uid
+//msg: msgContext
+//time: timeStamp
+// Future<User?> getUserByEmail(String email) async {
+//   try {
+//     final databaseReference = FirebaseDatabase.instance.ref();
+//     final snapshot = await databaseReference
+//         .child('users')
+//         .orderByChild('fname')
+//         .equalTo(email)
+//         .once();
+//     if (snapshot.value == null) {
+//       return null;
+//     } else {
+//       final userData = snapshot.value.values.first;
+//       User user = User();
+//       final user2 = user
+//         ..language = userData['language'] ?? ""
+//         ..fname = userData['fname'] ?? ""
+//         ..birthdate =
+//             DateTime.parse(userData['birthdate'] ?? DateTime.now().toString())
+//         ..vulnerabilities =
+//             List<String>.from(userData['vulnerabilities'] ?? []);
+//       return user;
+//     }
+//   } catch (e) {
+//     print(e);
+//     return null;
+//   }
+// }
