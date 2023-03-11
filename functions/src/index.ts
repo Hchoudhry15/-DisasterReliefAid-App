@@ -18,10 +18,14 @@ export const helpRequestMade = functions.database
     const location = snapshot.child("location");
     const timestamp = snapshot.child("timestamp");
 
+    functions.logger.log("userId", userId);
+    functions.logger.log("location", location);
+    functions.logger.log("timestamp", timestamp);
+
     const db = admin.database();
 
     // get activeVolunteerList
-    const activeVolunteerList = await db.ref("/activevolunteerlist").get()
+    const activeVolunteerList = await db.ref("/activevolunteerlist").get();
     activeVolunteerList.forEach((volunteer) => {
       const volunteerId = volunteer.key;
       const volunteerLocation = volunteer.child("location");
@@ -30,9 +34,7 @@ export const helpRequestMade = functions.database
       functions.logger.log("volunteerId", volunteerId);
       functions.logger.log("volunteerLocation", volunteerLocation);
       functions.logger.log("volunteerTimestamp", volunteerTimestamp);
-
       // check if volunteer is available
-      
     });
 
     return null;
