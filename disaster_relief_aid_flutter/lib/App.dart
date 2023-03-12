@@ -50,11 +50,7 @@ class _HandleVolunteeringRequestsState
     super.initState();
     VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
       if (mounted && VolunteeringSingleton().awaitingHelpRequestResponse) {
-        try {
-          showAlertDialog(context);
-        } catch (e) {
-          print(e);
-        }
+        showAlertDialog(context);
       }
     });
   }
