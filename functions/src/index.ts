@@ -80,6 +80,7 @@ export const helpRequestMade = functions.database
             .ref("/activevolunteerlist/" + bestVolunteerId)
             .update({
               helpRequest: {
+                requestId: context.auth?.uid,
                 distance: bestVolunteerDistance,
                 ...helpRequest,
               },
