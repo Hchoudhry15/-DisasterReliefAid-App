@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:disaster_relief_aid_flutter/view/VolunteerCall.view.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +18,15 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
   bool activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
   // bool activeHelpRequest = true;
 
+  StreamSubscription<dynamic>? stream1;
+  StreamSubscription<dynamic>? stream2;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    VolunteeringSingleton().onHelpRequestAcceptedStream.listen((event) {
+    stream1 =
+        VolunteeringSingleton().onHelpRequestAcceptedStream.listen((event) {
       print("accepted help request");
       if (mounted) {
         setState(() {
@@ -30,11 +36,19 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
       }
     });
 
-    VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
+    stream2 =
+        VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
       if (mounted && VolunteeringSingleton().awaitingHelpRequestResponse) {
         showAlertDialog(context);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    stream1?.cancel();
+    stream2?.cancel();
   }
 
   @override
