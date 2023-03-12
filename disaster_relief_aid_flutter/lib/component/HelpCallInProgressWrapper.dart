@@ -95,11 +95,11 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
         // hide the dialog
         Navigator.pop(context);
 
-        // TODO: go to help call in progress screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const VolunteerCallView()),
-        );
+        // // TODO: go to help call in progress screen
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const VolunteerCallView()),
+        // );
       },
     );
 
