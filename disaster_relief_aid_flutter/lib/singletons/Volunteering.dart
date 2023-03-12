@@ -137,6 +137,11 @@ class VolunteeringSingleton {
   }
 
   Future acceptHelpRequest() async {
+    currentHelpRequest = HelpRequest(
+        message: helpRequestMessage,
+        uid: helpRequestID,
+        distance: helpRequestDistance);
+
     awaitingHelpRequestResponse = false;
     helpRequestMessage = "";
     helpRequestDistance = "";
