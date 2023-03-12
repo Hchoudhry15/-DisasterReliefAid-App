@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:flutter/material.dart';
 
 import 'RequestHelp.view.dart';
@@ -38,7 +39,8 @@ class _HomeViewState extends State<HomeView> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const RequestHelpView()));
+                          builder: (context) => const HelpCallInProgressWrapper(
+                              child: RequestHelpView())));
                 },
                 child: const Text('Request Help')),
           ])

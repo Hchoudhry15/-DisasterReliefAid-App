@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 import 'package:geolocator/geolocator.dart';
@@ -110,12 +111,15 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                               context,
                               MaterialPageRoute(
                                   builder: (c) =>
-                                      const HelpCallInProgressView()));
+                                      const HelpCallInProgressWrapper(
+                                          child: HelpCallInProgressView())));
                         } else {
                           print("USER IS NULL!!!!!!");
                           // show snackbar
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('You are not currently logged in!')));
+                              const SnackBar(
+                                  content: Text(
+                                      'You are not currently logged in!')));
                         }
                         // toProgress(context);
                         // Navigator.push(
