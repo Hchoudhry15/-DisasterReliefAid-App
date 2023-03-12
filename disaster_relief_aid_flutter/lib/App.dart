@@ -31,20 +31,49 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HandleVolunteeringRequests extends StatelessWidget {
+class HandleVolunteeringRequests extends StatefulWidget {
   const HandleVolunteeringRequests({required this.isLoggedIn, super.key});
 
   final bool isLoggedIn;
 
   @override
-  Widget build(BuildContext context) {
+  State<HandleVolunteeringRequests> createState() =>
+      _HandleVolunteeringRequestsState();
+}
+
+class _HandleVolunteeringRequestsState
+    extends State<HandleVolunteeringRequests> {
+  bool activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
       if (VolunteeringSingleton().awaitingHelpRequestResponse) {
         showAlertDialog(context);
       }
     });
+    VolunteeringSingleton().onHelpRequestAcceptedStream.listen((event) {
+      print("accepted help request");
+      setState(() {
+        activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
+      });
+    });
+  }
 
-    return !isLoggedIn ? const LogInView() : const MainView();
+  @override
+  Widget build(BuildContext context) {
+    print(activeHelpRequest);
+    return Scaffold(
+      appBar: activeHelpRequest == true
+          ? AppBar(
+              title: const Text("Help Request In Progress"),
+              backgroundColor: Colors.red,
+            )
+          : null,
+      body: !widget.isLoggedIn ? const LogInView() : const MainView(),
+    );
   }
 
   showAlertDialog(BuildContext context) {
