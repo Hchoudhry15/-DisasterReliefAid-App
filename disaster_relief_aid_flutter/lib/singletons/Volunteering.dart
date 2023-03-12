@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cron/cron.dart';
 import 'package:disaster_relief_aid_flutter/Location.dart';
+import 'package:disaster_relief_aid_flutter/model/HelpRequest.model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
 import 'package:geolocator/geolocator.dart';
@@ -25,6 +26,8 @@ class VolunteeringSingleton {
   String helpRequestMessage = "";
   String helpRequestDistance = "";
   String helpRequestID = "";
+
+  HelpRequest? currentHelpRequest;
 
   factory VolunteeringSingleton() {
     return _volunteeringSingleton;
