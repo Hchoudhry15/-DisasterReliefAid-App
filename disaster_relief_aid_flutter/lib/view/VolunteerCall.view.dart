@@ -20,17 +20,18 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
       body: Column(
         children: [
           Card(
-            child: Text(
-                "Help Request Message: ${VolunteeringSingleton().currentHelpRequest!.message}"),
+            child: ListTile(
+              title: const Text("Help Request Message"),
+              subtitle:
+                  Text(VolunteeringSingleton().currentHelpRequest!.message),
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
           icon: const Icon(Icons.map),
           label: const Text("Navigate"),
-          onPressed: () {
-            
-          }),
+          onPressed: () {}),
     );
   }
 }
