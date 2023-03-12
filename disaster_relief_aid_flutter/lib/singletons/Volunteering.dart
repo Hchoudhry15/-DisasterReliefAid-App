@@ -127,5 +127,6 @@ class VolunteeringSingleton {
     } else {
       await volunteerRef.child('deniedRequests').set("${deniedRequests.value},$helpRequestID");
     }
+    helpRequestID = "";
   }
 }
