@@ -18,6 +18,14 @@ class VolunteeringSingleton {
   StreamSubscription<DatabaseEvent>? onAddedListener;
   StreamSubscription<DatabaseEvent>? onUpdatedListener;
 
+  StreamController onHelpRequestReceived = StreamController.broadcast();
+  Stream get onHelpRequestReceivedStream => onHelpRequestReceived.stream;
+
+  bool awaitingHelpRequestResponse = false;
+  String helpRequestMessage = "";
+  int helpRequestDistance = 0;
+  String helpRequestID = "";
+
   factory VolunteeringSingleton() {
     return _volunteeringSingleton;
   }
@@ -94,7 +102,30 @@ class VolunteeringSingleton {
     // check if a user's request has been sent here.
     if (event.snapshot.key == "helpRequest") {
       dynamic request = event.snapshot.value;
-      
+      if (request != null) {
+        awaitingHelpRequestResponse = true;
+        helpRequestMessage = request["requestDetails"];
+        helpRequestDistance = request["distance"];
+        onHelpRequestReceived.add(null);
+      }
+    }
+  }
+
+  Future denyHelpRequest() async {
+    awaitingHelpRequestResponse = false;
+    helpRequestMessage = "";
+    helpRequestDistance = 0;
+    var volunteerRef = database
+        .child('/activevolunteerlist/')
+        .child(UserInformationSingleton().getFirebaseUser()!.uid);
+    await volunteerRef.update({"helpRequest": null});
+    // get denied requests
+    var deniedRequests = await volunteerRef.child('deniedRequests').get();
+    // add the current request to the denied requests
+    if (deniedRequests.value == null) {
+      await volunteerRef.child('deniedRequests').set([helpRequestID]);
+    } else {
+      await volunteerRef.child('deniedRequests').set("${deniedRequests.value},$helpRequestID");
     }
   }
 }
