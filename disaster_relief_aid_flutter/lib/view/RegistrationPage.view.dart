@@ -157,6 +157,7 @@ class _RegistrationPageView extends State<RegistrationPage> {
                             onChanged: (DateTime value) {
                               _profile.birthdate = value;
                             },
+                            required: true,
                           ),
                         ),
                       ),
