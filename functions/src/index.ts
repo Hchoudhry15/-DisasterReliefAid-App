@@ -1,7 +1,7 @@
 import functions = require("firebase-functions");
 import admin = require("firebase-admin");
 
-// import {getDistance} from "geolib";
+import { getDistance } from "geolib";
 
 // // Start writing functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -18,7 +18,7 @@ export const helpRequestMade = functions.database
   .onCreate((snapshot, context) => {
     // const ref = snapshot.ref;
 
-    const helpRequest = snapshot.toJSON();
+    const helpRequest: any = snapshot.toJSON();
     // in the following format:
     // 'timestamp': DateTime.now().toString(),
     // 'requestdetails': requestDetails,
@@ -33,11 +33,44 @@ export const helpRequestMade = functions.database
       .ref("/activevolunteerlist")
       .get()
       .then((activeVolunteerList) => {
+        let bestVolunteer: any = null;
+        let bestVolunteerDistance: number = 0;
+        let bestVolunteerId: string = "";
+
         activeVolunteerList.forEach((volunteer) => {
           const volunteerId = volunteer.key;
-          const volunteerData = volunteer.toJSON();
-          functions.logger.log(JSON.stringify(volunteerData));
+          const volunteerData: any = volunteer.toJSON();
+          if (volunteerData != null && volunteerId != null) {
+            const volunteerLocation = volunteerData.location;
+            if (volunteerLocation != null) {
+              // get distance between volunteer and user
+              const distance = getDistance(
+                {
+                  latitude: helpRequest.location.latitude,
+                  longitude: helpRequest.location.longitude,
+                },
+                {
+                  latitude: volunteerLocation.latitude,
+                  longitude: volunteerLocation.longitude,
+                }
+              );
+              functions.logger.debug("distance", distance);
+              if (
+                bestVolunteerDistance == null ||
+                distance < bestVolunteerDistance
+              ) {
+                bestVolunteerDistance = distance;
+                bestVolunteer = volunteerData;
+                bestVolunteerId = volunteerId;
+              }
+            }
+          }
         });
+
+        if (bestVolunteer != null) {
+          functions.logger.debug("bestVolunteer", JSON.stringify(bestVolunteer));
+          functions.logger.debug("bestVolunteerId", bestVolunteerId);
+        }
         deleteApp();
         return null;
       })
