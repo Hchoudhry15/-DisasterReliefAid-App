@@ -93,7 +93,8 @@ class VolunteeringSingleton {
   void onAddedOrUpdated(DatabaseEvent event) {
     // check if a user's request has been sent here.
     if (event.snapshot.key == "helpRequest") {
-      print(event.snapshot.value);
+      dynamic request = event.snapshot.value;
+      
     }
   }
 }
