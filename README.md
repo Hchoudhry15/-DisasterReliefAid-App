@@ -17,14 +17,18 @@
 - [Description](#description)
 - [Team](#team)
 - [Release Notes](#release-notes)
-  - [v0.2.0](#v020)
+  - [v0.3.0](#v030)
     - [Features](#features)
     - [Bug Fixes](#bug-fixes)
     - [Known Issues](#known-issues)
-  - [v0.1.0](#v010)
+  - [v0.2.0](#v020)
     - [Features](#features-1)
     - [Bug Fixes](#bug-fixes-1)
     - [Known Issues](#known-issues-1)
+  - [v0.1.0](#v010)
+    - [Features](#features-2)
+    - [Bug Fixes](#bug-fixes-2)
+    - [Known Issues](#known-issues-2)
 
 ## Description
 
@@ -47,8 +51,45 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 ## Release Notes
 
+### v0.3.0
+
+[![GitHub release](https://badgen.net/badge/Release/v0.3.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.3.0)
+
+<!-- [![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+<!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+#### Features
+
+- Chat System
+  - Created backend for chat system using Firebase
+  - Created UI Widgets for chat system
+- Help Requests
+  - Users can now successfully request help
+  - Created Firebase Function to process help requests and send them to the correct volunteers
+  - Added support for Volunteers receiving help requests
+  - Added toggle to allow volunteers to be active or inactive (active = able to receive help requests)
+  - Volunteers can accept and decline help requests
+  - Volunteers are able to see the currently active help request and navigate to the User's location
+  - Volunteer's location is updated in real time
+
+#### Bug Fixes
+
+- Fixed issue with having to login every time the app is opened/refreshed
+- Fixed issue with users being able to bypass Birthdate and Acknowledgement on Register
+
+#### Known Issues
+
+- Chat system does not always keep the correct message order
+- Help requests are not able to be cancelled/marked as complete
+- Help request updates are not shown to the user
+
+---
+
 ### v0.2.0
-[![GitHub release](https://badgen.net/badge/Release/v0.2.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.2.0) 
+
+[![GitHub release](https://badgen.net/badge/Release/v0.2.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.2.0)
+
 <!-- [![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
 
 <!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
@@ -86,7 +127,8 @@ We will be making our app using Flutter, and the backend for our app will be mad
 ---
 
 ### v0.1.0
-[![GitHub release](https://badgen.net/badge/Release/v0.1.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.1.0) 
+
+[![GitHub release](https://badgen.net/badge/Release/v0.1.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.1.0)
 [![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md)
 
 <!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
