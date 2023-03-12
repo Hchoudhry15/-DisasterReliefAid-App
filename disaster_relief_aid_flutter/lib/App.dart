@@ -64,6 +64,9 @@ class HandleVolunteeringRequests extends StatelessWidget {
         VolunteeringSingleton().acceptHelpRequest();
         // hide the dialog
         Navigator.pop(context);
+
+
+        // TODO: go to help call in progress screen
       },
     );
 
