@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
+import 'package:disaster_relief_aid_flutter/view/VolunteerCall.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -37,9 +38,15 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
       appBar: activeHelpRequest == true
           ? AppBar(
               title: TextButton(
-                child: Text("Help Request In Progress"),
-                onPressed: (){
-                  
+                child: const Text("Help Request In Progress"),
+                onPressed: () {
+                  // navigate to the help call in progress screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HelpCallInProgressWrapper(
+                            child: VolunteerCallView())),
+                  );
                 },
               ),
               centerTitle: true,
