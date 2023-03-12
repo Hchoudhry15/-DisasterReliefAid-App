@@ -29,6 +29,8 @@ class VolunteeringSingleton {
   String helpRequestMessage = "";
   String helpRequestDistance = "";
   String helpRequestID = "";
+  String helpRequestLongitude = "";
+  String helpRequestLatitude = "";
 
   HelpRequest? currentHelpRequest;
 
@@ -143,7 +145,9 @@ class VolunteeringSingleton {
     currentHelpRequest = HelpRequest(
         message: helpRequestMessage,
         uid: helpRequestID,
-        distance: helpRequestDistance);
+        distance: helpRequestDistance,
+        longitude: helpRequestLongitude,
+        latitude: helpRequestLatitude);
 
     onHelpRequestAccepted.add(null);
 
