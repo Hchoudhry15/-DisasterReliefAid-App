@@ -22,6 +22,9 @@ class VolunteeringSingleton {
   StreamController onHelpRequestReceived = StreamController.broadcast();
   Stream get onHelpRequestReceivedStream => onHelpRequestReceived.stream;
 
+  StreamController onHelpRequestAccepted = StreamController.broadcast();
+  Stream get onHelpRequestAcceptedStream => onHelpRequestAccepted.stream;
+
   bool awaitingHelpRequestResponse = false;
   String helpRequestMessage = "";
   String helpRequestDistance = "";
@@ -141,6 +144,8 @@ class VolunteeringSingleton {
         message: helpRequestMessage,
         uid: helpRequestID,
         distance: helpRequestDistance);
+
+    onHelpRequestAccepted.add(null);
 
     awaitingHelpRequestResponse = false;
     helpRequestMessage = "";
