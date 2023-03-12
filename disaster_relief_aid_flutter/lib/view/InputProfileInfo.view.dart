@@ -166,34 +166,22 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
   }
 
   Color? changeColorBasedOnUser(bool isUser) {
-    // ignore: unused_local_variable
-    Color? backgroundColor;
-    if (isUser) {
-      return backgroundColor = Colors.grey[300];
-    }
-    return backgroundColor = Color.fromARGB(201, 197, 108, 135);
+    return isUser ? Colors.grey[300] : Color.fromARGB(201, 197, 108, 135);
   }
 
   String? changeLabelTextBasedOnUser(bool isUser) {
-    String labelText = isUser ? "Vulnerabilites" : "Skills";
-    return labelText;
+    return isUser ? "Vulnerabilites" : "Skills";
   }
 
   String? changeHintTextBasedOnUser(bool isUser) {
-    String hintText =
-        isUser ? "Select your vulnerabilites" : "Select your skills";
-    return hintText;
+    return isUser ? "Select your vulnerabilites" : "Select your skills";
   }
 
   List<dynamic> changeConfigBasedOnUser(bool isUser) {
-    if (isUser) {
-      return Config.vulnerabilities;
-    }
-    return Config.skills;
+    return isUser ? Config.vulnerabilities : Config.skills;
   }
 
   String changeUserText(bool isUser) {
-    String userType = (isUser ? "User" : "Volunteer");
-    return userType;
+    return (isUser ? "User" : "Volunteer");
   }
 }
