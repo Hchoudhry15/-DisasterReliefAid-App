@@ -36,7 +36,12 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
     return Scaffold(
       appBar: activeHelpRequest == true
           ? AppBar(
-              title: const Text("Help Request In Progress"),
+              title: const Text(
+                "Help Request In Progress",
+                textAlign: TextAlign.center,
+              ),
+              automaticallyImplyLeading: false,
+              elevation: 3,
               backgroundColor: Colors.red,
             )
           : null,
