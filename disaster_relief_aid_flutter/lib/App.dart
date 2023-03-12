@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Splash.view.dart';
@@ -43,8 +44,6 @@ class HandleVolunteeringRequests extends StatefulWidget {
 
 class _HandleVolunteeringRequestsState
     extends State<HandleVolunteeringRequests> {
-  bool activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -54,26 +53,12 @@ class _HandleVolunteeringRequestsState
         showAlertDialog(context);
       }
     });
-    VolunteeringSingleton().onHelpRequestAcceptedStream.listen((event) {
-      print("accepted help request");
-      setState(() {
-        activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(activeHelpRequest);
-    return Scaffold(
-      appBar: activeHelpRequest == true
-          ? AppBar(
-              title: const Text("Help Request In Progress"),
-              backgroundColor: Colors.red,
-            )
-          : null,
-      body: !widget.isLoggedIn ? const LogInView() : const MainView(),
-    );
+    return HelpCallInProgressWrapper(
+        child: !widget.isLoggedIn ? const LogInView() : const MainView());
   }
 
   showAlertDialog(BuildContext context) {
