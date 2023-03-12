@@ -104,7 +104,8 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                         User? user =
                             UserInformationSingleton().getFirebaseUser();
                         if (user != null) {
-                          await addUserRequestHelpList(user.uid);
+                          await addUserRequestHelpList(user);
+                          // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -127,14 +128,17 @@ class _RequestHelpViewState extends State<RequestHelpView> {
             )));
   }
 
-  Future addUserRequestHelpList(String uID) async {
+  Future addUserRequestHelpList(User user) async {
     final userRef = database.child('/requesthelplist/');
-    var userID = uID;
+    var userID = user.uid;
     final userEntry = userRef.child(userID);
     try {
+      Position location = await Location.determinePosition();
+
       await userEntry.set({
         'timestamp': DateTime.now().toString(),
-        'requestdetails': requestDetails
+        'requestdetails': requestDetails,
+        'location': location.toJson(),
       });
     } catch (e) {
       print("An error has occured");
@@ -143,22 +147,22 @@ class _RequestHelpViewState extends State<RequestHelpView> {
   }
 }
 
-toProgress(context) {
-  FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-    final database = FirebaseDatabase.instance.ref();
-    if (user != null) {
-      String userID = user.uid;
-      final userRef = database.child('/requesthelplist/');
-      final usernameEntry = userRef.child(userID);
-      try {
-        Position location = await Location.determinePosition();
-        print(location.toString());
-        // print(location.altitude);
-        await usernameEntry.update({'location': location.toJson()});
-      } catch (e) {
-        print("An error has occured");
-        print(e);
-      }
-    }
-  });
-}
+// toProgress(context) {
+//   FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+//     final database = FirebaseDatabase.instance.ref();
+//     if (user != null) {
+//       String userID = user.uid;
+//       final userRef = database.child('/requesthelplist/');
+//       final usernameEntry = userRef.child(userID);
+//       try {
+//         Position location = await Location.determinePosition();
+//         print(location.toString());
+//         // print(location.altitude);
+//         await usernameEntry.update({'location': location.toJson()});
+//       } catch (e) {
+//         print("An error has occured");
+//         print(e);
+//       }
+//     }
+//   });
+// }
