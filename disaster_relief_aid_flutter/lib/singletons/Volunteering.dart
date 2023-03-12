@@ -92,8 +92,8 @@ class VolunteeringSingleton {
   /// This function is called when the Volunteer's entry is updated
   void onAddedOrUpdated(DatabaseEvent event) {
     // check if a user's request has been sent here.
-    print("Volunteer's data has been updated has been updated");
-    print(event.snapshot.key);
-    print(event.snapshot.value);
+    if (event.snapshot.key == "helpRequest") {
+      print(event.snapshot.value);
+    }
   }
 }
