@@ -49,6 +49,9 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
                   );
                 },
               ),
+              bottom: const PreferredSize(
+                  preferredSize: Size.zero,
+                  child: Text("Press here to view the help request.")),
               centerTitle: true,
               automaticallyImplyLeading: false,
               elevation: 3,
