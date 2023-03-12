@@ -129,4 +129,17 @@ class VolunteeringSingleton {
     }
     helpRequestID = "";
   }
+
+  Future acceptHelpRequest() async {
+    awaitingHelpRequestResponse = false;
+    helpRequestMessage = "";
+    helpRequestDistance = 0;
+    var volunteerRef = database
+        .child('/activevolunteerlist/')
+        .child(UserInformationSingleton().getFirebaseUser()!.uid);
+    await volunteerRef.update({"helpRequest": null});
+    // get accepted requests
+    await volunteerRef.child('currentRequest').set([helpRequestID]);
+    helpRequestID = "";
+  }
 }
