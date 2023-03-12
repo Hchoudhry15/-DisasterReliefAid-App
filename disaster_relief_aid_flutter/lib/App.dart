@@ -60,7 +60,10 @@ class HandleVolunteeringRequests extends StatelessWidget {
     Widget continueButton = TextButton(
       child: const Text("Accept"),
       onPressed: () {
-
+        // accept the request
+        VolunteeringSingleton().acceptHelpRequest();
+        // hide the dialog
+        Navigator.pop(context);
       },
     );
 
