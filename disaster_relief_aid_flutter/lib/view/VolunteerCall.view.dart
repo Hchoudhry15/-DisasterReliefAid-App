@@ -36,6 +36,13 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
             var latitude = VolunteeringSingleton().currentHelpRequest!.latitude;
             var longitude =
                 VolunteeringSingleton().currentHelpRequest!.longitude;
+
+            double? parsedLatitude = double.tryParse(latitude);
+            double? parsedLongitude = double.tryParse(longitude);
+
+            print("latitude: $parsedLatitude");
+            print("longitude: $parsedLongitude");
+                
             MapsLauncher.launchQuery("$latitude, $longitude");
           }),
     );
