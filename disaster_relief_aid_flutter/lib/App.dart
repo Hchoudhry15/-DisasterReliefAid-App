@@ -39,8 +39,9 @@ class HandleVolunteeringRequests extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
-      print(VolunteeringSingleton().awaitingHelpRequestResponse);
-      
+      if (VolunteeringSingleton().awaitingHelpRequestResponse) {
+        showAlertDialog(context);
+      }
     });
 
     return !isLoggedIn ? const LogInView() : const MainView();
@@ -65,7 +66,6 @@ class HandleVolunteeringRequests extends StatelessWidget {
         // hide the dialog
         Navigator.pop(context);
 
-
         // TODO: go to help call in progress screen
       },
     );
@@ -73,8 +73,13 @@ class HandleVolunteeringRequests extends StatelessWidget {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Help Request Received!"),
-      content: const Text(
-          "Would you like to volunteer to help this person?"),
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Text("A help request has been received!"),
+        Text(
+            "Distance: ${VolunteeringSingleton().helpRequestDistance} meter${VolunteeringSingleton().helpRequestDistance == 1 ? '' : 's'}"),
+        Text("Message: ${VolunteeringSingleton().helpRequestMessage}"),
+        const Text("Would you like to help?"),
+      ]),
       actions: [
         cancelButton,
         continueButton,
