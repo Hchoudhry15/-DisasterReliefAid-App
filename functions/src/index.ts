@@ -45,7 +45,8 @@ export const helpRequestMade = functions.database
             if (
               (volunteerData.deniedRequests == null ||
                 !volunteerData.deniedRequests.includes(helpRequest.id)) &&
-              volunteerData.helpRequest == null
+              volunteerData.helpRequest == null &&
+              volunteerData.currentRequest == null
             ) {
               // check if the current helpRequest is in the deniedRequests list
               const volunteerLocation = volunteerData.location;
