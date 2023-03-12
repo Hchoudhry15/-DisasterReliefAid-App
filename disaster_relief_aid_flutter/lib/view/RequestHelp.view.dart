@@ -104,11 +104,19 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                         User? user =
                             UserInformationSingleton().getFirebaseUser();
                         if (user != null) {
-                          addUserRequestHelpList(user.uid);
+                          await addUserRequestHelpList(user.uid);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) =>
+                                      const HelpCallInProgressView()));
                         } else {
                           print("USER IS NULL!!!!!!");
+                          // show snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('You are not currently logged in!')));
                         }
-                        toProgress(context);
+                        // toProgress(context);
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
@@ -152,7 +160,5 @@ toProgress(context) {
         print(e);
       }
     }
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (c) => HelpCallInProgressView()));
   });
 }
