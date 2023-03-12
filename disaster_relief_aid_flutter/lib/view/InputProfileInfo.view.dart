@@ -128,19 +128,12 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                               final userRef = database.child('/users/');
                               final usernameEntry = userRef.child(userID);
                               try {
-                                if (isUser) {
                                   await usernameEntry.update({
                                     'userType': 'User',
                                     'vulnerabilities':
                                         Config.vulnerabilities.toString()
                                   });
-                                } else if (!isUser) {
-                                  await usernameEntry.update({
-                                    'userType': 'Volunteer',
-                                    'skills': Config.skills.toString()
-                                  });
-                                }
-                              } catch (e) {
+                               } catch (e) {
                                 print("An error has occured");
                                 print(e);
                               }
@@ -172,21 +165,17 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
   }
 
   String? changeLabelTextBasedOnUser(bool isUser) {
-    String labelText = isUser ? "Vulnerabilites" : "Skills";
+    String labelText = "Vulnerabilites";
     return labelText;
   }
 
   String? changeHintTextBasedOnUser(bool isUser) {
-    String hintText =
-        isUser ? "Select your vulnerabilites" : "Select your skills";
+    String hintText = "Select your vulnerabilites";
     return hintText;
   }
 
   List<dynamic> changeConfigBasedOnUser(bool isUser) {
-    if (isUser) {
       return Config.vulnerabilities;
-    }
-    return Config.skills;
   }
 
   String changeUserText(bool isUser) {
