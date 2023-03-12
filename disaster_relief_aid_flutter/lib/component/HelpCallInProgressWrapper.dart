@@ -38,14 +38,14 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
       appBar: activeHelpRequest == true
           ? AppBar(
               title: TextButton(
-                child: const Text("Help Request In Progress"),
+                child: const Text("Help Request In Progress",
+                    style: TextStyle(color: Colors.white)),
                 onPressed: () {
                   // navigate to the help call in progress screen
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const HelpCallInProgressWrapper(
-                            child: VolunteerCallView())),
+                        builder: (context) => const VolunteerCallView()),
                   );
                 },
               ),
