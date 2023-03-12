@@ -62,6 +62,9 @@ class VolunteeringSingleton {
         'timestamp': DateTime.now().toString(),
         'location': location.toJson()
       });
+      await userEntry.onChildAdded.listen((event) {
+        print(event.snapshot.value);
+      });
     } catch (e) {
       print("An error has occured");
       print(e);
