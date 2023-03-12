@@ -13,8 +13,8 @@ class HelpCallInProgressWrapper extends StatefulWidget {
 }
 
 class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
-  // bool activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
-  bool activeHelpRequest = true;
+  bool activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
+  // bool activeHelpRequest = true;
 
   @override
   void initState() {
