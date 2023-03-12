@@ -1,7 +1,7 @@
 import functions = require("firebase-functions");
 import admin = require("firebase-admin");
 
-import { getDistance } from "geolib";
+import {getDistance} from "geolib";
 
 // // Start writing functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -34,8 +34,8 @@ export const helpRequestMade = functions.database
       .get()
       .then((activeVolunteerList) => {
         let bestVolunteer: any = null;
-        let bestVolunteerDistance: number = 0;
-        let bestVolunteerId: string = "";
+        let bestVolunteerDistance = 0;
+        let bestVolunteerId = "";
 
         activeVolunteerList.forEach((volunteer) => {
           const volunteerId = volunteer.key;
@@ -68,7 +68,10 @@ export const helpRequestMade = functions.database
         });
 
         if (bestVolunteer != null) {
-          functions.logger.debug("bestVolunteer", JSON.stringify(bestVolunteer));
+          functions.logger.debug(
+            "bestVolunteer",
+            JSON.stringify(bestVolunteer)
+          );
           functions.logger.debug("bestVolunteerId", bestVolunteerId);
         }
         deleteApp();
