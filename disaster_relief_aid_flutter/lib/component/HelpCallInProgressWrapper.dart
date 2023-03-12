@@ -107,7 +107,6 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
     AlertDialog alert = AlertDialog(
       title: const Text("Help Request Received!"),
       content: Column(mainAxisSize: MainAxisSize.min, children: [
-        const ListTile(title: Text("Help Request Received!")),
         ListTile(
             title: const Text("Message"),
             subtitle: Text(VolunteeringSingleton().helpRequestMessage)),
