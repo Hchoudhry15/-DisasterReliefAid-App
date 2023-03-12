@@ -76,7 +76,7 @@ class HandleVolunteeringRequests extends StatelessWidget {
       content: Column(mainAxisSize: MainAxisSize.min, children: [
         const Text("A help request has been received!"),
         Text(
-            "Distance: ${VolunteeringSingleton().helpRequestDistance} meter${VolunteeringSingleton().helpRequestDistance == 1 ? '' : 's'}"),
+            "Distance: ${VolunteeringSingleton().helpRequestDistance} meter${VolunteeringSingleton().helpRequestDistance == "1" ? '' : 's'}"),
         Text("Message: ${VolunteeringSingleton().helpRequestMessage}"),
         const Text("Would you like to help?"),
       ]),
