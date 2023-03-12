@@ -115,6 +115,11 @@ class VolunteeringSingleton {
         helpRequestMessage = request["requestdetails"].toString();
         helpRequestDistance = request["distance"].toString();
         helpRequestID = request["requestId"].toString();
+
+        var location = request["location"];
+        helpRequestLongitude = location["longitude"].toString();
+        helpRequestLatitude = location["latitude"].toString();
+
         onHelpRequestReceived.add(null);
       }
     }
