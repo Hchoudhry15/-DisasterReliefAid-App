@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,8 +17,9 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
         appBar: AppBar(
           title: const Text("Volunteer Call"),
         ),
-        body: const Center(
-          child: Text("Please navigate to the User in distress."),
+        body: Center(
+          child: Text(
+              "${VolunteeringSingleton().currentHelpRequest!.longitude}, ${VolunteeringSingleton().currentHelpRequest!.latitude}"),
         ));
   }
 }
