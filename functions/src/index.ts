@@ -1,7 +1,7 @@
 import functions = require("firebase-functions");
 import admin = require("firebase-admin");
 
-import { getDistance } from "geolib";
+import {getDistance} from "geolib";
 
 // // Start writing functions
 // // https://firebase.google.com/docs/functions/typescript
