@@ -1,5 +1,6 @@
 import 'dart:async';
 
+// import 'package:disaster_relief_aid_flutter/model/user.model.dart';
 import 'package:disaster_relief_aid_flutter/view/ChatScreen.View.dart';
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:disaster_relief_aid_flutter/Location.dart';
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
+import 'package:uuid/uuid.dart';
 
 import '../component/SearchBox.component.dart';
 
@@ -66,6 +68,11 @@ class _CommunityViewState extends State<CommunityView> {
                 GestureDetector(
                   onTap: () {
                     if (userEmail != null) {
+                      User? user = UserInformationSingleton().getFirebaseUser();
+                      // List<String> chatters = [];
+                      // chatters.add(userEmail!);
+                      // print(chatters.toString());
+                      // createChatRooms(user!.uid, chatters);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -83,39 +90,6 @@ class _CommunityViewState extends State<CommunityView> {
                     child: Text(userEmail!),
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: InkWell(
-                  child: Container(
-                    padding: const EdgeInsets.all(25),
-                    decoration: BoxDecoration(
-                      color: Colors.greenAccent,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Send Message",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      User? user = UserInformationSingleton().getFirebaseUser();
-                      if (user != null) {
-                        addMessageToDB(user.uid);
-                      } else {
-                        print("USER IS NULL!!!!!!");
-                      }
-                    }
-                  },
-                ),
-              ),
             ],
           ),
         ),
@@ -167,6 +141,20 @@ Future addMessageToDB(String uID) async {
   }
 }
 
+Future<void> createChatRooms(String userUuid, List<String> emails) async {
+  try {
+    final database = FirebaseDatabase.instance.ref();
+    final chatRef = database.child('messages/ChatRooms/');
+    // var chatID = const Uuid().v4();
+    final chatRoomEntry = chatRef.child(userUuid);
+    await chatRoomEntry.set({
+      'chatted_with_emails': emails,
+    });
+  } catch (e) {
+    print(e);
+  }
+}
+
 void getUsers() {
   final databaseReference = FirebaseDatabase.instance.ref();
   databaseReference.child('users').onValue.listen((event) {
@@ -190,65 +178,18 @@ Future<String?> getSpecificUserByUid(String uid) async {
   return completer.future; // return the Completer's future
 }
 
-
-// Future<void> getSpecificUserByEmail(String email) async {
-//   final completer = Completer<void>();
-//   try {
-//     final databaseReference = FirebaseDatabase.instance.ref();
-//     databaseReference
-//         .child('users')
-//         .orderByChild('fname')
-//         .equalTo(email)
-//         .onValue
-//         .listen((event) {
-//       DataSnapshot snapshot = event.snapshot;
-//       Object? userData = snapshot.value;
-//       print('User data: $userData');
-//       completer.complete();
-//     });
-//   } catch (e) {
-//     print("User not found");
-//     completer.complete();
-//   }
-//   return completer.future;
-// }
-
-// Future<Map<dynamic, dynamic>> getUser(String uid) async {
-//   final databaseReference = FirebaseDatabase.instance.reference();
-//   DataSnapshot snapshot = await databaseReference.child('users').child(uid).once();
-//   Map<dynamic, dynamic> userData = snapshot.value;
-//   print('Read user data: $userData');
-//   return userData;
-// }
-
-//idFrom: uid
-//idTo: uid
-//msg: msgContext
-//time: timeStamp
-// Future<User?> getUserByEmail(String email) async {
-//   try {
-//     final databaseReference = FirebaseDatabase.instance.ref();
-//     final snapshot = await databaseReference
-//         .child('users')
-//         .orderByChild('fname')
-//         .equalTo(email)
-//         .once();
-//     if (snapshot.value == null) {
-//       return null;
-//     } else {
-//       final userData = snapshot.value.values.first;
-//       User user = User();
-//       final user2 = user
-//         ..language = userData['language'] ?? ""
-//         ..fname = userData['fname'] ?? ""
-//         ..birthdate =
-//             DateTime.parse(userData['birthdate'] ?? DateTime.now().toString())
-//         ..vulnerabilities =
-//             List<String>.from(userData['vulnerabilities'] ?? []);
-//       return user;
-//     }
-//   } catch (e) {
-//     print(e);
-//     return null;
-//   }
-// }
+Future<void> _fetchChatData() async {
+  final database = FirebaseDatabase.instance.ref();
+  final chatRef = database.child('messages/ChatRooms/');
+  // get a list of all chat rooms
+  final chatRoomsSnapshot = await chatRef.once();
+  final chatRooms = chatRoomsSnapshot.snapshot.value as Map<String, dynamic>?;
+  if (chatRooms == null) return;
+  // loop through all chat rooms to get the chatted with emails
+  final emails = <String>{};
+  for (final chatRoom in chatRooms.values) {
+    final chattedWithEmails =
+        List<String>.from(chatRoom['chatted_with_emails']);
+    emails.addAll(chattedWithEmails);
+  }
+}

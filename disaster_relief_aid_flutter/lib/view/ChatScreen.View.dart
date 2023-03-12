@@ -125,7 +125,7 @@ Future addMessageToDB(String uid, String? email, String messageDetails,
     final messageEntry = messageRef.child(messageID.toString());
     await messageEntry.set(
       {
-        'timestamp': DateTime.now().toString(),
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
         'messageDetails': messageDetails,
         'idFrom': uid,
         'emailFrom': email,
