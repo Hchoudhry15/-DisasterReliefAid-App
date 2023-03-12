@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cron/cron.dart';
 import 'package:disaster_relief_aid_flutter/Location.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,6 +11,13 @@ class VolunteeringSingleton {
   static final VolunteeringSingleton _volunteeringSingleton =
       VolunteeringSingleton._internal();
 
+  late Cron cron;
+  ScheduledTask? currentJob;
+  late DatabaseReference database;
+
+  StreamSubscription<DatabaseEvent>? onAddedListener;
+  StreamSubscription<DatabaseEvent>? onUpdatedListener;
+
   factory VolunteeringSingleton() {
     return _volunteeringSingleton;
   }
@@ -16,6 +25,8 @@ class VolunteeringSingleton {
   VolunteeringSingleton._internal() {
     cron = Cron();
     database = FirebaseDatabase.instance.ref();
+    onAddedListener = null;
+    onUpdatedListener = null;
   }
 
   Future startVolunteering() async {
@@ -42,11 +53,13 @@ class VolunteeringSingleton {
     if (currentJob != null) {
       await currentJob!.cancel();
     }
+    if (onAddedListener != null) {
+      await onAddedListener!.cancel();
+    }
+    if (onUpdatedListener != null) {
+      await onUpdatedListener!.cancel();
+    }
   }
-
-  late Cron cron;
-  ScheduledTask? currentJob;
-  late DatabaseReference database;
 
   get isCurrentlyVolunteering {
     return currentJob != null;
@@ -65,9 +78,15 @@ class VolunteeringSingleton {
       await userEntry.onChildAdded.listen((event) {
         print(event.snapshot.value);
       });
+
+      // create a subscription to wait for the data to be updated (or added)
+      onAddedListener = userEntry.onChildAdded.listen(onAddedOrUpdated);
+      onUpdatedListener = userEntry.onChildChanged.listen(onAddedOrUpdated);
     } catch (e) {
       print("An error has occured");
       print(e);
     }
   }
+
+  void onAddedOrUpdated(DatabaseEvent event) {}
 }
