@@ -29,8 +29,8 @@ class VolunteeringSingleton {
   String helpRequestMessage = "";
   String helpRequestDistance = "";
   String helpRequestID = "";
-  double helpRequestLongitude = 0;
-  double helpRequestLatitude = 0;
+  String helpRequestLongitude = 0;
+  String helpRequestLatitude = 0;
 
   HelpRequest? currentHelpRequest;
 
@@ -117,8 +117,8 @@ class VolunteeringSingleton {
         helpRequestID = request["requestId"].toString();
 
         var location = request["location"];
-        helpRequestLongitude = double.parse(location["longitude"].toString());
-        helpRequestLatitude = double.parse(location["latitude"].toString());
+        helpRequestLongitude = location["longitude"].toString();
+        helpRequestLatitude = location["latitude"].toString();
 
         onHelpRequestReceived.add(null);
       }

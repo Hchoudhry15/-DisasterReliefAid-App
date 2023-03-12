@@ -2,8 +2,8 @@ class HelpRequest {
   final String message;
   final String uid;
   final String distance;
-  final double longitude;
-  final double latitude;
+  final String longitude;
+  final String latitude;
   HelpRequest(
       {required this.message,
       required this.uid,
