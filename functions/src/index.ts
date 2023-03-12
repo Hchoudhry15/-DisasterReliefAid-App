@@ -41,24 +41,31 @@ export const helpRequestMade = functions.database
           const volunteerId = volunteer.key;
           const volunteerData: any = volunteer.toJSON();
           if (volunteerData != null && volunteerId != null) {
-            const volunteerLocation = volunteerData.location;
-            if (volunteerLocation != null) {
-              // get distance between volunteer and user
-              const distance = getDistance(
-                {
-                  latitude: helpRequest.location.latitude,
-                  longitude: helpRequest.location.longitude,
-                },
-                {
-                  latitude: volunteerLocation.latitude,
-                  longitude: volunteerLocation.longitude,
+            // check for a 'deniedRequests' field
+            if (
+              volunteerData.deniedRequests == null ||
+              !volunteerData.deniedRequests.includes(helpRequest.id)
+            ) {
+              // check if the current helpRequest is in the deniedRequests list
+              const volunteerLocation = volunteerData.location;
+              if (volunteerLocation != null) {
+                // get distance between volunteer and user
+                const distance = getDistance(
+                  {
+                    latitude: helpRequest.location.latitude,
+                    longitude: helpRequest.location.longitude,
+                  },
+                  {
+                    latitude: volunteerLocation.latitude,
+                    longitude: volunteerLocation.longitude,
+                  }
+                );
+                functions.logger.debug("distance", distance);
+                if (bestVolunteer == null || distance < bestVolunteerDistance) {
+                  bestVolunteerDistance = distance;
+                  bestVolunteer = volunteerData;
+                  bestVolunteerId = volunteerId;
                 }
-              );
-              functions.logger.debug("distance", distance);
-              if (bestVolunteer == null || distance < bestVolunteerDistance) {
-                bestVolunteerDistance = distance;
-                bestVolunteer = volunteerData;
-                bestVolunteerId = volunteerId;
               }
             }
           }
