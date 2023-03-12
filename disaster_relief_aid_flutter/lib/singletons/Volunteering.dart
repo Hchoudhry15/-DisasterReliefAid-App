@@ -74,6 +74,7 @@ class VolunteeringSingleton {
   }
 
   Future stopVolunteering() async {
+    User? user = UserInformationSingleton().getFirebaseUser();
     if (currentJob != null) {
       await currentJob!.cancel();
     }
@@ -82,6 +83,9 @@ class VolunteeringSingleton {
     }
     if (onUpdatedListener != null) {
       await onUpdatedListener!.cancel();
+    }
+    if (user != null) {
+      await removeActiveVolunteer(user.uid);
     }
   }
 
@@ -99,6 +103,18 @@ class VolunteeringSingleton {
         'timestamp': DateTime.now().toString(),
         'location': location.toJson()
       });
+    } catch (e) {
+      print("An error has occured");
+      print(e);
+    }
+  }
+
+  Future removeActiveVolunteer(String uID) async {
+    final userRef = database.child('/activevolunteerlist/');
+    var userID = uID;
+    final userEntry = userRef.child(userID);
+    try {
+      await userEntry.remove();
     } catch (e) {
       print("An error has occured");
       print(e);
