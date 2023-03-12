@@ -39,7 +39,7 @@ class HandleVolunteeringRequests extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
-      
+      print(VolunteeringSingleton().awaitingHelpRequestResponse);
       
     });
 
