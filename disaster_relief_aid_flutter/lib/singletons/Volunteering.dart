@@ -38,6 +38,14 @@ class VolunteeringSingleton {
       await attemptVolunteering();
       print("Update Volunteer location!");
     });
+
+    User? user = UserInformationSingleton().getFirebaseUser();
+    final userRef = database.child('/activevolunteerlist/');
+    final userEntry = userRef.child(user!.uid);
+
+    // create a subscription to wait for the data to be updated (or added)
+    onAddedListener = userEntry.onChildAdded.listen(onAddedOrUpdated);
+    onUpdatedListener = userEntry.onChildChanged.listen(onAddedOrUpdated);
   }
 
   Future attemptVolunteering() async {
@@ -75,10 +83,6 @@ class VolunteeringSingleton {
         'timestamp': DateTime.now().toString(),
         'location': location.toJson()
       });
-
-      // create a subscription to wait for the data to be updated (or added)
-      onAddedListener = userEntry.onChildAdded.listen(onAddedOrUpdated);
-      onUpdatedListener = userEntry.onChildChanged.listen(onAddedOrUpdated);
     } catch (e) {
       print("An error has occured");
       print(e);
