@@ -2,6 +2,7 @@ import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class VolunteerCallView extends StatefulWidget {
   const VolunteerCallView({super.key});
@@ -31,7 +32,12 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
       floatingActionButton: FloatingActionButton.extended(
           icon: const Icon(Icons.map),
           label: const Text("Navigate"),
-          onPressed: () {}),
+          onPressed: () {
+            var latitude = VolunteeringSingleton().currentHelpRequest!.latitude;
+            var longitude =
+                VolunteeringSingleton().currentHelpRequest!.longitude;
+                MapsLauncher.launchCoordinates(latitude, longitude);
+          }),
     );
   }
 }
