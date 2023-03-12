@@ -27,7 +27,7 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
     super.initState();
     stream1 =
         VolunteeringSingleton().onHelpRequestAcceptedStream.listen((event) {
-      print("accepted help request");
+      // print("accepted help request");
       if (mounted) {
         setState(() {
           activeHelpRequest =
