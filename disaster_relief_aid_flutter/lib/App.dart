@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Splash.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
@@ -24,6 +25,62 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         // ignore: prefer_const_constructors
-        home: !isLoggedIn ?  LogInView() : MainView());
+        home: HandleVolunteeringRequests(
+          isLoggedIn: isLoggedIn,
+        ));
+  }
+}
+
+class HandleVolunteeringRequests extends StatelessWidget {
+  const HandleVolunteeringRequests({required this.isLoggedIn, super.key});
+
+  final bool isLoggedIn;
+
+  @override
+  Widget build(BuildContext context) {
+    VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
+      
+      
+    });
+
+    return !isLoggedIn ? const LogInView() : const MainView();
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("Decline"),
+      onPressed: () {
+        // deny the request
+        VolunteeringSingleton().denyHelpRequest();
+        // hide the dialog
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Accept"),
+      onPressed: () {
+
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Help Request Received!"),
+      content: const Text(
+          "Would you like to volunteer to help this person?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
