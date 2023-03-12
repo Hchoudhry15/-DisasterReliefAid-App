@@ -33,11 +33,10 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
           icon: const Icon(Icons.map),
           label: const Text("Navigate"),
           onPressed: () {
-            var latitude = double.parse(
-                VolunteeringSingleton().currentHelpRequest!.latitude);
-            var longitude = double.parse(
-                VolunteeringSingleton().currentHelpRequest!.longitude);
-            MapsLauncher.launchCoordinates(latitude, longitude);
+            var latitude = VolunteeringSingleton().currentHelpRequest!.latitude;
+            var longitude =
+                VolunteeringSingleton().currentHelpRequest!.longitude;
+            MapsLauncher.launchQuery("$latitude, $longitude");
           }),
     );
   }
