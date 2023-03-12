@@ -104,10 +104,9 @@ class VolunteeringSingleton {
       dynamic request = event.snapshot.value;
       if (request != null) {
         awaitingHelpRequestResponse = true;
-
-        helpRequestMessage = request["requestDetails"].toString();
+        helpRequestMessage = request["requestdetails"].toString();
         helpRequestDistance = request["distance"].toString();
-        helpRequestID = request["requestID"].toString();
+        helpRequestID = request["requestId"].toString();
         onHelpRequestReceived.add(null);
       }
     }
