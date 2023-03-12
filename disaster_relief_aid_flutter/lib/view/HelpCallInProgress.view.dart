@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
@@ -17,17 +18,21 @@ class HelpCallInProgressView extends StatelessWidget {
             child: Column(children: [
           const Text("Help is on the way!",
               style: TextStyle(fontSize: 32, color: Colors.red)),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
-                onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MainView()),
-                );
-              
-              }, child: const Text("Cancel Help Request"))
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) =>
+                //           const HelpCallInProgressWrapper(child: MainView())),
+                // );
+              },
+              child: const Text("Cancel Help Request"))
         ])));
   }
 }

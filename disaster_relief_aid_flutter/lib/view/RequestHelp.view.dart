@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 import 'package:geolocator/geolocator.dart';
@@ -104,11 +105,23 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                         User? user =
                             UserInformationSingleton().getFirebaseUser();
                         if (user != null) {
-                          addUserRequestHelpList(user.uid);
+                          await addUserRequestHelpList(user);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) =>
+                                      const HelpCallInProgressWrapper(
+                                          child: HelpCallInProgressView())));
                         } else {
                           print("USER IS NULL!!!!!!");
+                          // show snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'You are not currently logged in!')));
                         }
-                        toProgress(context);
+                        // toProgress(context);
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
@@ -119,14 +132,17 @@ class _RequestHelpViewState extends State<RequestHelpView> {
             )));
   }
 
-  Future addUserRequestHelpList(String uID) async {
+  Future addUserRequestHelpList(User user) async {
     final userRef = database.child('/requesthelplist/');
-    var userID = uID;
+    var userID = user.uid;
     final userEntry = userRef.child(userID);
     try {
+      Position location = await Location.determinePosition();
+
       await userEntry.set({
         'timestamp': DateTime.now().toString(),
-        'requestdetails': requestDetails
+        'requestdetails': requestDetails,
+        'location': location.toJson(),
       });
     } catch (e) {
       print("An error has occured");
@@ -135,24 +151,22 @@ class _RequestHelpViewState extends State<RequestHelpView> {
   }
 }
 
-toProgress(context) {
-  FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-    final database = FirebaseDatabase.instance.ref();
-    if (user != null) {
-      String userID = user.uid;
-      final userRef = database.child('/requesthelplist/');
-      final usernameEntry = userRef.child(userID);
-      try {
-        Position location = await Location.determinePosition();
-        print(location.toString());
-        // print(location.altitude);
-        await usernameEntry.update({'location': location.toJson()});
-      } catch (e) {
-        print("An error has occured");
-        print(e);
-      }
-    }
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (c) => HelpCallInProgressView()));
-  });
-}
+// toProgress(context) {
+//   FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+//     final database = FirebaseDatabase.instance.ref();
+//     if (user != null) {
+//       String userID = user.uid;
+//       final userRef = database.child('/requesthelplist/');
+//       final usernameEntry = userRef.child(userID);
+//       try {
+//         Position location = await Location.determinePosition();
+//         print(location.toString());
+//         // print(location.altitude);
+//         await usernameEntry.update({'location': location.toJson()});
+//       } catch (e) {
+//         print("An error has occured");
+//         print(e);
+//       }
+//     }
+//   });
+// }
