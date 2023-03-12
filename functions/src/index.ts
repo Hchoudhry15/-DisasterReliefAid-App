@@ -78,7 +78,10 @@ export const helpRequestMade = functions.database
             .database()
             .ref("/activevolunteerlist/" + bestVolunteerId)
             .update({
-              helpRequest: helpRequest,
+              helpRequest: {
+                distance: bestVolunteerDistance,
+                ...helpRequest,
+              },
             })
             .then(() => {
               deleteApp();
