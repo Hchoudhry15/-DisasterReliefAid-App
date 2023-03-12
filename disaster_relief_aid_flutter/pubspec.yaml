@@ -60,6 +60,7 @@ dependencies:
   uuid: ^3.0.7
   geolocator: ^9.0.2
   cron: ^0.5.1
+  maps_launcher: ^2.2.0
 
 dev_dependencies:
   flutter_test:
