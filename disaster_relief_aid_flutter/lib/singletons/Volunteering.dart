@@ -75,9 +75,6 @@ class VolunteeringSingleton {
         'timestamp': DateTime.now().toString(),
         'location': location.toJson()
       });
-      await userEntry.onChildAdded.listen((event) {
-        print(event.snapshot.value);
-      });
 
       // create a subscription to wait for the data to be updated (or added)
       onAddedListener = userEntry.onChildAdded.listen(onAddedOrUpdated);
@@ -88,5 +85,9 @@ class VolunteeringSingleton {
     }
   }
 
-  void onAddedOrUpdated(DatabaseEvent event) {}
+  /// This function is called when the Volunteer's entry is updated
+  void onAddedOrUpdated(DatabaseEvent event) {
+    // check if a user's request has been sent here.
+    print(event.snapshot.value);
+  }
 }
