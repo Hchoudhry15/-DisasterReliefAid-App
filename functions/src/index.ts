@@ -56,7 +56,7 @@ export const helpRequestMade = functions.database
               );
               functions.logger.debug("distance", distance);
               if (
-                bestVolunteerDistance == null ||
+                bestVolunteer == null ||
                 distance < bestVolunteerDistance
               ) {
                 bestVolunteerDistance = distance;
