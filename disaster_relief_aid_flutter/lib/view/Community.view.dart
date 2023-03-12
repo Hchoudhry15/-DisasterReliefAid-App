@@ -28,6 +28,7 @@ class _CommunityViewState extends State<CommunityView> {
   bool isUserNotFound = false;
   String? userEmail;
   String? recieverUUID;
+  User? user = UserInformationSingleton().getFirebaseUser();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,10 @@ class _CommunityViewState extends State<CommunityView> {
               ),
               const SizedBox(height: 20),
               SearchBox(onSubmittedSearch: (searchText) async {
+                // The getSpecificUserByEmail method returns a UserID given a User's email.
                 var user = await getSpecificUserByEmail(searchText);
+                // Currently we have a user map, but now we want the user's key
+
                 setState(() {
                   if (user == null) {
                     isUserNotFound = true;
@@ -54,6 +58,10 @@ class _CommunityViewState extends State<CommunityView> {
                     print("User found in DB");
                     isUserNotFound = false;
                     userEmail = searchText;
+                    for (String key in user!.keys) {
+                      recieverUUID = key;
+                      break;
+                    }
                   }
                 });
               }),
@@ -69,10 +77,7 @@ class _CommunityViewState extends State<CommunityView> {
                   onTap: () {
                     if (userEmail != null) {
                       User? user = UserInformationSingleton().getFirebaseUser();
-                      // List<String> chatters = [];
-                      // chatters.add(userEmail!);
-                      // print(chatters.toString());
-                      // createChatRooms(user!.uid, chatters);
+                      createDirectMessageThread(user!.uid, recieverUUID!);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -141,15 +146,39 @@ Future addMessageToDB(String uID) async {
   }
 }
 
-Future<void> createChatRooms(String userUuid, List<String> emails) async {
+Future<void> createDirectMessageThread(
+    String userUuid, String otherUserID) async {
   try {
     final database = FirebaseDatabase.instance.ref();
-    final chatRef = database.child('messages/ChatRooms/');
-    // var chatID = const Uuid().v4();
-    final chatRoomEntry = chatRef.child(userUuid);
-    await chatRoomEntry.set({
-      'chatted_with_emails': emails,
+    final directmessages = database.child('messages/directmessages/');
+    // Within the direct message section of the database, we will create a new direct message thread and store the key.
+    // We will store this key within the user's active chats so that a user may access this chat later.
+    String? messageThreadKey = directmessages.push().key;
+    final messageThread = directmessages.child(messageThreadKey!);
+    await messageThread.update({'chatCreationDate': DateTime.now().toString()});
+    final usersInChat = messageThread.child('usersInChat');
+    DatabaseReference addedUser = usersInChat.push();
+    await addedUser.update({
+      'userId': userUuid,
     });
+    DatabaseReference addedUser2 = usersInChat.push();
+    await addedUser2.update({
+      'userId': otherUserID,
+    });
+
+    final userActiveChats1 =
+        database.child('users').child(userUuid).child('activechats');
+    String? activeChat1Key = userActiveChats1.push().key;
+    final userActiveChats2 =
+        database.child('users').child(otherUserID).child('activechats');
+    userActiveChats2.push().key;
+    final activeChat2Key = userActiveChats1.push().key;
+    await userActiveChats1
+        .child(activeChat1Key!)
+        .update({'messageThreadKey': messageThreadKey, 'isValid': true});
+    await userActiveChats2
+        .child(activeChat2Key!)
+        .update({'messageThreadKey': messageThreadKey, 'isValid': true});
   } catch (e) {
     print(e);
   }
