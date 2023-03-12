@@ -29,6 +29,12 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
         });
       }
     });
+
+    VolunteeringSingleton().onHelpRequestReceivedStream.listen((event) {
+      if (mounted && VolunteeringSingleton().awaitingHelpRequestResponse) {
+        showAlertDialog(context);
+      }
+    });
   }
 
   @override
@@ -67,6 +73,54 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
             )
           : null,
       body: widget.child,
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("Decline"),
+      onPressed: () {
+        // deny the request
+        VolunteeringSingleton().denyHelpRequest();
+        // hide the dialog
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: const Text("Accept"),
+      onPressed: () {
+        // accept the request
+        VolunteeringSingleton().acceptHelpRequest();
+        // hide the dialog
+        Navigator.pop(context);
+
+        // TODO: go to help call in progress screen
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Help Request Received!"),
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Text("A help request has been received!"),
+        Text(
+            "Distance: ${VolunteeringSingleton().helpRequestDistance} meter${VolunteeringSingleton().helpRequestDistance == "1" ? '' : 's'}"),
+        Text("Message: ${VolunteeringSingleton().helpRequestMessage}"),
+        const Text("Would you like to help?"),
+      ]),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
