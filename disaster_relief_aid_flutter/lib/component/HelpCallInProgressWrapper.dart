@@ -1,8 +1,6 @@
 import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:disaster_relief_aid_flutter/view/VolunteerCall.view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class HelpCallInProgressWrapper extends StatefulWidget {
   const HelpCallInProgressWrapper({required this.child, super.key});
@@ -15,7 +13,8 @@ class HelpCallInProgressWrapper extends StatefulWidget {
 }
 
 class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
-  bool activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
+  // bool activeHelpRequest = VolunteeringSingleton().currentHelpRequest != null;
+  bool activeHelpRequest = true;
 
   @override
   void initState() {
@@ -49,13 +48,22 @@ class _HelpCallInProgressWrapperState extends State<HelpCallInProgressWrapper> {
                   );
                 },
               ),
-              bottom: const PreferredSize(
-                  preferredSize: Size.zero,
-                  child: Text("Press here to view the help request.")),
+              titleTextStyle: Theme.of(context).textTheme.titleLarge,
               centerTitle: true,
               automaticallyImplyLeading: false,
               elevation: 3,
               backgroundColor: Colors.red,
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const VolunteerCallView()),
+                      );
+                    },
+                    icon: const Icon(Icons.visibility))
+              ],
             )
           : null,
       body: widget.child,
