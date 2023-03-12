@@ -121,11 +121,6 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                                   content: Text(
                                       'You are not currently logged in!')));
                         }
-                        // toProgress(context);
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (c) => HelpCallInProgressView()));
                       },
                     ))
               ],
@@ -150,23 +145,3 @@ class _RequestHelpViewState extends State<RequestHelpView> {
     }
   }
 }
-
-// toProgress(context) {
-//   FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-//     final database = FirebaseDatabase.instance.ref();
-//     if (user != null) {
-//       String userID = user.uid;
-//       final userRef = database.child('/requesthelplist/');
-//       final usernameEntry = userRef.child(userID);
-//       try {
-//         Position location = await Location.determinePosition();
-//         print(location.toString());
-//         // print(location.altitude);
-//         await usernameEntry.update({'location': location.toJson()});
-//       } catch (e) {
-//         print("An error has occured");
-//         print(e);
-//       }
-//     }
-//   });
-// }

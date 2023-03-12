@@ -24,13 +24,6 @@ class HelpCallInProgressView extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.popUntil(context, (route) => route.isFirst);
-
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) =>
-                //           const HelpCallInProgressWrapper(child: MainView())),
-                // );
               },
               child: const Text("Cancel Help Request"))
         ])));
