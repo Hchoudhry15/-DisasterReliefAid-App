@@ -106,6 +106,7 @@ class VolunteeringSingleton {
         awaitingHelpRequestResponse = true;
         helpRequestMessage = request["requestDetails"];
         helpRequestDistance = request["distance"];
+        helpRequestID = request["requestID"];
         onHelpRequestReceived.add(null);
       }
     }
