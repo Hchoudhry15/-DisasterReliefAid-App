@@ -14,12 +14,23 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Volunteer Call"),
-        ),
-        body: Center(
-          child: Text(
-              "${VolunteeringSingleton().currentHelpRequest!.longitude}, ${VolunteeringSingleton().currentHelpRequest!.latitude}"),
-        ));
+      appBar: AppBar(
+        title: const Text("Volunteer Call"),
+      ),
+      body: Column(
+        children: [
+          Card(
+            child: Text(
+                "Help Request Message: ${VolunteeringSingleton().currentHelpRequest!.message}"),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          icon: const Icon(Icons.map),
+          label: const Text("Navigate"),
+          onPressed: () {
+            
+          }),
+    );
   }
 }
