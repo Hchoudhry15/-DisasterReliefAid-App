@@ -16,6 +16,8 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
         appBar: AppBar(
           title: const Text("Volunteer Call"),
         ),
-        body: const Text("Please navigate to the User in distress."));
+        body: const Center(
+          child: Text("Please navigate to the User in distress."),
+        ));
   }
 }
