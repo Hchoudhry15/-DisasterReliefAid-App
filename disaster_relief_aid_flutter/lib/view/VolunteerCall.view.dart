@@ -41,10 +41,10 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
             double? parsedLongitude = double.tryParse(longitude);
 
             if (parsedLatitude == null || parsedLongitude == null) {
-              print("Launching query");
+              // print("Launching query");
               MapsLauncher.launchQuery("$latitude, $longitude");
             } else {
-              print("Launching coordinates: $parsedLatitude, $parsedLongitude");
+              // print("Launching coordinates: $parsedLatitude, $parsedLongitude");
               MapsLauncher.launchCoordinates(parsedLatitude, parsedLongitude);
             }
           }),
