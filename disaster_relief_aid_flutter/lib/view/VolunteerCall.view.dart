@@ -15,7 +15,6 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Volunteer Call"),
-          automaticallyImplyLeading: false,
         ),
         body: const Text("Please navigate to the User in distress."));
   }
