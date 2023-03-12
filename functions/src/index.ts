@@ -1,5 +1,5 @@
 import functions = require("firebase-functions");
-// import admin = require("firebase-admin");
+import admin = require("firebase-admin");
 
 // import {getDistance} from "geolib";
 
@@ -18,43 +18,34 @@ export const helpRequestMade = functions.database
   .onCreate((snapshot, context) => {
     // const ref = snapshot.ref;
 
-    functions.logger.log(JSON.stringify(snapshot.toJSON()));
-    return 0;
+    const helpRequest = snapshot.toJSON();
+    // in the following format:
+    // 'timestamp': DateTime.now().toString(),
+    // 'requestdetails': requestDetails,
+    // 'location': location.toJson(),
 
-    // const app = admin.initializeApp(functions.config().firebase);
+    const app = admin.initializeApp(functions.config().firebase);
 
-    // const deleteApp = () => app.delete().catch(() => null);
+    const deleteApp = () => app.delete().catch(() => null);
 
-    // app
-    //   .database()
-    //   .ref(ref)
-    //   .get()
-    //   .then((snapshot) => {
-    //     functions.logger.log(JSON.stringify(snapshot.toJSON()));
-    //     deleteApp();
-    //     return null;
-    //   })
-    //   .catch((err) => {
-    //     functions.logger.error(err);
-    //     deleteApp();
-    //     return null;
-    //   });
-
-    // const userId = context.params.userId;
-    // const location = snapshot.child("location");
-    // const timestamp = snapshot.child("timestamp");
-
-    // functions.logger.log(snapshot.val());
-
-    // const latitude = location.child("latitude").val();
-    // const longitude = location.child("longitude").val();
-
-    // functions.logger.log("latitude", latitude);
-    // functions.logger.log("longitude", longitude);
-
-    // admin.initializeApp(functions.config().firebase);
-
-    // const db = admin.database();
+    app
+      .database()
+      .ref("/activevolunteerlist")
+      .get()
+      .then((activeVolunteerList) => {
+        activeVolunteerList.forEach((volunteer) => {
+          const volunteerId = volunteer.key;
+          const volunteerData = volunteer.toJSON();
+          functions.logger.log(JSON.stringify(volunteerData));
+        });
+        deleteApp();
+        return null;
+      })
+      .catch((err) => {
+        functions.logger.error(err);
+        deleteApp();
+        return null;
+      });
 
     // // get activeVolunteerList
     // const activeVolunteerList = await db.ref("/activevolunteerlist").get();
