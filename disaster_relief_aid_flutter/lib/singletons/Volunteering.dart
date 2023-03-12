@@ -23,7 +23,7 @@ class VolunteeringSingleton {
 
   bool awaitingHelpRequestResponse = false;
   String helpRequestMessage = "";
-  int helpRequestDistance = 0;
+  String helpRequestDistance = "";
   String helpRequestID = "";
 
   factory VolunteeringSingleton() {
@@ -104,9 +104,10 @@ class VolunteeringSingleton {
       dynamic request = event.snapshot.value;
       if (request != null) {
         awaitingHelpRequestResponse = true;
-        helpRequestMessage = request["requestDetails"];
-        helpRequestDistance = request["distance"];
-        helpRequestID = request["requestID"];
+
+        helpRequestMessage = request["requestDetails"].toString();
+        helpRequestDistance = request["distance"].toString();
+        helpRequestID = request["requestID"].toString();
         onHelpRequestReceived.add(null);
       }
     }
@@ -115,7 +116,7 @@ class VolunteeringSingleton {
   Future denyHelpRequest() async {
     awaitingHelpRequestResponse = false;
     helpRequestMessage = "";
-    helpRequestDistance = 0;
+    helpRequestDistance = "";
     var volunteerRef = database
         .child('/activevolunteerlist/')
         .child(UserInformationSingleton().getFirebaseUser()!.uid);
@@ -126,7 +127,9 @@ class VolunteeringSingleton {
     if (deniedRequests.value == null) {
       await volunteerRef.child('deniedRequests').set([helpRequestID]);
     } else {
-      await volunteerRef.child('deniedRequests').set("${deniedRequests.value},$helpRequestID");
+      await volunteerRef
+          .child('deniedRequests')
+          .set("${deniedRequests.value},$helpRequestID");
     }
     helpRequestID = "";
   }
@@ -134,7 +137,7 @@ class VolunteeringSingleton {
   Future acceptHelpRequest() async {
     awaitingHelpRequestResponse = false;
     helpRequestMessage = "";
-    helpRequestDistance = 0;
+    helpRequestDistance = "";
     var volunteerRef = database
         .child('/activevolunteerlist/')
         .child(UserInformationSingleton().getFirebaseUser()!.uid);
