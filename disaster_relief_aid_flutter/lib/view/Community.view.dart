@@ -138,7 +138,8 @@ class _CommunityViewState extends State<CommunityView> {
       await newMessage.set(
         {
           'timestamp': DateTime.now().millisecondsSinceEpoch,
-          'messageDetails': "TEST-MESSAGE",
+          'messageDetails':
+              "This is the beginning of your chat${userEmail != null ? " with ${userEmail!}" : ""}",
           'senderid': userid,
           'recieveruid': otherUserID,
         },
