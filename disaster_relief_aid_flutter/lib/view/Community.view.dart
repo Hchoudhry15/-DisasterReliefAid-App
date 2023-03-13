@@ -1,6 +1,7 @@
 import 'dart:async';
 
 // import 'package:disaster_relief_aid_flutter/model/user.model.dart';
+import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:disaster_relief_aid_flutter/view/ChatScreen.View.dart';
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
@@ -88,14 +89,16 @@ class _CommunityViewState extends State<CommunityView> {
                         print(chatID);
                         chatID = isActiveChat;
                       }
+                      // ignore: use_build_context_synchronously
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ChatScreenView(
-                                  uid: user!.uid,
-                                  recieverid: recieverid!,
-                                  chatid: chatID!,
-                                  email: userEmail!)));
+                              builder: (context) => HelpCallInProgressWrapper(
+                                  child: ChatScreenView(
+                                      uid: user.uid,
+                                      recieverid: recieverid!,
+                                      chatid: chatID!,
+                                      email: userEmail!))));
                     }
                   },
                   child: Container(
@@ -139,7 +142,7 @@ class _CommunityViewState extends State<CommunityView> {
         {
           'timestamp': DateTime.now().millisecondsSinceEpoch,
           'messageDetails':
-              "This is the beginning of your chat${userEmail != null ? " with ${userEmail!}" : ""}",
+              "This is the beginning of your chat${userEmail != null ? " with ${userEmail!}!" : ""}",
           'senderid': userid,
           'recieveruid': otherUserID,
         },
