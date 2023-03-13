@@ -34,9 +34,9 @@ class _CommunityViewState extends State<CommunityView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Community"),
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Community"),
+      // ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
