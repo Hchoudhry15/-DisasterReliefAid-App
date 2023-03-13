@@ -59,7 +59,7 @@ class _CommunityViewState extends State<CommunityView> {
                     print("User found in DB");
                     isUserNotFound = false;
                     userEmail = searchText;
-                    for (String key in user!.keys) {
+                    for (String key in user.keys) {
                       recieverid = key;
                       break;
                     }
@@ -75,10 +75,19 @@ class _CommunityViewState extends State<CommunityView> {
                 ),
               if (userEmail != null)
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     if (userEmail != null) {
                       User? user = UserInformationSingleton().getFirebaseUser();
-                      createDirectMessageThread(user!.uid, recieverid!);
+                      print("!!!!!!!!!!!!!!!!");
+                      String isActiveChat =
+                          await checkForActiveChat(user!.uid, recieverid!);
+                      if (isActiveChat == "INVALID") {
+                        chatID = await createDirectMessageThread(
+                            user.uid, recieverid!);
+                      } else {
+                        print(chatID);
+                        chatID = isActiveChat;
+                      }
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -104,7 +113,7 @@ class _CommunityViewState extends State<CommunityView> {
     );
   }
 
-  Future<void> createDirectMessageThread(
+  Future<String?> createDirectMessageThread(
       String userid, String otherUserID) async {
     try {
       final database = FirebaseDatabase.instance.ref();
@@ -112,7 +121,6 @@ class _CommunityViewState extends State<CommunityView> {
       // Within the direct message section of the database, we will create a new direct message thread and store the key.
       // We will store this key within the user's active chats so that a user may access this chat later.
       String? chatid = directmessages.push().key;
-      this.chatID = chatid;
       final messageThread = directmessages.child(chatid!);
       await messageThread.set({'chatCreationDate': DateTime.now().toString()});
       final usersInChat = messageThread.child('usersInChat');
@@ -147,6 +155,7 @@ class _CommunityViewState extends State<CommunityView> {
       await userActiveChats2
           .child(activeChat2Key!)
           .set({'chatid': chatid, 'isValid': true});
+      return chatid;
     } catch (e) {
       print(e);
     }
@@ -168,6 +177,7 @@ class _CommunityViewState extends State<CommunityView> {
         },
       );
       print("worked");
+      return chatid;
     } catch (e) {
       print("Messages: An error has occured");
       print(e);
@@ -177,9 +187,10 @@ class _CommunityViewState extends State<CommunityView> {
 
 Future<Map<String, dynamic>?> getSpecificUserByEmail(String email) async {
   final completer = Completer<Map<String, dynamic>?>();
+  var subscription;
   try {
     final databaseReference = FirebaseDatabase.instance.ref();
-    databaseReference
+    subscription = databaseReference
         .child('users')
         .orderByChild('fname')
         .equalTo(email)
@@ -193,8 +204,12 @@ Future<Map<String, dynamic>?> getSpecificUserByEmail(String email) async {
         completer.complete(userData as Map<String, dynamic>);
       }
     });
+    // Wait for the completer to complete or for the subscription to be canceled
+    await completer.future;
   } catch (e) {
     completer.completeError(e);
+  } finally {
+    subscription.cancel(); // Cancel the subscription to avoid memory leaks
   }
   return completer.future;
 }
@@ -242,8 +257,49 @@ Future<String?> getSpecificUserByUid(String uid) async {
   return completer.future; // return the Completer's future
 }
 
-Future<void> _fetchChatData() async {
+Future<String> checkForActiveChat(String? userid1, String? userid2) async {
   final database = FirebaseDatabase.instance.ref();
+  final user1Ref = database.child('users').child(userid1!);
+  final user1ActiveChats = <String>{};
+  final user1ActiveChatsSnapshot = await user1Ref.child('activechats').once();
+  final user1ActiveChatsMap =
+      user1ActiveChatsSnapshot.snapshot.value as Map<String, dynamic>?;
+
+  final user2Ref = database.child('users').child(userid2!);
+  final user2ActiveChats = <String>{};
+  final user2ActiveChatsSnapshot = await user2Ref.child('activechats').once();
+  final user2ActiveChatsMap =
+      user2ActiveChatsSnapshot.snapshot.value as Map<String, dynamic>?;
+
+  if (user1ActiveChatsMap != null) {
+    for (final chats in user1ActiveChatsMap.values) {
+      for (var value in chats.values) {
+        if (value.runtimeType == String) {
+          user1ActiveChats.add(value);
+        }
+      }
+    }
+  }
+
+  if (user2ActiveChatsMap != null) {
+    for (final chats in user2ActiveChatsMap.values) {
+      for (var value in chats.values) {
+        if (value.runtimeType == String) {
+          user2ActiveChats.add(value);
+        }
+      }
+    }
+  }
+
+  final sharedChats =
+      user1ActiveChats.toSet().intersection(user2ActiveChats.toSet()).toList();
+
+  if (sharedChats.length == 1) {
+    return sharedChats.first;
+  } else {
+    return "INVALID";
+  }
+/*
   final chatRef = database.child('chats/ChatRooms/');
   // get a list of all chat rooms
   final chatRoomsSnapshot = await chatRef.once();
@@ -255,5 +311,5 @@ Future<void> _fetchChatData() async {
     final chattedWithEmails =
         List<String>.from(chatRoom['chatted_with_emails']);
     emails.addAll(chattedWithEmails);
-  }
+*/
 }

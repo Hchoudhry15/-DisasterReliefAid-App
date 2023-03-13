@@ -78,10 +78,16 @@ class _ChatScreenState extends State<ChatScreenView> {
                         itemCount: messages.length,
                         itemBuilder: (BuildContext context, int index) {
                           final message = messages.values.elementAt(index);
-                          final bool isCurrentUser = true;
-                          print("!!!!!!!!@@@@@@@@!!!!!!!!!!");
-                          print(message);
-                          //message['emailFrom'] == "jamaltester@gmail.com";
+                          bool isCurrentUser;
+                          if (message['recieveruid'] !=
+                              UserInformationSingleton()
+                                  .getFirebaseUser()!
+                                  .uid) {
+                            isCurrentUser = true;
+                          } else {
+                            isCurrentUser = false;
+                          }
+                          if (message['messageDetails'] == "TEST-MESSAGE") {}
                           return ChatBubble(
                             text: message['messageDetails'],
                             isCurrentUser: isCurrentUser,
