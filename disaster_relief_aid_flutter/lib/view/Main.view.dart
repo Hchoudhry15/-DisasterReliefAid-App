@@ -27,7 +27,10 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("DisasterReliefAid")),
+      appBar: AppBar(
+        title: const Text("DisasterReliefAid"),
+        automaticallyImplyLeading: false,
+      ),
       body: getCurrentPage(context, _selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

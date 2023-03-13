@@ -1,3 +1,5 @@
+import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
+import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Splash.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
@@ -24,8 +26,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         // ignore: prefer_const_constructors
-        home: !isLoggedIn ? LogInView() : MainView());
-    // home: liveChatView());
+        home: HelpCallInProgressWrapper(
+            child: !isLoggedIn ? const LogInView() : const MainView()));
   }
 }
 //jamaltester@gmail.com

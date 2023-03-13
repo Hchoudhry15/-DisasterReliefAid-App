@@ -130,19 +130,12 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                               final userRef = database.child('/users/');
                               final usernameEntry = userRef.child(userID);
                               try {
-                                if (isUser) {
                                   await usernameEntry.update({
                                     'userType': 'User',
                                     'vulnerabilities':
                                         Config.vulnerabilities.toString()
                                   });
-                                } else if (!isUser) {
-                                  await usernameEntry.update({
-                                    'userType': 'Volunteer',
-                                    'skills': Config.skills.toString()
-                                  });
-                                }
-                              } catch (e) {
+                               } catch (e) {
                                 print("An error has occured");
                                 print(e);
                               }
@@ -166,34 +159,24 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
   }
 
   Color? changeColorBasedOnUser(bool isUser) {
-    // ignore: unused_local_variable
-    Color? backgroundColor;
-    if (isUser) {
-      return backgroundColor = Colors.grey[300];
-    }
-    return backgroundColor = Color.fromARGB(201, 197, 108, 135);
+    return isUser ? Colors.grey[300] : Color.fromARGB(201, 197, 108, 135);
   }
 
   String? changeLabelTextBasedOnUser(bool isUser) {
-    String labelText = isUser ? "Vulnerabilites" : "Skills";
+    String labelText = "Vulnerabilites";
     return labelText;
   }
 
   String? changeHintTextBasedOnUser(bool isUser) {
-    String hintText =
-        isUser ? "Select your vulnerabilites" : "Select your skills";
+    String hintText = "Select your vulnerabilites";
     return hintText;
   }
 
   List<dynamic> changeConfigBasedOnUser(bool isUser) {
-    if (isUser) {
       return Config.vulnerabilities;
-    }
-    return Config.skills;
   }
 
   String changeUserText(bool isUser) {
-    String userType = (isUser ? "User" : "Volunteer");
-    return userType;
+    return (isUser ? "User" : "Volunteer");
   }
 }
