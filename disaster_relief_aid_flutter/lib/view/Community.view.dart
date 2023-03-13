@@ -94,7 +94,8 @@ class _CommunityViewState extends State<CommunityView> {
                               builder: (context) => ChatScreenView(
                                   uid: user!.uid,
                                   recieverid: recieverid!,
-                                  chatid: chatID!)));
+                                  chatid: chatID!,
+                                  email: userEmail!)));
                     }
                   },
                   child: Container(

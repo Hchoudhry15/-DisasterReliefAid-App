@@ -11,12 +11,14 @@ class ChatScreenView extends StatefulWidget {
   final String uid;
   final String recieverid;
   final String chatid;
+  final String email;
 
   const ChatScreenView(
       {Key? key,
       required this.uid,
       required this.recieverid,
-      required this.chatid})
+      required this.chatid,
+      required this.email})
       : super(key: key);
 
   @override
@@ -55,7 +57,7 @@ class _ChatScreenState extends State<ChatScreenView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat with ${widget.uid}"),
+        title: Text("Chat with ${widget.email}"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
