@@ -1,3 +1,4 @@
+import 'package:disaster_relief_aid_flutter/view/Community.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RequestHelp.view.dart';
 import 'package:flutter/material.dart';
 
@@ -58,8 +59,7 @@ Widget getCurrentPage(BuildContext context, int index) {
     case 0:
       return const HomeView();
     case 1:
-      // TODO: Implement Hazard Map view
-      return Container();
+      return const CommunityView();
     case 2:
       return const SettingsView();
     default:

@@ -74,34 +74,33 @@ class _RequestHelpViewState extends State<RequestHelpView> {
                     )),
                 const SizedBox(height: 20),
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: InkWell(
-                      child: Container(
-                        padding: const EdgeInsets.all(25),
-                        // ignore: prefer_const_constructors
-                        decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                            borderRadius: BorderRadius.circular(12)),
-                        child: const Center(
-                          child: Text(
-                            "Request Help",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: InkWell(
+                    child: Container(
+                      padding: const EdgeInsets.all(25),
+                      // ignore: prefer_const_constructors
+                      decoration: BoxDecoration(
+                          color: Colors.greenAccent,
+                          borderRadius: BorderRadius.circular(12)),
+                      child: const Center(
+                        child: Text(
+                          "Request Help",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
                         ),
                       ),
-                      onTap: () async {
-                        // do form validation
-                        if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-                        _formKey.currentState!.save();
+                    ),
+                    onTap: () async {
+                      // do form validation
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+                      _formKey.currentState!.save();
 
-                        // TODO: do something with the request details
-                        // TODO: make the request to the backend
-
+                      // TODO: do something with the request details
+                      // TODO: make the request to the backend
                         User? user =
                             UserInformationSingleton().getFirebaseUser();
                         if (user != null) {
@@ -140,7 +139,7 @@ class _RequestHelpViewState extends State<RequestHelpView> {
         'location': location.toJson(),
       });
     } catch (e) {
-      print("An error has occured");
+      print("RequestHelpList: An error has occured");
       print(e);
     }
   }

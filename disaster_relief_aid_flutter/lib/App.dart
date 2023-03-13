@@ -30,3 +30,10 @@ class MyApp extends StatelessWidget {
             child: !isLoggedIn ? const LogInView() : const MainView()));
   }
 }
+//jamaltester@gmail.com
+//airplane123
+//uid : RFKkdPBPYrdQng5dDInRXFXpIYi2
+
+//tester to send to
+//chattester1@gmail.com
+//airplane123

@@ -104,7 +104,7 @@ packages:
     description:
       name: cloud_functions_web
       url: "https://pub.dartlang.org"
-    source: hosted
+    source: hosnted
     version: "4.3.20"
   collection:
     dependency: transitive
