@@ -8,10 +8,16 @@ import '../model/message.model.dart';
 import '../singletons/UserInformation.dart';
 
 class ChatScreenView extends StatefulWidget {
-  final String userEmail;
-  //final String reciverUUID;
+  final String uid;
+  final String recieverid;
+  final String chatid;
 
-  const ChatScreenView({Key? key, required this.userEmail}) : super(key: key);
+  const ChatScreenView(
+      {Key? key,
+      required this.uid,
+      required this.recieverid,
+      required this.chatid})
+      : super(key: key);
 
   @override
   State<ChatScreenView> createState() => _ChatScreenState();
@@ -21,6 +27,7 @@ class _ChatScreenState extends State<ChatScreenView> {
   final database = FirebaseDatabase.instance.ref();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textController = TextEditingController();
+  String? currentChat;
 
   Stream<DataSnapshot> messageStream = const Stream.empty();
 
@@ -28,7 +35,9 @@ class _ChatScreenState extends State<ChatScreenView> {
   void initState() {
     super.initState();
     messageStream = database
-        .child('/messages/')
+        .child('/chats/directmessages/')
+        .child(widget.chatid)
+        .child('messages')
         .orderByChild('timestamp')
         .onValue
         .map((event) => event.snapshot);
@@ -36,9 +45,8 @@ class _ChatScreenState extends State<ChatScreenView> {
 
   void _sendMessage() {
     if (_textController.text.isNotEmpty) {
-      User? user = UserInformationSingleton().getFirebaseUser();
       addMessageToDB(
-          user!.uid, user.email, _textController.text, widget.userEmail);
+          widget.chatid, widget.uid, widget.recieverid, _textController.text);
       _textController.clear();
     }
   }
@@ -47,7 +55,7 @@ class _ChatScreenState extends State<ChatScreenView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat with ${widget.userEmail}"),
+        title: Text("Chat with ${widget.uid}"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -66,12 +74,14 @@ class _ChatScreenState extends State<ChatScreenView> {
                           snapshot.data!.value as Map);
 
                       return ListView.builder(
-                        reverse: true,
+                        reverse: false,
                         itemCount: messages.length,
                         itemBuilder: (BuildContext context, int index) {
                           final message = messages.values.elementAt(index);
-                          final bool isCurrentUser =
-                              message['emailFrom'] == "jamaltester@gmail.com";
+                          final bool isCurrentUser = true;
+                          print("!!!!!!!!@@@@@@@@!!!!!!!!!!");
+                          print(message);
+                          //message['emailFrom'] == "jamaltester@gmail.com";
                           return ChatBubble(
                             text: message['messageDetails'],
                             isCurrentUser: isCurrentUser,
@@ -116,20 +126,20 @@ class _ChatScreenState extends State<ChatScreenView> {
   }
 }
 
-Future addMessageToDB(String uid, String? email, String messageDetails,
-    String recieverEmail) async {
+Future addMessageToDB(String chatid, String uid, String recieveruid,
+    String messageDetails) async {
   try {
     final database = FirebaseDatabase.instance.ref();
-    final messageRef = database.child('/messages/');
-    var messageID = const Uuid().v4();
-    final messageEntry = messageRef.child(messageID.toString());
-    await messageEntry.set(
+    final messageRef =
+        database.child('/chats/directmessages').child(chatid).child('messages');
+    final newMessageKey = messageRef.push().key;
+    final newMessage = messageRef.child(newMessageKey!);
+    await newMessage.set(
       {
         'timestamp': DateTime.now().millisecondsSinceEpoch,
         'messageDetails': messageDetails,
-        'idFrom': uid,
-        'emailFrom': email,
-        'recieverEmail': recieverEmail,
+        'senderid': uid,
+        'recieveruid': recieveruid,
       },
     );
     print("worked");
