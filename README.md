@@ -62,8 +62,15 @@ We will be making our app using Flutter, and the backend for our app will be mad
 #### Features
 
 - Chat System
-  - Created backend for chat system using Firebase
-  - Created UI Widgets for chat system
+  - Created backend chat system using Firebase
+  - Chats are saved between users
+  - Users can look up other user’s emails and start a chat with them
+  - Created search bar widget that finds users to chat with
+      - When a user is not in the database, the correct error message pops up
+  - Created chat bubble widget for front end in chats
+  - Chats are ordered based on time
+  - Created text controller widget that sends the chat messages
+  - Chats update realtime
 - Help Requests
   - Users can now successfully request help
   - Created Firebase Function to process help requests and send them to the correct volunteers
@@ -80,7 +87,6 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 #### Known Issues
 
-- Chat system does not always keep the correct message order
 - Help requests are not able to be cancelled/marked as complete
 - Help request updates are not shown to the user
 
