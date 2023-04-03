@@ -155,6 +155,9 @@ class VolunteeringSingleton {
 
         onHelpRequestReceived.add(null);
       }
+    } else if (event.snapshot.key == "endNotification") {
+      String notif = event.snapshot.value.toString();
+      print(notif);
     }
   }
 
