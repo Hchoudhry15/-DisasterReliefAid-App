@@ -95,6 +95,12 @@ class _CommunityViewState extends State<CommunityView> {
                       print("!!!!!!!!!!!!!!!!");
                       String isActiveChat =
                           await checkForActiveChat(user!.uid, recieverid!);
+                      //
+                      print("%%%%%%%%%%%%%%%%%%%%%%");
+                      List<String> activeChats =
+                          await getUsersActiveChats(user!.uid);
+                      await getUserActiveChatHelper(activeChats);
+                      //
                       if (isActiveChat == "INVALID") {
                         chatID = await createDirectMessageThread(
                             user.uid, recieverid!);
@@ -381,4 +387,55 @@ Future<String> checkForActiveChat(String? userid1, String? userid2) async {
         List<String>.from(chatRoom['chatted_with_emails']);
     emails.addAll(chattedWithEmails);
 */
+//find user's active chats in users db
+// get that id and query chats, directmessages db
+//find chat, extract users in chat (add it to list) [dont add self to list from users in chat]
+//return list
+}
+
+Future<List<String>> getUsersActiveChats(String? userid) async {
+  final database = FirebaseDatabase.instance.ref();
+  final userRef = database.child('users').child(userid!);
+  // final activeChatRef = userRef.child('activechats');
+  final activeChats = <String>{};
+  final userActiveChatSS = await userRef.child('activechats').once();
+  final userActiveChatMap =
+      userActiveChatSS.snapshot.value as Map<String, dynamic>?;
+  if (userActiveChatMap != null) {
+    for (final chats in userActiveChatMap.values) {
+      for (var value in chats.values) {
+        if (value.runtimeType == String) {
+          activeChats.add(value);
+        }
+      }
+    }
+  }
+  // ignore: avoid_print, prefer_interpolation_to_compose_strings
+  print("Active chats " + activeChats.toList().toString());
+  return activeChats.toList();
+}
+
+//get UserIDs
+Future<List<String>?> getUserActiveChatHelper(List<String> activeChats) async {
+  final database = FirebaseDatabase.instance.ref();
+  final chatRef = database.child('chats');
+  final userIDsChattingWith = <String>{};
+  try {
+    print("Her1");
+    for (final activeChatref in activeChats) {
+      print("here2");
+      final userID = await chatRef.child(activeChatref).once();
+      print(userID);
+      final userIDsHMP = userID.snapshot.value as Map<String, dynamic>?;
+      print(userIDsHMP.toString());
+      userIDsChattingWith.addAll(userIDsHMP!.values.cast<String>());
+      print("here 5");
+    }
+
+    print("HI " + userIDsChattingWith.toString());
+    return userIDsChattingWith.toList();
+  } catch (e) {
+    print("OOPSIE");
+  }
+  return null;
 }
