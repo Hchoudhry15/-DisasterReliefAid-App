@@ -25,12 +25,18 @@ class VolunteeringSingleton {
   StreamController onHelpRequestAccepted = StreamController.broadcast();
   Stream get onHelpRequestAcceptedStream => onHelpRequestAccepted.stream;
 
+  StreamController onVolunteerDone = StreamController.broadcast();
+  Stream get onVolunteerDoneStream => onVolunteerDone.stream;
+
   bool awaitingHelpRequestResponse = false;
   String helpRequestMessage = "";
   String helpRequestDistance = "";
   String helpRequestID = "";
   String helpRequestLongitude = "";
   String helpRequestLatitude = "";
+
+  bool volunteeringDone = false;
+  bool volunteeringCompleted = false;
 
   HelpRequest? currentHelpRequest;
 
@@ -49,6 +55,16 @@ class VolunteeringSingleton {
     if (currentJob != null) {
       await currentJob!.cancel();
     }
+    if (onAddedListener != null) {
+      await onAddedListener!.cancel();
+    }
+    if (onUpdatedListener != null) {
+      await onUpdatedListener!.cancel();
+    }
+
+    volunteeringCompleted = false;
+    volunteeringDone = false;
+
     await attemptVolunteering(first: true);
     currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
       await attemptVolunteering();
@@ -157,11 +173,12 @@ class VolunteeringSingleton {
       }
     } else if (event.snapshot.key == "endNotification") {
       String notif = event.snapshot.value.toString();
-      if (notif == "CANCELLED") {
-        // help request cancelled
-      } else if (notif == "COMPLETED") {
-        // help request completed
-      }
+      volunteeringCompleted = notif == "COMPLETED";
+      currentHelpRequest = null;
+      stopVolunteering();
+
+      volunteeringDone = true;
+      onVolunteerDone.add(null);
     }
   }
 
