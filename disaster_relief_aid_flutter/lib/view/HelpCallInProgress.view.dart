@@ -20,9 +20,7 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
   @override
   void initState() {
     super.initState();
-    stream1 = HelpRequestSingleton()
-        .onhelpRequestUpdated
-        .listen((event) {
+    stream1 = HelpRequestSingleton().onhelpRequestUpdated.listen((event) {
       if (mounted) {
         setState(() {});
       }
@@ -32,24 +30,50 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Help Call in Progress"),
-          automaticallyImplyLeading: false,
-        ),
-        body: SingleChildScrollView(
-            child: Column(children: [
-          Text(
-              "current status: " +
-                  HelpRequestSingleton().currentHelpRequestStatus.toString(),
-              style: TextStyle(fontSize: 32, color: Colors.red)),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              child: const Text("Cancel Help Request"))
-        ])));
+      appBar: AppBar(
+        title: const Text("Help Call in Progress"),
+        automaticallyImplyLeading: false,
+      ),
+      body: HelpRequestSingleton().currentHelpRequestStatus ==
+              HelpRequestStatus.AWAITING_RESPONSE
+          ? Center(
+              child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Awaiting Response",
+                    style: Theme.of(context).textTheme.headline4),
+                const SizedBox(height: 16),
+                const CircularProgressIndicator()
+              ],
+            ))
+          : Column(
+              children: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    onPressed: () {
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    },
+                    child: const Text("Cancel Help Request"))
+              ],
+            ),
+    );
+
+    // body: SingleChildScrollView(
+    //     child: Column(children: [
+    //   Text(
+    //       "current status: " +
+    //           HelpRequestSingleton().currentHelpRequestStatus.toString(),
+    //       style: TextStyle(fontSize: 32, color: Colors.red)),
+    //   ElevatedButton(
+    //       style: ElevatedButton.styleFrom(
+    //         backgroundColor: Colors.red,
+    //       ),
+    //       onPressed: () {
+    //         Navigator.popUntil(context, (route) => route.isFirst);
+    //       },
+    //       child: const Text("Cancel Help Request"))
+    // ])));
   }
 }
