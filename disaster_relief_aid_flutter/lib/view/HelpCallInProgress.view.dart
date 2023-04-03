@@ -119,14 +119,46 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                         Expanded(
                             child: ElevatedButton.icon(
                                 onPressed: () {
-                                  try {
-                                    HelpRequestSingleton().cancelHelpRequest();
-                                    Navigator.popUntil(
-                                        context, (route) => route.isFirst);
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text(e.toString())));
-                                  }
+                                  // confirm with dialog
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            title: const Text("Confirm Cancel"),
+                                            content: const Text(
+                                                "Are you sure you want to cancel the request?"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("No")),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    "Cancelling Request...")));
+                                                    try {
+                                                      HelpRequestSingleton()
+                                                          .cancelHelpRequest();
+                                                      Navigator.popUntil(
+                                                          context,
+                                                          (route) =>
+                                                              route.isFirst);
+                                                    } catch (e) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(SnackBar(
+                                                              content: Text(e
+                                                                  .toString())));
+                                                    }
+                                                  },
+                                                  child: const Text("Yes"))
+                                            ],
+                                          ));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.red,
@@ -138,15 +170,47 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                         Expanded(
                             child: ElevatedButton.icon(
                                 onPressed: () {
-                                  try {
-                                    HelpRequestSingleton()
-                                        .markHelpRequestAsCompleted();
-                                    Navigator.popUntil(
-                                        context, (route) => route.isFirst);
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text(e.toString())));
-                                  }
+                                  // confirm with dialog
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            title:
+                                                const Text("Confirm Complete"),
+                                            content: const Text(
+                                                "Are you sure you want to mark the request as complete?"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("No")),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                                content: Text(
+                                                                    "Marking Request as Complete...")));
+                                                    try {
+                                                      HelpRequestSingleton()
+                                                          .markHelpRequestAsCompleted();
+                                                      Navigator.popUntil(
+                                                          context,
+                                                          (route) =>
+                                                              route.isFirst);
+                                                    } catch (e) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(SnackBar(
+                                                              content: Text(e
+                                                                  .toString())));
+                                                    }
+                                                  },
+                                                  child: const Text("Yes"))
+                                            ],
+                                          ));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green,
