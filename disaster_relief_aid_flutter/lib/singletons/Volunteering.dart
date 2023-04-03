@@ -49,7 +49,7 @@ class VolunteeringSingleton {
     if (currentJob != null) {
       await currentJob!.cancel();
     }
-    await attemptVolunteering();
+    await attemptVolunteering(first: true);
     currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
       await attemptVolunteering();
       print("Update Volunteer location!");
@@ -64,10 +64,10 @@ class VolunteeringSingleton {
     onUpdatedListener = userEntry.onChildChanged.listen(onAddedOrUpdated);
   }
 
-  Future attemptVolunteering() async {
+  Future attemptVolunteering({bool first = false}) async {
     User? user = UserInformationSingleton().getFirebaseUser();
     if (user != null) {
-      await addActiveVolunteer(user.uid);
+      await addActiveVolunteer(user.uid, first: first);
     } else {
       print("The user is currently null");
     }
@@ -93,16 +93,18 @@ class VolunteeringSingleton {
     return currentJob != null;
   }
 
-  Future addActiveVolunteer(String uID) async {
+  Future addActiveVolunteer(String uID, {bool first = false}) async {
     final userRef = database.child('/activevolunteerlist/');
     var userID = uID;
     final userEntry = userRef.child(userID);
 
     // check if exists
-    var exists = await userEntry.once();
-    if (exists.snapshot.exists) {
-      // delete
-      await userEntry.remove();
+    if (first) {
+      var exists = await userEntry.once();
+      if (exists.snapshot.exists) {
+        // delete
+        await userEntry.remove();
+      }
     }
 
     try {
