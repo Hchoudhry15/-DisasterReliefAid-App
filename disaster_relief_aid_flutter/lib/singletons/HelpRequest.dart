@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:cron/cron.dart';
+import 'package:disaster_relief_aid_flutter/App.dart';
+import 'package:disaster_relief_aid_flutter/view/HelpRequestEnded.view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:disaster_relief_aid_flutter/Location.dart';
 import 'UserInformation.dart';
@@ -254,6 +257,28 @@ class HelpRequestSingleton {
 
         helpRequestUpdated.add(null);
       }
+    } else if (event.snapshot.key == "endNotification") {
+      String notif = event.snapshot.value.toString();
+      bool isCompleted = notif == "COMPLETED";
+
+      cancelAllJobs();
+
+      _volunteerID = "";
+      _volunteerName = "";
+      _volunteerLongitude = "";
+      _volunteerLatitude = "";
+      _volunteerDistance = 0;
+      _volunteerDistanceUnit = "m";
+      _currentHelpRequestStatus = HelpRequestStatus.NONE;
+
+      navigatorKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (context) => HelpRequestEndedView(
+            wasMe: false,
+            isCompleted: isCompleted,
+          ),
+        ),
+      );
     }
     //   if (event.snapshot.key == "helpRequest") {
     //     dynamic request = event.snapshot.value;

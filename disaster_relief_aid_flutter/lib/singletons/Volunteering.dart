@@ -150,7 +150,9 @@ class VolunteeringSingleton {
     var userID = uID;
     final userEntry = userRef.child(userID);
     try {
-      await userEntry.remove();
+      if (userEntry != null) {
+        await userEntry.remove();
+      }
     } catch (e) {
       print("An error has occured");
       print(e);
@@ -178,11 +180,11 @@ class VolunteeringSingleton {
       String notif = event.snapshot.value.toString();
       bool isCompleted = notif == "COMPLETED";
       currentHelpRequest = null;
-      stopVolunteering();
 
       volunteeringDone = true;
       onVolunteerDone.add(null);
       onHelpRequestAccepted.add(null);
+      stopVolunteering();
 
       navigatorKey.currentState!.push(
         MaterialPageRoute(
@@ -257,42 +259,52 @@ class VolunteeringSingleton {
   }
 
   Future cancelHelpRequest() async {
-    // set the current help request
-    currentHelpRequest = null;
-    var volunteerRef = database
-        .child('/activevolunteerlist/')
-        .child(UserInformationSingleton().getFirebaseUser()!.uid);
-    await volunteerRef.update({"currentRequest": null});
-    // get accepted requests
-    var acceptedRequests = await volunteerRef.child('acceptedRequests').get();
-    // add the current request to the accepted requests
-    if (acceptedRequests.value == null) {
-      await volunteerRef.child('acceptedRequests').set([helpRequestID]);
-    } else {
-      await volunteerRef
-          .child('acceptedRequests')
-          .set("${acceptedRequests.value},$helpRequestID");
+    User? user = UserInformationSingleton().getFirebaseUser();
+    if (user == null) {
+      throw Exception("No user is logged in.");
     }
+
+    // update the user's help request to show that it has been cancelled
+    var helpRequestRef =
+        database.child('/requesthelplist/').child(currentHelpRequest!.uid);
+
+    await helpRequestRef.update({
+      "endNotification": "CANCELLED",
+    });
+
+    // // delete active volunteer
+    // await removeActiveVolunteer(user.uid);
+
+    currentHelpRequest = null;
+    volunteeringDone = true;
     helpRequestID = "";
+    onVolunteerDone.add(null);
+    onHelpRequestAccepted.add(null);
+    await stopVolunteering();
   }
 
   Future markHelpRequestAsCompleted() async {
-    // set the current help request
-    currentHelpRequest = null;
-    var volunteerRef = database
-        .child('/activevolunteerlist/')
-        .child(UserInformationSingleton().getFirebaseUser()!.uid);
-    await volunteerRef.update({"currentRequest": null});
-    // get accepted requests
-    var acceptedRequests = await volunteerRef.child('acceptedRequests').get();
-    // add the current request to the accepted requests
-    if (acceptedRequests.value == null) {
-      await volunteerRef.child('acceptedRequests').set([helpRequestID]);
-    } else {
-      await volunteerRef
-          .child('acceptedRequests')
-          .set("${acceptedRequests.value},$helpRequestID");
+    User? user = UserInformationSingleton().getFirebaseUser();
+    if (user == null) {
+      throw Exception("No user is logged in.");
     }
+
+    // update the user's help request to show that it has been cancelled
+    var helpRequestRef =
+        database.child('/requesthelplist/').child(currentHelpRequest!.uid);
+
+    await helpRequestRef.update({
+      "endNotification": "COMPLETED",
+    });
+
+    // // delete active volunteer
+    // await removeActiveVolunteer(user.uid);
+
+    currentHelpRequest = null;
+    volunteeringDone = true;
     helpRequestID = "";
+    onVolunteerDone.add(null);
+    onHelpRequestAccepted.add(null);
+    await stopVolunteering();
   }
 }
