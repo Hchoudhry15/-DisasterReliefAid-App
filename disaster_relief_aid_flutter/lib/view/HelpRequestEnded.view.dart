@@ -20,7 +20,7 @@ class HelpRequestEndedView extends StatelessWidget {
       }
     } else {
       if (isCompleted) {
-        message = "Your help call has ended";
+        message = "Your help call has been marked as complete";
       } else {
         message = "Your help call has been cancelled";
       }
