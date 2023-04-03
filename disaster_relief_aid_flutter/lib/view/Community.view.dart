@@ -128,7 +128,7 @@ class _CommunityViewState extends State<CommunityView> {
                       print("RecieverIDs" + recieverIDs.toString());
                       if (isActiveChat == "INVALID") {
                         chatID = await createDirectMessageThread(
-                            user.uid, recieverIDs);
+                            user.uid, recieverIDs, recieverEmails);
                       } else {
                         print(chatID);
                         chatID = isActiveChat;
@@ -249,67 +249,6 @@ class _CommunityViewState extends State<CommunityView> {
     );
   }
 
-  Future<String?> createDirectMessageThread(
-      String userid, List<String?> otherUserIDs) async {
-    try {
-      final database = FirebaseDatabase.instance.ref();
-      final directmessages = database.child('chats/directmessages/');
-      // Within the direct message section of the database, we will create a new direct message thread and store the key.
-      // We will store this key within the user's active chats so that a user may access this chat later.
-
-      String? chatid = directmessages.push().key;
-      final messageThread = directmessages.child(chatid!);
-      await messageThread.set({'chatCreationDate': DateTime.now().toString()});
-      final usersInChat = messageThread.child('usersInChat');
-      DatabaseReference addedUser = usersInChat.push();
-      await addedUser.set({
-        'userId': userid,
-      });
-      for (String? otherUserID in otherUserIDs) {
-        DatabaseReference addedUser2 = usersInChat.push();
-        await addedUser2.set({
-          'userId': otherUserID,
-        });
-      }
-
-      final newMessageKey = messageThread.child('messages').push().key;
-      final newMessage = messageThread.child('messages').child(newMessageKey!);
-
-      for (String? otherUserID in otherUserIDs) {
-        await newMessage.set(
-          {
-            'timestamp': DateTime.now().millisecondsSinceEpoch,
-            'messageDetails':
-                "This is the beginning of your chat${recieverEmails != null ? " with ${recieverEmails!}!" : ""}",
-            'senderid': userid,
-            'recieveruid': otherUserID,
-          },
-        );
-      }
-
-      final userActiveChats1 =
-          database.child('users').child(userid).child('activechats');
-      String? activeChat1Key = userActiveChats1.push().key;
-      await userActiveChats1
-          .child(activeChat1Key!)
-          .set({'chatid': chatid, 'isValid': true});
-
-      for (String? otherUserID in otherUserIDs) {
-        final userActiveChats2 =
-            database.child('users').child(otherUserID!).child('activechats');
-        userActiveChats2.push().key;
-        final activeChat2Key = userActiveChats1.push().key;
-        await userActiveChats2
-            .child(activeChat2Key!)
-            .set({'chatid': chatid, 'isValid': true});
-      }
-
-      return chatid;
-    } catch (e) {
-      print(e);
-    }
-  }
-
   Future addMessageToDB(String chatid, String uid, String recieveruid,
       String messageDetails) async {
     try {
@@ -331,6 +270,67 @@ class _CommunityViewState extends State<CommunityView> {
       print("Messages: An error has occured");
       print(e);
     }
+  }
+}
+
+Future<String?> createDirectMessageThread(
+    String userid, List<String?> otherUserIDs, String? recieverEmails) async {
+  try {
+    final database = FirebaseDatabase.instance.ref();
+    final directmessages = database.child('chats/directmessages/');
+    // Within the direct message section of the database, we will create a new direct message thread and store the key.
+    // We will store this key within the user's active chats so that a user may access this chat later.
+
+    String? chatid = directmessages.push().key;
+    final messageThread = directmessages.child(chatid!);
+    await messageThread.set({'chatCreationDate': DateTime.now().toString()});
+    final usersInChat = messageThread.child('usersInChat');
+    DatabaseReference addedUser = usersInChat.push();
+    await addedUser.set({
+      'userId': userid,
+    });
+    for (String? otherUserID in otherUserIDs) {
+      DatabaseReference addedUser2 = usersInChat.push();
+      await addedUser2.set({
+        'userId': otherUserID,
+      });
+    }
+
+    final newMessageKey = messageThread.child('messages').push().key;
+    final newMessage = messageThread.child('messages').child(newMessageKey!);
+
+    for (String? otherUserID in otherUserIDs) {
+      await newMessage.set(
+        {
+          'timestamp': DateTime.now().millisecondsSinceEpoch,
+          'messageDetails':
+              "This is the beginning of your chat${recieverEmails != null ? " with ${recieverEmails!}!" : ""}",
+          'senderid': userid,
+          'recieveruid': otherUserID,
+        },
+      );
+    }
+
+    final userActiveChats1 =
+        database.child('users').child(userid).child('activechats');
+    String? activeChat1Key = userActiveChats1.push().key;
+    await userActiveChats1
+        .child(activeChat1Key!)
+        .set({'chatid': chatid, 'isValid': true});
+
+    for (String? otherUserID in otherUserIDs) {
+      final userActiveChats2 =
+          database.child('users').child(otherUserID!).child('activechats');
+      userActiveChats2.push().key;
+      final activeChat2Key = userActiveChats1.push().key;
+      await userActiveChats2
+          .child(activeChat2Key!)
+          .set({'chatid': chatid, 'isValid': true});
+    }
+
+    return chatid;
+  } catch (e) {
+    print(e);
   }
 }
 
