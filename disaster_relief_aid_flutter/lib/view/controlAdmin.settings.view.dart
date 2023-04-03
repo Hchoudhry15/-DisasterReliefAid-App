@@ -90,6 +90,7 @@ class _AdminSettingsViewState extends State<AdminSettingsScreen> {
                               String useruid = userMAP!.keys.first;
                               addBannedUserToBannedUserDB(
                                   useruid, email, reason);
+                              updateUserTypeToBanned(useruid);
                               // TODO: Implement ban user functionality using the entered email, confirmEmail, and reason values
                               //add to banned database
                               // check flag to disable the user
@@ -153,4 +154,17 @@ Future<Map<String, dynamic>?> getSpecificUserByEmail(String email) async {
     subscription.cancel(); // Cancel the subscription to avoid memory leaks
   }
   return completer.future;
+}
+
+Future<void> updateUserTypeToBanned(String uid) async {
+  try {
+    final database = FirebaseDatabase.instance.ref();
+    final userRef = database.child('/users/');
+    final userEntry = await userRef.child(uid).update({'userType': 'Banned'});
+    print("$uid is now banned");
+    return;
+  } catch (e) {
+    print(e);
+    throw e;
+  }
 }
