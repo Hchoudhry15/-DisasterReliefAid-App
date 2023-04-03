@@ -182,8 +182,9 @@ class VolunteeringSingleton {
 
       volunteeringDone = true;
       onVolunteerDone.add(null);
+      onHelpRequestAccepted.add(null);
 
-      navigatorKey.currentState!.pushReplacement(
+      navigatorKey.currentState!.push(
         MaterialPageRoute(
           builder: (context) => HelpRequestEndedView(
             isVolunteer: false,
