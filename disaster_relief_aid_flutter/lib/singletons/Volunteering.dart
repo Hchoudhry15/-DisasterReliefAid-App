@@ -255,4 +255,44 @@ class VolunteeringSingleton {
 
     helpRequestID = "";
   }
+
+  Future cancelHelpRequest() async {
+    // set the current help request
+    currentHelpRequest = null;
+    var volunteerRef = database
+        .child('/activevolunteerlist/')
+        .child(UserInformationSingleton().getFirebaseUser()!.uid);
+    await volunteerRef.update({"currentRequest": null});
+    // get accepted requests
+    var acceptedRequests = await volunteerRef.child('acceptedRequests').get();
+    // add the current request to the accepted requests
+    if (acceptedRequests.value == null) {
+      await volunteerRef.child('acceptedRequests').set([helpRequestID]);
+    } else {
+      await volunteerRef
+          .child('acceptedRequests')
+          .set("${acceptedRequests.value},$helpRequestID");
+    }
+    helpRequestID = "";
+  }
+
+  Future markHelpRequestAsCompleted() async {
+    // set the current help request
+    currentHelpRequest = null;
+    var volunteerRef = database
+        .child('/activevolunteerlist/')
+        .child(UserInformationSingleton().getFirebaseUser()!.uid);
+    await volunteerRef.update({"currentRequest": null});
+    // get accepted requests
+    var acceptedRequests = await volunteerRef.child('acceptedRequests').get();
+    // add the current request to the accepted requests
+    if (acceptedRequests.value == null) {
+      await volunteerRef.child('acceptedRequests').set([helpRequestID]);
+    } else {
+      await volunteerRef
+          .child('acceptedRequests')
+          .set("${acceptedRequests.value},$helpRequestID");
+    }
+    helpRequestID = "";
+  }
 }
