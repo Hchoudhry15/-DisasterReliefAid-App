@@ -1,6 +1,7 @@
 import 'package:disaster_relief_aid_flutter/view/Community.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RequestHelp.view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 import 'Home.view.dart';
 import 'Settings.view.dart';
@@ -33,18 +34,18 @@ class _MainViewState extends State<MainView> {
       ),
       body: getCurrentPage(context, _selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home),
+            label: translate('home_name'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Community',
+            icon: const Icon(Icons.message),
+            label: translate('comm_name'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.settings),
+            label: translate('settings_name'),
           ),
         ],
         onTap: _onItemTapped,
