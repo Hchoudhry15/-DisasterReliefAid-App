@@ -200,7 +200,7 @@ class VolunteeringSingleton {
     await helpRequestRef.update({
       "status": "accepted",
       "volunteerID": UserInformationSingleton().getFirebaseUser()!.uid,
-      "volunteerName": UserInformationSingleton().getFirebaseUser()!.displayName
+      "volunteerName": UserInformationSingleton().getRealtimeUserInfo()!.fname ?? "Unknown"
     });
 
     helpRequestID = "";
