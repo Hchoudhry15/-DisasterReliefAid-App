@@ -113,6 +113,11 @@ class VolunteeringSingleton {
         'timestamp': DateTime.now().toString(),
         'location': location.toJson()
       });
+
+      var helpRequestRef =
+          database.child('/requesthelplist/').child(helpRequestID);
+
+      await helpRequestRef.update({"volunteerLocation": location.toJson()});
     } catch (e) {
       print("An error has occured");
       print(e);
@@ -197,10 +202,16 @@ class VolunteeringSingleton {
     // update the help request to show that it has been accepted (and by who)
     var helpRequestRef =
         database.child('/requesthelplist/').child(helpRequestID);
+
+    // get location
+    Position location = await Location.determinePosition();
+
     await helpRequestRef.update({
       "status": "accepted",
       "volunteerID": UserInformationSingleton().getFirebaseUser()!.uid,
-      "volunteerName": UserInformationSingleton().getRealtimeUserInfo()!.fname ?? "Unknown"
+      "volunteerName":
+          UserInformationSingleton().getRealtimeUserInfo()!.fname ?? "Unknown",
+      "volunteerLocation": location.toJson()
     });
 
     helpRequestID = "";
