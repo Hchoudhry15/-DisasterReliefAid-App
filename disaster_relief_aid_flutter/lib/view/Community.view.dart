@@ -136,7 +136,6 @@ class _CommunityViewState extends State<CommunityView> {
 
                       final databasestuff =
                           await database.child('/users').child(user.uid).get();
-                      print("HELLO!!!!!!!!!!!!!!");
                       final senderEmail = (Map<String, dynamic>.from(
                           databasestuff.value as Map)['fname']);
                       Map<String, String> uIDToEmailMap = new Map();
@@ -205,6 +204,8 @@ class _CommunityViewState extends State<CommunityView> {
                             emailsToChatMap =
                                 await getUserEmailMapFromUserIdMap(
                                     userIDsToChatMap);
+                        
+
 
                             //
                             // handle message icon click here
@@ -362,26 +363,6 @@ Future<Map<String, dynamic>?> getSpecificUserByEmail(String email) async {
   }
   return completer.future;
 }
-
-/* Future addMessageToDB(String uID) async {
-  try {
-    final database = FirebaseDatabase.instance.ref();
-    final userRef = database.child('/messages/');
-    var userID = uID;
-    final userEntry = userRef.child(userID);
-    await userEntry.set(
-      {
-        'timestamp': DateTime.now().toString(),
-        'messageDetails': "finally",
-      },
-    );
-    print("worked");
-  } catch (e) {
-    print("Messages: An error has occured");
-    print(e);
-  }
-}
-*/
 
 void getUsers() {
   final databaseReference = FirebaseDatabase.instance.ref();
