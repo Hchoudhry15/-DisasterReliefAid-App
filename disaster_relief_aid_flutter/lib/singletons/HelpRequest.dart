@@ -29,6 +29,9 @@ class HelpRequestSingleton {
   StreamSubscription<DatabaseEvent>? onAddedListener;
   StreamSubscription<DatabaseEvent>? onUpdatedListener;
 
+  StreamController helpRequestUpdated = StreamController.broadcast();
+  Stream get onhelpRequestUpdated => helpRequestUpdated.stream;
+
   // pertaining to the current help request
 
   HelpRequestStatus _currentHelpRequestStatus = HelpRequestStatus.NONE;
@@ -131,6 +134,7 @@ class HelpRequestSingleton {
       // the volunteer has accepted the request
       _currentHelpRequestStatus = HelpRequestStatus.ACCEPTED;
       _volunteerID = event.snapshot.value.toString();
+      helpRequestUpdated.add(null);
     }
     //   if (event.snapshot.key == "helpRequest") {
     //     dynamic request = event.snapshot.value;
