@@ -187,7 +187,7 @@ class VolunteeringSingleton {
       navigatorKey.currentState!.push(
         MaterialPageRoute(
           builder: (context) => HelpRequestEndedView(
-            isVolunteer: false,
+            wasMe: false,
             isCompleted: isCompleted,
           ),
         ),
