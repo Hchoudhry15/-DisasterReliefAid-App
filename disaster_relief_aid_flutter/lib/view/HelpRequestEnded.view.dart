@@ -4,15 +4,15 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class HelpRequestEndedView extends StatelessWidget {
   const HelpRequestEndedView(
-      {this.isVolunteer = false, this.isCompleted = false, super.key});
+      {this.wasMe = false, this.isCompleted = false, super.key});
 
-  final bool isVolunteer;
+  final bool wasMe;
   final bool isCompleted;
 
   @override
   Widget build(BuildContext context) {
     String message = "";
-    if (isVolunteer) {
+    if (wasMe) {
       if (isCompleted) {
         message = "You have ended your help call";
       } else {
