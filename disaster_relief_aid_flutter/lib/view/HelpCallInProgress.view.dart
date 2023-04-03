@@ -4,9 +4,14 @@ import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:flutter/material.dart';
 
-class HelpCallInProgressView extends StatelessWidget {
+class HelpCallInProgressView extends StatefulWidget {
   const HelpCallInProgressView({super.key});
 
+  @override
+  State<HelpCallInProgressView> createState() => _HelpCallInProgressViewState();
+}
+
+class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
