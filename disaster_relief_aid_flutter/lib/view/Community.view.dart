@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 
 // import 'package:disaster_relief_aid_flutter/model/user.model.dart';
 import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:disaster_relief_aid_flutter/view/ChatScreen.View.dart';
+import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/Settings.view.dart';
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,6 +26,14 @@ class CommunityView extends StatefulWidget {
 
 class _CommunityViewState extends State<CommunityView> {
   final database = FirebaseDatabase.instance.ref();
+  final List<String> myList = [
+    'John@gmail.com',
+    'Jamal@gmail.com',
+    'Kume@yahoo.com',
+    'Paul@gmail.com',
+    'Max@gmail.com',
+    'Medhana@gmaail.com'
+  ];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -148,10 +159,74 @@ class _CommunityViewState extends State<CommunityView> {
                     child: Text(recieverEmails!),
                   ),
                 ),
+              SizedBox(
+                height: 500,
+                child: ListView.builder(
+                  itemCount: myList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14.0),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: getRandomColor(),
+                        ),
+                        title: Text(
+                          myList[index],
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () async {
+                            //JUST TESTING STUFF
+                            print("%%%%%%%%%%%%%%%%%%%%%%");
+                            List<String?> activeChats =
+                                await getUsersActiveChats(user!.uid);
+                            List<String> iterableActiveChats = activeChats
+                                .where((chat) => chat != null)
+                                .cast<String>()
+                                .toList();
+
+                            print("%%%%%%%%%%%%%%%%%%%%%%");
+
+                            await getUserActiveChatHelper(iterableActiveChats);
+                            //
+                            // handle message icon click here
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const HelpCallInProgressView()));
+                            //random view used for now
+                            // ignore: todo
+                            //TODO: backend need to chatScreen view
+                            //     child: ChatScreenView(
+                            //         uid: user!.uid,
+                            //         recieverid: recieverid!,
+                            //         chatid: chatID!,
+                            //         email: userEmail!))));
+                            // ignore: avoid_print
+                            print("Message icon clicked for ${myList[index]}");
+                          },
+                          child: const Icon(Icons.message, color: Colors.blue),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Color getRandomColor() {
+    final Random random = Random();
+    return Color.fromARGB(
+      255,
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
     );
   }
 
@@ -162,6 +237,7 @@ class _CommunityViewState extends State<CommunityView> {
       final directmessages = database.child('chats/directmessages/');
       // Within the direct message section of the database, we will create a new direct message thread and store the key.
       // We will store this key within the user's active chats so that a user may access this chat later.
+
       String? chatid = directmessages.push().key;
       final messageThread = directmessages.child(chatid!);
       await messageThread.set({'chatCreationDate': DateTime.now().toString()});
@@ -380,4 +456,61 @@ Future<String> checkForActiveChat(
         List<String>.from(chatRoom['chatted_with_emails']);
     emails.addAll(chattedWithEmails);
 */
+//find user's active chats in users db
+// get that id and query chats, directmessages db
+//find chat, extract users in chat (add it to list) [dont add self to list from users in chat]
+//return list
+}
+
+Future<List<String>> getUsersActiveChats(String? userid) async {
+  final database = FirebaseDatabase.instance.ref();
+  final userRef = database.child('users').child(userid!);
+  // final activeChatRef = userRef.child('activechats');
+  final activeChats = <String>{};
+  final userActiveChatSS = await userRef.child('activechats').once();
+  final userActiveChatMap =
+      userActiveChatSS.snapshot.value as Map<String, dynamic>?;
+  if (userActiveChatMap != null) {
+    for (final chats in userActiveChatMap.values) {
+      for (var value in chats.values) {
+        if (value.runtimeType == String) {
+          activeChats.add(value);
+        }
+      }
+    }
+  }
+  // ignore: avoid_print, prefer_interpolation_to_compose_strings
+  print("Active chats " + activeChats.toList().toString());
+  return activeChats.toList();
+}
+
+//get UserIDs
+Future<Set<String>?> getUserActiveChatHelper(List<String> activeChats) async {
+  final database = FirebaseDatabase.instance.ref();
+  final chatRef = database.child('chats/directmessages');
+  final userIDsChattingWith = <String>{};
+  try {
+    for (final activeChatref in activeChats) {
+      if (activeChatref != null) {
+        final userID = await chatRef.child(activeChatref).once();
+        final userIDsHMP = userID.snapshot.value as Map<String, dynamic>?;
+
+        // if (userIDsHMP != null) {
+        //   final receiverUIDs = userIDsHMP.values
+        //       .map((chat) => chat['receiveruid'] as String?)
+        //       .where((uid) => uid != null)
+        //       .toList();
+        //   print(userIDsHMP);
+        return null;
+
+        // userIDsChattingWith.addAll(receiverUIDs.whereType<String>());
+      }
+    }
+    // }
+
+    // return userIDsChattingWith;
+  } catch (e) {
+    print("OOPSIE: $e");
+    return null;
+  }
 }
