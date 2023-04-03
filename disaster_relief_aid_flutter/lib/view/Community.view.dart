@@ -96,11 +96,6 @@ class _CommunityViewState extends State<CommunityView> {
                       String isActiveChat =
                           await checkForActiveChat(user!.uid, recieverid!);
                       //
-                      print("%%%%%%%%%%%%%%%%%%%%%%");
-                      List<String> activeChats =
-                          await getUsersActiveChats(user!.uid);
-                      await getUserActiveChatHelper(activeChats);
-                      //
                       if (isActiveChat == "INVALID") {
                         chatID = await createDirectMessageThread(
                             user.uid, recieverid!);
@@ -145,13 +140,24 @@ class _CommunityViewState extends State<CommunityView> {
                           style: const TextStyle(fontSize: 16),
                         ),
                         trailing: GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            //JUST TESTING STUFF
+                            print("%%%%%%%%%%%%%%%%%%%%%%");
+                            List<String> activeChats =
+                                await getUsersActiveChats(user!.uid);
+                            Iterable<String> iterableActiveChats =
+                                activeChats.whereType<String>();
+
+                            print("%%%%%%%%%%%%%%%%%%%%%%");
+
+                            await getUserActiveChatHelper(activeChats);
+                            //
                             // handle message icon click here
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const HelpCallInProgressView()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const HelpCallInProgressView()));
                             //random view used for now
                             // ignore: todo
                             //TODO: backend need to chatScreen view
@@ -194,6 +200,7 @@ class _CommunityViewState extends State<CommunityView> {
       final directmessages = database.child('chats/directmessages/');
       // Within the direct message section of the database, we will create a new direct message thread and store the key.
       // We will store this key within the user's active chats so that a user may access this chat later.
+
       String? chatid = directmessages.push().key;
       final messageThread = directmessages.child(chatid!);
       await messageThread.set({'chatCreationDate': DateTime.now().toString()});
@@ -416,26 +423,30 @@ Future<List<String>> getUsersActiveChats(String? userid) async {
 }
 
 //get UserIDs
-Future<List<String>?> getUserActiveChatHelper(List<String> activeChats) async {
+Future<Set<String>?> getUserActiveChatHelper(List<String> activeChats) async {
   final database = FirebaseDatabase.instance.ref();
-  final chatRef = database.child('chats');
+  final chatRef = database.child('chats/directmessages');
   final userIDsChattingWith = <String>{};
   try {
-    print("Her1");
     for (final activeChatref in activeChats) {
-      print("here2");
-      final userID = await chatRef.child(activeChatref).once();
-      print(userID);
-      final userIDsHMP = userID.snapshot.value as Map<String, dynamic>?;
-      print(userIDsHMP.toString());
-      userIDsChattingWith.addAll(userIDsHMP!.values.cast<String>());
-      print("here 5");
+      if (activeChatref != null) {
+        final userID = await chatRef.child(activeChatref).once();
+        final userIDsHMP = userID.snapshot.value as Map<String, dynamic>?;
+
+        if (userIDsHMP != null) {
+          final receiverUIDs = userIDsHMP.values
+              .map((chat) => chat['receiveruid'] as String?)
+              .where((uid) => uid != null)
+              .toList();
+
+          //userIDsChattingWith.addAll(receiverUIDs);
+        }
+      }
     }
 
-    print("HI " + userIDsChattingWith.toString());
-    return userIDsChattingWith.toList();
+    return userIDsChattingWith;
   } catch (e) {
-    print("OOPSIE");
+    print("OOPSIE: $e");
+    return null;
   }
-  return null;
 }
