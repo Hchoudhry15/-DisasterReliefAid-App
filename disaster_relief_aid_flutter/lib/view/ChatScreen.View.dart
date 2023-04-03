@@ -6,19 +6,24 @@ import 'package:uuid/uuid.dart';
 import '../component/ChatBubble.component.dart';
 import '../model/message.model.dart';
 import '../singletons/UserInformation.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 class ChatScreenView extends StatefulWidget {
   final String uid;
-  final String recieverid;
+  final List<String?> recieverids;
   final String chatid;
-  final String email;
+  final String recieverEmail;
+  final String senderEmail;
+  final Map<String, String> uIDToEmailMap;
 
   const ChatScreenView(
       {Key? key,
       required this.uid,
-      required this.recieverid,
+      required this.recieverids,
       required this.chatid,
-      required this.email})
+      required this.recieverEmail,
+      required this.senderEmail,
+      required this.uIDToEmailMap})
       : super(key: key);
 
   @override
@@ -32,6 +37,7 @@ class _ChatScreenState extends State<ChatScreenView> {
   String? currentChat;
 
   Stream<DataSnapshot> messageStream = const Stream.empty();
+  Stream<DataSnapshot> emailStream = const Stream.empty();
 
   @override
   void initState() {
@@ -48,7 +54,7 @@ class _ChatScreenState extends State<ChatScreenView> {
   void _sendMessage() {
     if (_textController.text.isNotEmpty) {
       addMessageToDB(
-          widget.chatid, widget.uid, widget.recieverid, _textController.text);
+          widget.chatid, widget.uid, widget.recieverids, _textController.text);
       _textController.clear();
     }
   }
@@ -57,7 +63,7 @@ class _ChatScreenState extends State<ChatScreenView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat with ${widget.email}"),
+        title: Text("Chat with ${widget.recieverEmail}"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -81,7 +87,7 @@ class _ChatScreenState extends State<ChatScreenView> {
                         itemBuilder: (BuildContext context, int index) {
                           final message = messages.values.elementAt(index);
                           bool isCurrentUser;
-                          if (message['recieveruid'] !=
+                          if (message['senderid'] ==
                               UserInformationSingleton()
                                   .getFirebaseUser()!
                                   .uid) {
@@ -89,11 +95,11 @@ class _ChatScreenState extends State<ChatScreenView> {
                           } else {
                             isCurrentUser = false;
                           }
-                          if (message['messageDetails'] == "TEST-MESSAGE") {}
                           return ChatBubble(
-                            text: message['messageDetails'],
-                            isCurrentUser: isCurrentUser,
-                          );
+                              text: message['messageDetails'],
+                              isCurrentUser: isCurrentUser,
+                              senderEmail:
+                                  widget.uIDToEmailMap[message['senderid']]!);
                         },
                       );
                     } else {
@@ -134,7 +140,7 @@ class _ChatScreenState extends State<ChatScreenView> {
   }
 }
 
-Future addMessageToDB(String chatid, String uid, String recieveruid,
+Future addMessageToDB(String chatid, String uid, List<String?> recieveruids,
     String messageDetails) async {
   try {
     final database = FirebaseDatabase.instance.ref();
@@ -142,14 +148,18 @@ Future addMessageToDB(String chatid, String uid, String recieveruid,
         database.child('/chats/directmessages').child(chatid).child('messages');
     final newMessageKey = messageRef.push().key;
     final newMessage = messageRef.child(newMessageKey!);
-    await newMessage.set(
-      {
-        'timestamp': DateTime.now().millisecondsSinceEpoch,
-        'messageDetails': messageDetails,
-        'senderid': uid,
-        'recieveruid': recieveruid,
-      },
-    );
+    final filter = ProfanityFilter();
+
+    for (String? recieveruid in recieveruids) {
+      await newMessage.set(
+        {
+          'timestamp': DateTime.now().millisecondsSinceEpoch,
+          'messageDetails': filter.censor(messageDetails),
+          'senderid': uid,
+          'recieveruid': recieveruid,
+        },
+      );
+    }
     print("worked");
   } catch (e) {
     print("Messages: An error has occured");
