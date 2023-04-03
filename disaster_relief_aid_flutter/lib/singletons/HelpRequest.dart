@@ -50,6 +50,15 @@ class HelpRequestSingleton {
   String _volunteerLongitude = "";
   String get volunteerLongitude => _volunteerLongitude;
 
+  Position? _myLocation = null;
+  Position? get myLocation => _myLocation;
+
+  double _volunteerDistance = 0.0;
+  double get volunteerDistance => _volunteerDistance;
+
+  String _volunteerDistanceUnit = "m";
+  String get volunteerDistanceUnit => _volunteerDistanceUnit;
+
   /// Starts a new help request. This can only be called when a help request has not been started.
   Future startHelpRequest(BuildContext context, String requestDetails) async {
     // check if help request is already active
@@ -75,12 +84,12 @@ class HelpRequestSingleton {
 
     // add a new entry
     try {
-      Position location = await Location.determinePosition();
+      _myLocation = await Location.determinePosition();
 
       await userEntry.set({
         'timestamp': DateTime.now().toString(),
         'requestdetails': requestDetails,
-        'location': location.toJson(),
+        'location': _myLocation!.toJson(),
       });
     } catch (e) {
       print("HelpRequestSingleton: An error has occured");
@@ -99,8 +108,8 @@ class HelpRequestSingleton {
     currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
       // update the location
       try {
-        Position location = await Location.determinePosition();
-        await userEntry.update({'location': location.toJson()});
+        _myLocation = await Location.determinePosition();
+        await userEntry.update({'location': _myLocation!.toJson()});
       } catch (e) {
         print("HelpRequestSingleton: An error has occured");
         print(e);
@@ -137,7 +146,7 @@ class HelpRequestSingleton {
   /// This function is called when the Volunteer's entry is updated
   void onAddedOrUpdated(DatabaseEvent event) {
     // check if a user's request has been sent here.
-    print(event.snapshot.key);
+    // print(event.snapshot.key);
     // TODO: WATCH FOR UPDATES FROM THE VOLUNTEER SIDE
     if (event.snapshot.key == "volunteerID") {
       // the volunteer has accepted the request
@@ -148,11 +157,27 @@ class HelpRequestSingleton {
       _volunteerName = event.snapshot.value.toString();
       helpRequestUpdated.add(null);
     } else if (event.snapshot.key == "volunteerLocation") {
-      dynamic request = event.snapshot.value;
-      if (request != null) {
-        var location = request["location"];
-        _volunteerLongitude = location["longitude"].toString();
-        _volunteerLatitude = location["latitude"].toString();
+      dynamic location = event.snapshot.value;
+      if (location != null) {
+        _volunteerLongitude = location['longitude'].toString();
+        _volunteerLatitude = location['latitude'].toString();
+
+        print(_volunteerLongitude + " " + _volunteerLatitude);
+
+        // calculate distance between the user and the volunteer
+        _volunteerDistance = Geolocator.distanceBetween(
+            double.parse(_volunteerLatitude),
+            double.parse(_volunteerLongitude),
+            _myLocation!.latitude,
+            _myLocation!.longitude);
+
+        if (volunteerDistance > 1000) {
+          _volunteerDistance = _volunteerDistance / 1000;
+          _volunteerDistanceUnit = "km";
+        } else {
+          _volunteerDistanceUnit = "m";
+        }
+
         helpRequestUpdated.add(null);
       }
     }

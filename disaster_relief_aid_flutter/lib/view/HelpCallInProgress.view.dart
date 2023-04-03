@@ -11,6 +11,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:disaster_relief_aid_flutter/view/Community.view.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HelpCallInProgressView extends StatefulWidget {
   const HelpCallInProgressView({super.key});
@@ -106,6 +107,11 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                 ListTile(
                   title: const Text("Volunteer"),
                   subtitle: Text(HelpRequestSingleton().volunteerName),
+                ),
+                ListTile(
+                  title: const Text("Volunteer Location"),
+                  subtitle: Text(
+                      "${HelpRequestSingleton().volunteerDistance.toStringAsFixed(2)}${HelpRequestSingleton().volunteerDistanceUnit} away"),
                 ),
                 Row(
                   children: [

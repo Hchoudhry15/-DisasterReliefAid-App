@@ -114,10 +114,12 @@ class VolunteeringSingleton {
         'location': location.toJson()
       });
 
-      var helpRequestRef =
-          database.child('/requesthelplist/').child(helpRequestID);
+      if (currentHelpRequest != null) {
+        var helpRequestRef =
+            database.child('/requesthelplist/').child(currentHelpRequest!.uid);
 
-      await helpRequestRef.update({"volunteerLocation": location.toJson()});
+        await helpRequestRef.update({"volunteerLocation": location.toJson()});
+      }
     } catch (e) {
       print("An error has occured");
       print(e);
