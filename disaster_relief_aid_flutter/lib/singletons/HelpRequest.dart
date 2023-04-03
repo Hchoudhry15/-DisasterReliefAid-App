@@ -30,7 +30,13 @@ class HelpRequestSingleton {
   StreamSubscription<DatabaseEvent>? onUpdatedListener;
 
   // pertaining to the current help request
-  HelpRequestStatus currentHelpRequestStatus = HelpRequestStatus.NONE;
+
+  HelpRequestStatus _currentHelpRequestStatus = HelpRequestStatus.NONE;
+  HelpRequestStatus get currentHelpRequestStatus => _currentHelpRequestStatus;
+
+  /// The ID of the volunteer that is currently helping the user.
+  String _volunteerID = "";
+  String get volunteerID => _volunteerID;
 
   /// Starts a new help request. This can only be called when a help request has not been started.
   Future startHelpRequest(BuildContext context, String requestDetails) async {
@@ -71,7 +77,7 @@ class HelpRequestSingleton {
     }
 
     // set the status to active
-    currentHelpRequestStatus = HelpRequestStatus.AWAITING_RESPONSE;
+    _currentHelpRequestStatus = HelpRequestStatus.AWAITING_RESPONSE;
 
     // cancel the current job
     if (currentJob != null) {
@@ -121,6 +127,11 @@ class HelpRequestSingleton {
     // check if a user's request has been sent here.
     print(event.snapshot.key);
     // TODO: WATCH FOR UPDATES FROM THE VOLUNTEER SIDE
+    if (event.snapshot.key == "volunteerID") {
+      // the volunteer has accepted the request
+      _currentHelpRequestStatus = HelpRequestStatus.ACCEPTED;
+      _volunteerID = event.snapshot.value.toString();
+    }
     //   if (event.snapshot.key == "helpRequest") {
     //     dynamic request = event.snapshot.value;
     //     if (request != null) {
