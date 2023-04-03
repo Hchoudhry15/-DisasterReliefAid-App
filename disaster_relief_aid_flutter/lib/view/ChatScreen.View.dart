@@ -95,7 +95,6 @@ class _ChatScreenState extends State<ChatScreenView> {
                           } else {
                             isCurrentUser = false;
                           }
-                          if (message['messageDetails'] == "TEST-MESSAGE") {}
                           return ChatBubble(
                               text: message['messageDetails'],
                               isCurrentUser: isCurrentUser,

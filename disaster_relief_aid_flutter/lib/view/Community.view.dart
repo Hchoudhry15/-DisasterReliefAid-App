@@ -44,10 +44,12 @@ class _CommunityViewState extends State<CommunityView> {
         activeChats.where((chat) => chat != null).cast<String>().toList();
     var userIDsToChatMap = await getUserActiveChatHelper(iterableActiveChats);
     emailsToChatMap = await getUserEmailMapFromUserIdMap(userIDsToChatMap);
-    setState(() {
-      emailsToChatMap = emailsToChatMap;
-    });
-    print("************");
+    if (mounted) {
+      setState(() {
+        emailsToChatMap = emailsToChatMap;
+      });
+    }
+
     print(emailsToChatMap);
   }
 
@@ -142,7 +144,6 @@ class _CommunityViewState extends State<CommunityView> {
                       for (int i = 0; i < recieverIDs.length; i++) {
                         uIDToEmailMap[recieverIDs[i]!] = listOfUserEmails[i]!;
                       }
-                      print(uIDToEmailMap);
                       // ignore: use_build_context_synchronously
                       Navigator.push(
                           context,
@@ -461,23 +462,6 @@ Future<String> checkForActiveChat(
   } else {
     return "INVALID";
   }
-/*
-  final chatRef = database.child('chats/ChatRooms/');
-  // get a list of all chat rooms
-  final chatRoomsSnapshot = await chatRef.once();
-  final chatRooms = chatRoomsSnapshot.snapshot.value as Map<String, dynamic>?;
-  if (chatRooms == null) return;
-  // loop through all chat rooms to get the chatted with emails
-  final emails = <String>{};
-  for (final chatRoom in chatRooms.values) {
-    final chattedWithEmails =
-        List<String>.from(chatRoom['chatted_with_emails']);
-    emails.addAll(chattedWithEmails);
-*/
-//find user's active chats in users db
-// get that id and query chats, directmessages db
-//find chat, extract users in chat (add it to list) [dont add self to list from users in chat]
-//return list
 }
 
 Future<List<String>> getUsersActiveChats(String? userid) async {
