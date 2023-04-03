@@ -84,7 +84,7 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                                 uid: user.uid,
                                 recieverids: recieverIDs,
                                 chatid: chatID!,
-                                recieverEmail: recieverEmails!,
+                                recieverEmail: recieverEmails,
                                 senderEmail: senderEmail,
                                 uIDToEmailMap: uIDToEmailMap))));
               })
