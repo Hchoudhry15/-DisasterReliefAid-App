@@ -141,7 +141,7 @@ class _MySettingsViewState extends State<SettingsView> {
                           // Navigate to the admin settings view
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const AdminSettingsScreen(),
+                              builder: (context) => AdminSettingsScreen(),
                             ),
                           );
                         } else {
