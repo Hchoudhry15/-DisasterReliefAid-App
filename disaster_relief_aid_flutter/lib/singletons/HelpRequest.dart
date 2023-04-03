@@ -41,6 +41,9 @@ class HelpRequestSingleton {
   String _volunteerID = "";
   String get volunteerID => _volunteerID;
 
+  String _volunteerName = "";
+  String get volunteerName => _volunteerName;
+
   /// Starts a new help request. This can only be called when a help request has not been started.
   Future startHelpRequest(BuildContext context, String requestDetails) async {
     // check if help request is already active
@@ -134,6 +137,9 @@ class HelpRequestSingleton {
       // the volunteer has accepted the request
       _currentHelpRequestStatus = HelpRequestStatus.ACCEPTED;
       _volunteerID = event.snapshot.value.toString();
+      helpRequestUpdated.add(null);
+    } else if (event.snapshot.key == "volunteerName") {
+      _volunteerName = event.snapshot.value.toString();
       helpRequestUpdated.add(null);
     }
     //   if (event.snapshot.key == "helpRequest") {
