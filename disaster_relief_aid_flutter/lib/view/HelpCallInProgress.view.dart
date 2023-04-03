@@ -49,27 +49,44 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                 String volunteerEmail = HelpRequestSingleton().volunteerName;
                 String volunteerID = HelpRequestSingleton().volunteerID;
                 var user = UserInformationSingleton().getFirebaseUser();
-                String isActiveChat =
-                    await checkForActiveChat(user!.uid, volunteerID);
 
-                String chatID = "";
+                List<String?> recieverIDs = [volunteerID];
+                String recieverEmails = volunteerEmail;
+
+                String isActiveChat =
+                    await checkForActiveChat(user!.uid, recieverIDs);
+                String? chatID;
                 if (isActiveChat == "INVALID") {
-                  chatID =
-                      await createDirectMessageThread(user.uid, volunteerID!);
+                  chatID = await createDirectMessageThread(
+                      user.uid, recieverIDs, recieverEmails);
                 } else {
-                  print(chatID);
                   chatID = isActiveChat;
                 }
+
+                var database = FirebaseDatabase.instance.ref();
+
+                final databasestuff =
+                    await database.child('/users').child(user.uid).get();
+                print("HELLO!!!!!!!!!!!!!!");
+                final senderEmail = (Map<String, dynamic>.from(
+                    databasestuff.value as Map)['fname']);
+                Map<String, String> uIDToEmailMap = new Map();
+                uIDToEmailMap[user.uid] = senderEmail;
+                // for (int i = 0; i < recieverIDs.length; i++) {
+                //   uIDToEmailMap[recieverIDs[i]!] = listOfUserEmails[i]!;
+                // }
+                // ignore: use_build_context_synchronously
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => HelpCallInProgressWrapper(
-                                child: ChatScreenView(
-                              uid: user!.uid,
-                              recieverid: volunteerID,
-                              email: volunteerEmail,
-                              chatid: "",
-                            ))));
+                            child: ChatScreenView(
+                                uid: user.uid,
+                                recieverids: recieverIDs,
+                                chatid: chatID!,
+                                recieverEmail: recieverEmails!,
+                                senderEmail: senderEmail,
+                                uIDToEmailMap: uIDToEmailMap))));
               })
           : null,
       body: HelpRequestSingleton().currentHelpRequestStatus ==
