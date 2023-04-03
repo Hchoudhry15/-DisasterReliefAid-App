@@ -199,7 +199,8 @@ class VolunteeringSingleton {
         database.child('/requesthelplist/').child(helpRequestID);
     await helpRequestRef.update({
       "status": "accepted",
-      "volunteerID": UserInformationSingleton().getFirebaseUser()!.uid
+      "volunteerID": UserInformationSingleton().getFirebaseUser()!.uid,
+      "volunteerName": UserInformationSingleton().getFirebaseUser()!.displayName
     });
 
     helpRequestID = "";
