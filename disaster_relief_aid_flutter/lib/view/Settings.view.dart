@@ -3,6 +3,7 @@ import 'package:disaster_relief_aid_flutter/model/realtimeuserinfo.model.dart';
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
 import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/controlAdmin.settings.view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -140,7 +141,7 @@ class _MySettingsViewState extends State<SettingsView> {
                           // Navigate to the admin settings view
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const HomeView(),
+                              builder: (context) => const AdminSettingsScreen(),
                             ),
                           );
                         } else {
