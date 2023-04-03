@@ -139,9 +139,85 @@ class HelpRequestSingleton {
   //   }
   // }
 
-  void cancelHelpRequest() {}
+  void cancelHelpRequest() {
+    // check if help request is already active
+    if ([
+      HelpRequestStatus.NONE,
+      HelpRequestStatus.COMPLETED,
+      HelpRequestStatus.CANCELLED
+    ].contains(currentHelpRequestStatus)) {
+      throw Exception("No help request is active.");
+    }
 
-  void markHelpRequestAsCompleted() {}
+    // get the database reference
+    User? user = UserInformationSingleton().getFirebaseUser();
+    if (user == null) {
+      throw Exception("No user is logged in.");
+    }
+
+    cancelAllJobs();
+
+    // update the volunteer's entry
+    final volRef = database.child('/activevolunteerlist/');
+    final volEntry = volRef.child(_volunteerID);
+    volEntry.update({'endNotification': "CANCELLED"});
+
+    final userRef = database.child('/requesthelplist/');
+    var userID = user.uid;
+    final userEntry = userRef.child(userID);
+
+    // set status of help request to cancelled
+    _currentHelpRequestStatus = HelpRequestStatus.CANCELLED;
+
+    // remove the entry from the database
+    userEntry.remove();
+  }
+
+  void markHelpRequestAsCompleted() {
+    // check if help request is already active
+    if ([
+      HelpRequestStatus.NONE,
+      HelpRequestStatus.COMPLETED,
+      HelpRequestStatus.CANCELLED
+    ].contains(currentHelpRequestStatus)) {
+      throw Exception("No help request is active.");
+    }
+
+    // get the database reference
+    User? user = UserInformationSingleton().getFirebaseUser();
+    if (user == null) {
+      throw Exception("No user is logged in.");
+    }
+
+    cancelAllJobs();
+
+    // update the volunteer's entry
+    final volRef = database.child('/activevolunteerlist/');
+    final volEntry = volRef.child(_volunteerID);
+    volEntry.update({'endNotification': "COMPLETED"});
+
+    final userRef = database.child('/requesthelplist/');
+    var userID = user.uid;
+    final userEntry = userRef.child(userID);
+
+    // set status of help request to cancelled
+    _currentHelpRequestStatus = HelpRequestStatus.COMPLETED;
+
+    // remove the entry from the database
+    userEntry.remove();
+  }
+
+  void cancelAllJobs() {
+    if (currentJob != null) {
+      currentJob!.cancel();
+    }
+    if (onAddedListener != null) {
+      onAddedListener!.cancel();
+    }
+    if (onUpdatedListener != null) {
+      onUpdatedListener!.cancel();
+    }
+  }
 
   /// This function is called when the Volunteer's entry is updated
   void onAddedOrUpdated(DatabaseEvent event) {
