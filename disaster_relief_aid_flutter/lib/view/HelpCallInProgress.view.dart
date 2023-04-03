@@ -2,10 +2,15 @@ import 'dart:async';
 
 import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:disaster_relief_aid_flutter/singletons/HelpRequest.dart';
+import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
+import 'package:disaster_relief_aid_flutter/view/ChatScreen.View.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+
+import 'package:disaster_relief_aid_flutter/view/Community.view.dart';
 
 class HelpCallInProgressView extends StatefulWidget {
   const HelpCallInProgressView({super.key});
@@ -34,13 +39,39 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
         title: const Text("Help Call in Progress"),
         automaticallyImplyLeading: false,
       ),
-      // floatingActionButton: HelpRequestSingleton().currentHelpRequestStatus ==
-      //         HelpRequestStatus.ACCEPTED
-      //     ? FloatingActionButton.extended(
-      //         icon: const Icon(Icons.map),
-      //         label: const Text("Navigate"),
-      //         onPressed: () {})
-      //     : null,
+      floatingActionButton: HelpRequestSingleton().currentHelpRequestStatus ==
+              HelpRequestStatus.ACCEPTED
+          ? FloatingActionButton.extended(
+              icon: const Icon(Icons.message),
+              label: const Text("Message Volunteer"),
+              onPressed: () async {
+                // get the user from email
+                String volunteerEmail = HelpRequestSingleton().volunteerName;
+                String volunteerID = HelpRequestSingleton().volunteerID;
+                var user = UserInformationSingleton().getFirebaseUser();
+                String isActiveChat =
+                    await checkForActiveChat(user!.uid, volunteerID);
+
+                String chatID = "";
+                if (isActiveChat == "INVALID") {
+                  chatID =
+                      await createDirectMessageThread(user.uid, volunteerID!);
+                } else {
+                  print(chatID);
+                  chatID = isActiveChat;
+                }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HelpCallInProgressWrapper(
+                                child: ChatScreenView(
+                              uid: user!.uid,
+                              recieverid: volunteerID,
+                              email: volunteerEmail,
+                              chatid: "",
+                            ))));
+              })
+          : null,
       body: HelpRequestSingleton().currentHelpRequestStatus ==
               HelpRequestStatus.AWAITING_RESPONSE
           ? Center(
