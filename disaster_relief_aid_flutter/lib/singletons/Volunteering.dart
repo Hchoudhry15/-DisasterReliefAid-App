@@ -52,7 +52,7 @@ class VolunteeringSingleton {
     await attemptVolunteering(first: true);
     currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
       await attemptVolunteering();
-      print("Update Volunteer location!");
+      // print("Update Volunteer location!");
     });
 
     User? user = UserInformationSingleton().getFirebaseUser();
@@ -157,7 +157,11 @@ class VolunteeringSingleton {
       }
     } else if (event.snapshot.key == "endNotification") {
       String notif = event.snapshot.value.toString();
-      print(notif);
+      if (notif == "CANCELLED") {
+        // help request cancelled
+      } else if (notif == "COMPLETED") {
+        // help request completed
+      }
     }
   }
 
