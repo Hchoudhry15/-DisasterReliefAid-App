@@ -44,6 +44,9 @@ class _CommunityViewState extends State<CommunityView> {
         activeChats.where((chat) => chat != null).cast<String>().toList();
     var userIDsToChatMap = await getUserActiveChatHelper(iterableActiveChats);
     emailsToChatMap = await getUserEmailMapFromUserIdMap(userIDsToChatMap);
+    setState(() {
+      emailsToChatMap = emailsToChatMap;
+    });
     print("************");
     print(emailsToChatMap);
   }
