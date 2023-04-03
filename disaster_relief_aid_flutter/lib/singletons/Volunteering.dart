@@ -163,6 +163,8 @@ class VolunteeringSingleton {
   }
 
   Future acceptHelpRequest() async {
+    // set the current help request
+
     currentHelpRequest = HelpRequest(
         message: helpRequestMessage,
         uid: helpRequestID,
@@ -180,7 +182,17 @@ class VolunteeringSingleton {
         .child(UserInformationSingleton().getFirebaseUser()!.uid);
     await volunteerRef.update({"helpRequest": null});
     // get accepted requests
-    await volunteerRef.child('currentRequest').set([helpRequestID]);
+    await volunteerRef.child('currentRequest').set(helpRequestID);
+
+    // update the help request to show that it has been accepted (and by who)
+    var helpRequestRef =
+        database.child('/requesthelplist/').child(helpRequestID);
+    await helpRequestRef.update({
+      "status": "accepted",
+      "volunteerID": UserInformationSingleton().getFirebaseUser()!.uid
+    });
+
+    
     helpRequestID = "";
   }
 }
