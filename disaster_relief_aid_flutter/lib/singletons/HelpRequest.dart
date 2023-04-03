@@ -261,6 +261,16 @@ class HelpRequestSingleton {
       String notif = event.snapshot.value.toString();
       bool isCompleted = notif == "COMPLETED";
 
+      // remove the entry from the database
+      final userRef = database.child('/requesthelplist/');
+      User? user = UserInformationSingleton().getFirebaseUser();
+      if (user == null) {
+        throw Exception("No user is logged in.");
+      }
+      var userID = user.uid;
+      final userEntry = userRef.child(userID);
+      userEntry.remove();
+
       cancelAllJobs();
 
       _volunteerID = "";
