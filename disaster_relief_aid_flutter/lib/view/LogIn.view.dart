@@ -3,6 +3,7 @@ import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:disaster_relief_aid_flutter/view/RegistrationPage.view.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:disaster_relief_aid_flutter/component/DatePicker.component.dart';
@@ -24,6 +25,7 @@ class LogInView extends StatefulWidget {
 class _LogInViewState extends State<LogInView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Profile _profile = Profile();
+  final database = FirebaseDatabase.instance.ref();
 
   String error = '';
 
@@ -164,29 +166,38 @@ class _LogInViewState extends State<LogInView> {
                         email: _profile.email!,
                         password: _profile.password!,
                       );
+
                       // TODO: cache login so we don't have to log in every time
                       UserInformationSingleton().loadFirebaseUser();
-
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushReplacement(
+                      var user = UserInformationSingleton().getFirebaseUser();
+                      String uid = user!.uid;
+                      var isBanned = await checkIfBanned(uid);
+                      if (isBanned == "Banned") {
+                        // show red text on screen that says "User is banned"
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Center(
+                              child: Text(
+                                'User is banned: Please Contact (000) 000-0000 for support',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MainView()));
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'user-not-found') {
-                        print("No user found for that email.");
-                        setState(() {
-                          error = "No user found for that email.";
-                        });
-                      } else if (e.code == 'wrong-password') {
-                        print("Wrong password for that user.");
-                        setState(() {
-                          error = "Wrong password for that user.";
-                        });
+                              builder: (context) => const MainView()),
+                        );
                       }
+                    } on FirebaseAuthException catch (e) {
+                      // handle exceptions
                     }
-                    // TODO: add _profile to database
-                    print(_profile);
                   }
                 },
               ),
@@ -220,3 +231,40 @@ class _LogInViewState extends State<LogInView> {
     ));
   }
 }
+
+//function returns true if banned
+Future<String?> checkIfBanned(String uid) async {
+  try {
+    DatabaseReference dbref =
+        FirebaseDatabase.instance.ref('users/$uid/userType');
+    final event = await dbref.once();
+    final data = event.snapshot.value;
+    if (data == "Banned") {
+      return "Banned";
+    } else {
+      return "Not Banned";
+    }
+  } catch (e) {
+    print(e);
+    return null;
+  }
+}
+
+
+// Future<String?> checkIfBanned(String uid) async {
+//   try {
+//     DatabaseReference dbref =
+//         FirebaseDatabase.instance.ref('users/$uid/userType');
+//     dbref.onValue.listen((DatabaseEvent event) {
+//       final data = event.snapshot.value;
+//       if (data == "Banned") {
+//         return "Banned";
+//       } else {
+//         return "Not Banned";
+//       }
+//     });
+//   } catch (e) {
+//     print(e);
+//     return "";
+//   }
+// }
