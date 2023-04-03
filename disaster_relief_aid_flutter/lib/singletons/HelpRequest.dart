@@ -65,21 +65,33 @@ class HelpRequestSingleton {
         'location': location.toJson(),
       });
     } catch (e) {
-      print("RequestHelpList: An error has occured");
+      print("HelpRequestSingleton: An error has occured");
       print(e);
-      // if error (show to user)
-      // return to previous page
-      Navigator.pop(context);
+      throw Exception("Could not create new help request, Please try again.");
     }
 
+    // set the status to active
+    currentHelpRequestStatus = HelpRequestStatus.AWAITING_RESPONSE;
+
     // cancel the current job
-    // if (currentJob != null) {
-    //   currentJob!.cancel();
-    // }
-    // // start a new job
-    // currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
-    //   print("Update Help Request location!");
-    // });
+    if (currentJob != null) {
+      currentJob!.cancel();
+    }
+    // start a new job
+    currentJob = cron.schedule(Schedule.parse("*/20 * * * * *"), () async {
+      // update the location
+      try {
+        Position location = await Location.determinePosition();
+        await userEntry.update({'location': location.toJson()});
+      } catch (e) {
+        print("HelpRequestSingleton: An error has occured");
+        print(e);
+      }
+    });
+
+    // add a listener to the database
+    onAddedListener = userEntry.onChildAdded.listen(onAddedOrUpdated);
+    onUpdatedListener = userEntry.onChildChanged.listen(onAddedOrUpdated);
   }
 
   // Future addUserRequestHelpList(User user) async {
