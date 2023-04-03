@@ -34,6 +34,13 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
         title: const Text("Help Call in Progress"),
         automaticallyImplyLeading: false,
       ),
+      // floatingActionButton: HelpRequestSingleton().currentHelpRequestStatus ==
+      //         HelpRequestStatus.ACCEPTED
+      //     ? FloatingActionButton.extended(
+      //         icon: const Icon(Icons.map),
+      //         label: const Text("Navigate"),
+      //         onPressed: () {})
+      //     : null,
       body: HelpRequestSingleton().currentHelpRequestStatus ==
               HelpRequestStatus.AWAITING_RESPONSE
           ? Center(
@@ -48,15 +55,41 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
             ))
           : Column(
               children: [
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                    onPressed: () {
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                    },
-                    child: const Text("Cancel Help Request"))
+                Row(
+                  children: [
+                    Expanded(
+                        child: ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              padding:
+                                  const EdgeInsets.only(top: 16, bottom: 16),
+                            ),
+                            icon: const Icon(Icons.cancel),
+                            label: const Text("Cancel Request"))),
+                    Expanded(
+                        child: ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              padding:
+                                  const EdgeInsets.only(top: 16, bottom: 16),
+                            ),
+                            icon: const Icon(Icons.check),
+                            label: const Text("Mark Request as Complete")))
+                  ],
+                )
               ],
+              // children: [
+              //   ElevatedButton(
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: Colors.red,
+              //       ),
+              //       onPressed: () {
+              //         Navigator.popUntil(context, (route) => route.isFirst);
+              //       },
+              //       child: const Text("Cancel Help Request"))
+              // ],
             ),
     );
 
