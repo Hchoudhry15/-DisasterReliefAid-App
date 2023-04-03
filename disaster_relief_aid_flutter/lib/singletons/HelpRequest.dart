@@ -238,8 +238,6 @@ class HelpRequestSingleton {
         _volunteerLongitude = location['longitude'].toString();
         _volunteerLatitude = location['latitude'].toString();
 
-        print(_volunteerLongitude + " " + _volunteerLatitude);
-
         // calculate distance between the user and the volunteer
         _volunteerDistance = Geolocator.distanceBetween(
             double.parse(_volunteerLatitude),
