@@ -68,14 +68,10 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
 
                 final databasestuff =
                     await database.child('/users').child(user.uid).get();
-                print("HELLO!!!!!!!!!!!!!!");
                 final senderEmail = (Map<String, dynamic>.from(
                     databasestuff.value as Map)['fname']);
                 Map<String, String> uIDToEmailMap = new Map();
                 uIDToEmailMap[user.uid] = senderEmail;
-                // for (int i = 0; i < recieverIDs.length; i++) {
-                //   uIDToEmailMap[recieverIDs[i]!] = listOfUserEmails[i]!;
-                // }
                 // ignore: use_build_context_synchronously
                 Navigator.push(
                     context,
@@ -113,30 +109,54 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                   subtitle: Text(
                       "${HelpRequestSingleton().volunteerDistance.toStringAsFixed(2)}${HelpRequestSingleton().volunteerDistanceUnit} away"),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: ElevatedButton.icon(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              padding:
-                                  const EdgeInsets.only(top: 16, bottom: 16),
-                            ),
-                            icon: const Icon(Icons.cancel),
-                            label: const Text("Cancel Request"))),
-                    Expanded(
-                        child: ElevatedButton.icon(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding:
-                                  const EdgeInsets.only(top: 16, bottom: 16),
-                            ),
-                            icon: const Icon(Icons.check),
-                            label: const Text("Mark Request as Complete")))
-                  ],
-                )
+                const SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: ElevatedButton.icon(
+                                onPressed: () {
+                                  try {
+                                    HelpRequestSingleton().cancelHelpRequest();
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text(e.toString())));
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  padding: const EdgeInsets.only(
+                                      top: 16, bottom: 16),
+                                ),
+                                icon: const Icon(Icons.cancel),
+                                label: const Text("Cancel Request"))),
+                        Expanded(
+                            child: ElevatedButton.icon(
+                                onPressed: () {
+                                  try {
+                                    HelpRequestSingleton()
+                                        .markHelpRequestAsCompleted();
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text(e.toString())));
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  padding: const EdgeInsets.only(
+                                      top: 16, bottom: 16),
+                                ),
+                                icon: const Icon(Icons.check),
+                                label: const Text("Mark Request as Complete")))
+                      ],
+                    ))
               ],
               // children: [
               //   ElevatedButton(
