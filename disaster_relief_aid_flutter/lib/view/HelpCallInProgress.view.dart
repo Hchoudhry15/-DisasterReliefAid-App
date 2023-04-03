@@ -5,6 +5,7 @@ import 'package:disaster_relief_aid_flutter/singletons/HelpRequest.dart';
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
 import 'package:disaster_relief_aid_flutter/view/ChatScreen.View.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
+import 'package:disaster_relief_aid_flutter/view/HelpRequestEnded.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
 import 'package:disaster_relief_aid_flutter/view/Main.view.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -144,10 +145,13 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                                                     try {
                                                       HelpRequestSingleton()
                                                           .cancelHelpRequest();
-                                                      Navigator.popUntil(
+                                                      Navigator.push(
                                                           context,
-                                                          (route) =>
-                                                              route.isFirst);
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const HelpRequestEndedView(
+                                                                    wasMe: true,
+                                                                  )));
                                                     } catch (e) {
                                                       ScaffoldMessenger.of(
                                                               context)
@@ -196,10 +200,15 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
                                                     try {
                                                       HelpRequestSingleton()
                                                           .markHelpRequestAsCompleted();
-                                                      Navigator.popUntil(
+                                                      Navigator.push(
                                                           context,
-                                                          (route) =>
-                                                              route.isFirst);
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const HelpRequestEndedView(
+                                                                    wasMe: true,
+                                                                    isCompleted:
+                                                                        true,
+                                                                  )));
                                                     } catch (e) {
                                                       ScaffoldMessenger.of(
                                                               context)
