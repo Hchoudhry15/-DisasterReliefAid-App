@@ -56,7 +56,7 @@ class _HelpCallInProgressViewState extends State<HelpCallInProgressView> {
           : Column(
               children: [
                 ListTile(
-                  title: const Text("Volunteer Name"),
+                  title: const Text("Volunteer"),
                   subtitle: Text(HelpRequestSingleton().volunteerName),
                 ),
                 Row(
