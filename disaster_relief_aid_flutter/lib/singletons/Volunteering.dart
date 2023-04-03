@@ -97,6 +97,14 @@ class VolunteeringSingleton {
     final userRef = database.child('/activevolunteerlist/');
     var userID = uID;
     final userEntry = userRef.child(userID);
+
+    // check if exists
+    var exists = await userEntry.once();
+    if (exists.snapshot.exists) {
+      // delete
+      await userEntry.remove();
+    }
+
     try {
       Position location = await Location.determinePosition();
       await userEntry.update({
@@ -192,7 +200,6 @@ class VolunteeringSingleton {
       "volunteerID": UserInformationSingleton().getFirebaseUser()!.uid
     });
 
-    
     helpRequestID = "";
   }
 }
