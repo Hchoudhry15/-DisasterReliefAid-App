@@ -26,14 +26,7 @@ class CommunityView extends StatefulWidget {
 
 class _CommunityViewState extends State<CommunityView> {
   final database = FirebaseDatabase.instance.ref();
-  final List<String> myList = [
-    'John@gmail.com',
-    'Jamal@gmail.com',
-    'Kume@yahoo.com',
-    'Paul@gmail.com',
-    'Max@gmail.com',
-    'Medhana@gmaail.com'
-  ];
+  Map<List<String>, String> emailsToChatMap = {};
 
   final _formKey = GlobalKey<FormState>();
 
@@ -44,6 +37,21 @@ class _CommunityViewState extends State<CommunityView> {
   User? user = UserInformationSingleton().getFirebaseUser();
   List<String?> listOfUserEmails = [];
   List<String?> recieverIDs = [];
+
+  void handleAwait() async {
+    List<String?> activeChats = await getUsersActiveChats(user!.uid);
+    List<String> iterableActiveChats =
+        activeChats.where((chat) => chat != null).cast<String>().toList();
+    var userIDsToChatMap = await getUserActiveChatHelper(iterableActiveChats);
+    emailsToChatMap = await getUserEmailMapFromUserIdMap(userIDsToChatMap);
+    print("************");
+    print(emailsToChatMap);
+  }
+
+  void initState() {
+    super.initState();
+    handleAwait();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,16 +76,13 @@ class _CommunityViewState extends State<CommunityView> {
                 List<String?> testListOfUserEmails = searchText.split(',');
                 for (int i = 0; i < testListOfUserEmails.length; i++) {
                   testListOfUserEmails[i] = testListOfUserEmails[i]?.trim();
-                  print("TEST!!!!!" + testListOfUserEmails.toString());
                   var u = testListOfUserEmails[i];
                   var userIDMap = await getSpecificUserByEmail(u!);
                   if (userIDMap == null) {
                     invalidUsers.add(u);
                   } else {
-                    //print("User $u found in DB");
                     for (String key in userIDMap.keys) {
                       //The first element in the map's keyset is the id of a user
-                      print("PRINTING KEY!!!:" + key);
                       recieverIDs.add(key);
                       break;
                     }
@@ -112,7 +117,6 @@ class _CommunityViewState extends State<CommunityView> {
                   onTap: () async {
                     if (listOfUserEmails.isNotEmpty) {
                       User? user = UserInformationSingleton().getFirebaseUser();
-                      print("!!!!!!!!!!!!!!!!");
                       String isActiveChat =
                           await checkForActiveChat(user!.uid, recieverIDs);
                       print("UserId" + user.uid);
@@ -162,7 +166,7 @@ class _CommunityViewState extends State<CommunityView> {
               SizedBox(
                 height: 500,
                 child: ListView.builder(
-                  itemCount: myList.length,
+                  itemCount: emailsToChatMap.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14.0),
@@ -171,23 +175,33 @@ class _CommunityViewState extends State<CommunityView> {
                           backgroundColor: getRandomColor(),
                         ),
                         title: Text(
-                          myList[index],
+                          emailsToChatMap.keys
+                              .toList()[index]
+                              .toString()
+                              .substring(
+                                  1,
+                                  emailsToChatMap.keys
+                                          .toList()[index]
+                                          .toString()
+                                          .length -
+                                      1),
                           style: const TextStyle(fontSize: 16),
                         ),
                         trailing: GestureDetector(
                           onTap: () async {
-                            //JUST TESTING STUFF
-                            print("%%%%%%%%%%%%%%%%%%%%%%");
                             List<String?> activeChats =
                                 await getUsersActiveChats(user!.uid);
                             List<String> iterableActiveChats = activeChats
                                 .where((chat) => chat != null)
                                 .cast<String>()
                                 .toList();
+                            var userIDsToChatMap =
+                                await getUserActiveChatHelper(
+                                    iterableActiveChats);
+                            emailsToChatMap =
+                                await getUserEmailMapFromUserIdMap(
+                                    userIDsToChatMap);
 
-                            print("%%%%%%%%%%%%%%%%%%%%%%");
-
-                            await getUserActiveChatHelper(iterableActiveChats);
                             //
                             // handle message icon click here
                             // Navigator.push(
@@ -204,7 +218,8 @@ class _CommunityViewState extends State<CommunityView> {
                             //         chatid: chatID!,
                             //         email: userEmail!))));
                             // ignore: avoid_print
-                            print("Message icon clicked for ${myList[index]}");
+                            print(
+                                "Message icon clicked for chat${emailsToChatMap[emailsToChatMap.keys.toList()[index]]}");
                           },
                           child: const Icon(Icons.message, color: Colors.blue),
                         ),
@@ -485,32 +500,61 @@ Future<List<String>> getUsersActiveChats(String? userid) async {
 }
 
 //get UserIDs
-Future<Set<String>?> getUserActiveChatHelper(List<String> activeChats) async {
+Future<Map<List<String>, String>> getUserActiveChatHelper(
+    List<String> activeChats) async {
   final database = FirebaseDatabase.instance.ref();
   final chatRef = database.child('chats/directmessages');
-  final userIDsChattingWith = <String>{};
+  //key: list of userids, value: chatid
+  Map<List<String>, String> map = {};
+  //final userIDsChattingWith = <String>{};
+  int iterator = 0;
+
   try {
     for (final activeChatref in activeChats) {
       if (activeChatref != null) {
+        final senderUserID = UserInformationSingleton().getFirebaseUser()!.uid;
         final userID = await chatRef.child(activeChatref).once();
         final userIDsHMP = userID.snapshot.value as Map<String, dynamic>?;
-
-        // if (userIDsHMP != null) {
-        //   final receiverUIDs = userIDsHMP.values
-        //       .map((chat) => chat['receiveruid'] as String?)
-        //       .where((uid) => uid != null)
-        //       .toList();
-        //   print(userIDsHMP);
-        return null;
-
-        // userIDsChattingWith.addAll(receiverUIDs.whereType<String>());
+        List<String> usersChattingWithList = [];
+        for (var idk in userIDsHMP!['usersInChat'].values) {
+          //if (idk.values != senderUserID) {
+          //At this moment, we are about to print all the users in an active chat.
+          //print(idk.values);
+          for (var idek in idk.values) {
+            if (idek != senderUserID) {
+              usersChattingWithList.add(idek);
+            }
+          }
+        }
+        map[usersChattingWithList] = activeChats[iterator];
+        iterator++;
       }
     }
-    // }
-
-    // return userIDsChattingWith;
+    print(map);
+    return map;
   } catch (e) {
     print("OOPSIE: $e");
-    return null;
+    return map;
   }
+}
+
+Future<Map<List<String>, String>> getUserEmailMapFromUserIdMap(
+    Map<List<String>, String> map) async {
+  final database = FirebaseDatabase.instance.ref();
+  final databasestuff = database.child('/users');
+  Map<List<String>, String> emailMap = {};
+  for (List<String> key in map.keys) {
+    List<String> emails = [];
+    String chatID = "";
+    for (String userID in key) {
+      final databaseCurrUser = await databasestuff.child(userID).get();
+      final email =
+          (Map<String, dynamic>.from(databaseCurrUser.value as Map)['fname']);
+      emails.add(email);
+      chatID = map[key]!;
+    }
+    emailMap[emails] = chatID;
+  }
+  print(emailMap);
+  return emailMap;
 }
