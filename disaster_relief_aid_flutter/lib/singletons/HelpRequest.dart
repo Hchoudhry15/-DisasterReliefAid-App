@@ -44,6 +44,12 @@ class HelpRequestSingleton {
   String _volunteerName = "";
   String get volunteerName => _volunteerName;
 
+  String _volunteerLatitude = "";
+  String get volunteerLatitude => _volunteerLatitude;
+
+  String _volunteerLongitude = "";
+  String get volunteerLongitude => _volunteerLongitude;
+
   /// Starts a new help request. This can only be called when a help request has not been started.
   Future startHelpRequest(BuildContext context, String requestDetails) async {
     // check if help request is already active
@@ -141,6 +147,14 @@ class HelpRequestSingleton {
     } else if (event.snapshot.key == "volunteerName") {
       _volunteerName = event.snapshot.value.toString();
       helpRequestUpdated.add(null);
+    } else if (event.snapshot.key == "volunteerLocation") {
+      dynamic request = event.snapshot.value;
+      if (request != null) {
+        var location = request["location"];
+        _volunteerLongitude = location["longitude"].toString();
+        _volunteerLatitude = location["latitude"].toString();
+        helpRequestUpdated.add(null);
+      }
     }
     //   if (event.snapshot.key == "helpRequest") {
     //     dynamic request = event.snapshot.value;
