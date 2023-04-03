@@ -96,6 +96,7 @@ class VolunteeringSingleton {
     User? user = UserInformationSingleton().getFirebaseUser();
     if (currentJob != null) {
       await currentJob!.cancel();
+      currentJob = null;
     }
     if (onAddedListener != null) {
       await onAddedListener!.cancel();

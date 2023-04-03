@@ -66,11 +66,11 @@ class HelpRequestSingleton {
   Future startHelpRequest(BuildContext context, String requestDetails) async {
     // check if help request is already active
     if (currentHelpRequestStatus != HelpRequestStatus.NONE) {
-      return;
+      throw Exception("Help request already active");
     }
     User? user = UserInformationSingleton().getFirebaseUser();
     if (user == null) {
-      return;
+      throw Exception("User is not logged in");
     }
 
     // get the database reference
@@ -170,7 +170,7 @@ class HelpRequestSingleton {
     final userEntry = userRef.child(userID);
 
     // set status of help request to cancelled
-    _currentHelpRequestStatus = HelpRequestStatus.CANCELLED;
+    _currentHelpRequestStatus = HelpRequestStatus.NONE;
 
     // remove the entry from the database
     userEntry.remove();
@@ -204,7 +204,7 @@ class HelpRequestSingleton {
     final userEntry = userRef.child(userID);
 
     // set status of help request to cancelled
-    _currentHelpRequestStatus = HelpRequestStatus.COMPLETED;
+    _currentHelpRequestStatus = HelpRequestStatus.NONE;
 
     // remove the entry from the database
     userEntry.remove();
