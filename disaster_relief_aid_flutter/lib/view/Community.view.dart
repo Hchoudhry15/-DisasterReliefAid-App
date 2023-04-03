@@ -143,14 +143,16 @@ class _CommunityViewState extends State<CommunityView> {
                           onTap: () async {
                             //JUST TESTING STUFF
                             print("%%%%%%%%%%%%%%%%%%%%%%");
-                            List<String> activeChats =
+                            List<String?> activeChats =
                                 await getUsersActiveChats(user!.uid);
-                            Iterable<String> iterableActiveChats =
-                                activeChats.whereType<String>();
+                            List<String> iterableActiveChats = activeChats
+                                .where((chat) => chat != null)
+                                .cast<String>()
+                                .toList();
 
                             print("%%%%%%%%%%%%%%%%%%%%%%");
 
-                            await getUserActiveChatHelper(activeChats);
+                            await getUserActiveChatHelper(iterableActiveChats);
                             //
                             // handle message icon click here
                             // Navigator.push(
@@ -433,18 +435,20 @@ Future<Set<String>?> getUserActiveChatHelper(List<String> activeChats) async {
         final userID = await chatRef.child(activeChatref).once();
         final userIDsHMP = userID.snapshot.value as Map<String, dynamic>?;
 
-        if (userIDsHMP != null) {
-          final receiverUIDs = userIDsHMP.values
-              .map((chat) => chat['receiveruid'] as String?)
-              .where((uid) => uid != null)
-              .toList();
+        // if (userIDsHMP != null) {
+        //   final receiverUIDs = userIDsHMP.values
+        //       .map((chat) => chat['receiveruid'] as String?)
+        //       .where((uid) => uid != null)
+        //       .toList();
+        //   print(userIDsHMP);
+        return null;
 
-          //userIDsChattingWith.addAll(receiverUIDs);
-        }
+        // userIDsChattingWith.addAll(receiverUIDs.whereType<String>());
       }
     }
+    // }
 
-    return userIDsChattingWith;
+    // return userIDsChattingWith;
   } catch (e) {
     print("OOPSIE: $e");
     return null;
