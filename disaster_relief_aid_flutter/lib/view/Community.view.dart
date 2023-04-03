@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 
 // import 'package:disaster_relief_aid_flutter/model/user.model.dart';
 import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
 import 'package:disaster_relief_aid_flutter/view/ChatScreen.View.dart';
+import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/Settings.view.dart';
 import 'package:flutter/material.dart';
 import 'package:disaster_relief_aid_flutter/view/HelpCallInProgress.view.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,6 +26,14 @@ class CommunityView extends StatefulWidget {
 
 class _CommunityViewState extends State<CommunityView> {
   final database = FirebaseDatabase.instance.ref();
+  final List<String> myList = [
+    'John@gmail.com',
+    'Jamal@gmail.com',
+    'Kume@yahoo.com',
+    'Paul@gmail.com',
+    'Max@gmail.com',
+    'Medhana@gmaail.com'
+  ];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -48,25 +59,27 @@ class _CommunityViewState extends State<CommunityView> {
                 padding: EdgeInsets.symmetric(horizontal: 25),
               ),
               const SizedBox(height: 20),
-              SearchBox(onSubmittedSearch: (searchText) async {
-                // The getSpecificUserByEmail method returns a UserID given a User's email.
-                var user = await getSpecificUserByEmail(searchText);
-                // Currently we have a user map, but now we want the user's key
+              SearchBox(
+                onSubmittedSearch: (searchText) async {
+                  // The getSpecificUserByEmail method returns a UserID given a User's email.
+                  var user = await getSpecificUserByEmail(searchText);
+                  // Currently we have a user map, but now we want the user's key
 
-                setState(() {
-                  if (user == null) {
-                    isUserNotFound = true;
-                  } else {
-                    print("User found in DB");
-                    isUserNotFound = false;
-                    userEmail = searchText;
-                    for (String key in user.keys) {
-                      recieverid = key;
-                      break;
+                  setState(() {
+                    if (user == null) {
+                      isUserNotFound = true;
+                    } else {
+                      print("User found in DB");
+                      isUserNotFound = false;
+                      userEmail = searchText;
+                      for (String key in user.keys) {
+                        recieverid = key;
+                        break;
+                      }
                     }
-                  }
-                });
-              }),
+                  });
+                },
+              ),
               if (isUserNotFound)
                 const Text(
                   "User not found",
@@ -110,10 +123,61 @@ class _CommunityViewState extends State<CommunityView> {
                     child: Text(userEmail!),
                   ),
                 ),
+              SizedBox(
+                height: 500,
+                child: ListView.builder(
+                  itemCount: myList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14.0),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: getRandomColor(),
+                        ),
+                        title: Text(
+                          myList[index],
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () {
+                            // handle message icon click here
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const HelpCallInProgressView()));
+                            //random view used for now
+                            // ignore: todo
+                            //TODO: backend need to chatScreen view
+                            //     child: ChatScreenView(
+                            //         uid: user!.uid,
+                            //         recieverid: recieverid!,
+                            //         chatid: chatID!,
+                            //         email: userEmail!))));
+                            // ignore: avoid_print
+                            print("Message icon clicked for ${myList[index]}");
+                          },
+                          child: const Icon(Icons.message, color: Colors.blue),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Color getRandomColor() {
+    final Random random = Random();
+    return Color.fromARGB(
+      255,
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
     );
   }
 
