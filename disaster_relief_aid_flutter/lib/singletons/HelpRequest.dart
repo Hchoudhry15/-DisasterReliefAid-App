@@ -120,6 +120,7 @@ class HelpRequestSingleton {
   void onAddedOrUpdated(DatabaseEvent event) {
     // check if a user's request has been sent here.
     print(event.snapshot.key);
+    // TODO: WATCH FOR UPDATES FROM THE VOLUNTEER SIDE
     //   if (event.snapshot.key == "helpRequest") {
     //     dynamic request = event.snapshot.value;
     //     if (request != null) {
