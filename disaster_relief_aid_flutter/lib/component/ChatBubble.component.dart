@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
-  const ChatBubble({
-    Key? key,
-    required this.text,
-    required this.isCurrentUser,
-  }) : super(key: key);
+  const ChatBubble(
+      {Key? key,
+      required this.text,
+      required this.isCurrentUser,
+      required this.senderEmail})
+      : super(key: key);
   final String text;
   final bool isCurrentUser;
+  final String senderEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,8 @@ class ChatBubble extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Text(
-              text,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              senderEmail + ":\n" + text,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   color: isCurrentUser ? Colors.white : Colors.black87),
             ),
           ),
