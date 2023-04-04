@@ -89,7 +89,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 #### Known Issues
 
-- N/A
+- Chats occasionally show the error "Unexpected null value."
 
 ---
 
