@@ -17,18 +17,22 @@
 - [Description](#description)
 - [Team](#team)
 - [Release Notes](#release-notes)
-  - [v0.3.0](#v030)
+  - [v0.4.0](#v040)
     - [Features](#features)
     - [Bug Fixes](#bug-fixes)
     - [Known Issues](#known-issues)
-  - [v0.2.0](#v020)
+  - [v0.3.0](#v030)
     - [Features](#features-1)
     - [Bug Fixes](#bug-fixes-1)
     - [Known Issues](#known-issues-1)
-  - [v0.1.0](#v010)
+  - [v0.2.0](#v020)
     - [Features](#features-2)
     - [Bug Fixes](#bug-fixes-2)
     - [Known Issues](#known-issues-2)
+  - [v0.1.0](#v010)
+    - [Features](#features-3)
+    - [Bug Fixes](#bug-fixes-3)
+    - [Known Issues](#known-issues-3)
 
 ## Description
 
@@ -50,6 +54,44 @@ We will be making our app using Flutter, and the backend for our app will be mad
 | Medhana Kadiyala  | mkadiyala7@gatech.edu  | (470) 509-2394 | [medhanak](https://github.com/medhanak)                 |
 
 ## Release Notes
+
+### v0.4.0
+
+[![GitHub release](https://badgen.net/badge/Release/v0.4.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.4.0)
+
+<!-- [![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+<!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+#### Features
+
+- Help Request Updates
+  - Live updates are now sent back and forth between the user and volunteer
+    - Includes Location Updates and Status Updates
+  - Help requests can now be cancelled and marked as complete
+    - can be done from the user's side or the volunteer's side
+    - updates are shown to both parties
+  - Volunteer and User can now start a chat with each other
+    - Chat is shown in the Community Tab
+- Group Chats
+  - User's can now communicate as a group
+  - Similar to before, but now user's can enter a list of emails to create a group chat
+- All chats are now shown in the Community Tab
+- Added profanity filter to chat messages
+- Control Admin Login
+  - Users can now login as a control admin using a pre-defined password
+  - Control Admins can moderate users
+
+#### Bug Fixes
+
+- Fixed various bugs with the chat system
+- Fixed various bugs with help requests not being properly updated/created
+
+#### Known Issues
+
+- N/A
+
+---
 
 ### v0.3.0
 
