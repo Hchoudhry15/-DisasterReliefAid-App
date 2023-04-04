@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
+import 'package:disaster_relief_aid_flutter/view/HelpRequestEnded.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -27,6 +28,113 @@ class _VolunteerCallViewState extends State<VolunteerCallView> {
                   Text(VolunteeringSingleton().currentHelpRequest!.message),
             ),
           ),
+          Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: ElevatedButton.icon(
+                          onPressed: () {
+                            // confirm with dialog
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text("Confirm Cancel"),
+                                      content: const Text(
+                                          "Are you sure you want to cancel the request?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("No")),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          "Cancelling Request...")));
+                                              try {
+                                                VolunteeringSingleton()
+                                                    .cancelHelpRequest();
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const HelpRequestEndedView(
+                                                              wasMe: true,
+                                                            )));
+                                              } catch (e) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            e.toString())));
+                                              }
+                                            },
+                                            child: const Text("Yes"))
+                                      ],
+                                    ));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            padding: const EdgeInsets.only(top: 16, bottom: 16),
+                          ),
+                          icon: const Icon(Icons.cancel),
+                          label: const Text("Cancel Request"))),
+                  Expanded(
+                      child: ElevatedButton.icon(
+                          onPressed: () {
+                            // confirm with dialog
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: const Text("Confirm Complete"),
+                                      content: const Text(
+                                          "Are you sure you want to mark the request as complete?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("No")),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          "Marking Request as Complete...")));
+                                              try {
+                                                VolunteeringSingleton()
+                                                    .markHelpRequestAsCompleted();
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const HelpRequestEndedView(
+                                                              wasMe: true,
+                                                              isCompleted: true,
+                                                            )));
+                                              } catch (e) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            e.toString())));
+                                              }
+                                            },
+                                            child: const Text("Yes"))
+                                      ],
+                                    ));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            padding: const EdgeInsets.only(top: 16, bottom: 16),
+                          ),
+                          icon: const Icon(Icons.check),
+                          label: const Text("Mark Request as Complete")))
+                ],
+              ))
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

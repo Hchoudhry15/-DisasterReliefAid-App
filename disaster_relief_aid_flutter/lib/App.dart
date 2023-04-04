@@ -13,6 +13,8 @@ import 'DRA.config.dart';
 import 'view/CreateProfile.view.dart';
 import 'view/Main.view.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({required this.isLoggedIn, super.key});
 
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
         title: Config.appName,
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
+        navigatorKey: navigatorKey,
         // ignore: prefer_const_constructors
         home: HelpCallInProgressWrapper(
             child: !isLoggedIn ? const LogInView() : const MainView()));
