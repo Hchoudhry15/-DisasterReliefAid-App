@@ -27,6 +27,7 @@ class CommunityView extends StatefulWidget {
 class _CommunityViewState extends State<CommunityView> {
   final database = FirebaseDatabase.instance.ref();
   Map<List<String>, String> emailsToChatMap = {};
+  Map<List<String>, String> userIDToChatMap = {};
 
   final _formKey = GlobalKey<FormState>();
 
@@ -42,8 +43,8 @@ class _CommunityViewState extends State<CommunityView> {
     List<String?> activeChats = await getUsersActiveChats(user!.uid);
     List<String> iterableActiveChats =
         activeChats.where((chat) => chat != null).cast<String>().toList();
-    var userIDsToChatMap = await getUserActiveChatHelper(iterableActiveChats);
-    emailsToChatMap = await getUserEmailMapFromUserIdMap(userIDsToChatMap);
+    userIDToChatMap = await getUserActiveChatHelper(iterableActiveChats);
+    emailsToChatMap = await getUserEmailMapFromUserIdMap(userIDToChatMap);
     if (mounted) {
       setState(() {
         emailsToChatMap = emailsToChatMap;
@@ -136,7 +137,6 @@ class _CommunityViewState extends State<CommunityView> {
 
                       final databasestuff =
                           await database.child('/users').child(user.uid).get();
-                      print("HELLO!!!!!!!!!!!!!!");
                       final senderEmail = (Map<String, dynamic>.from(
                           databasestuff.value as Map)['fname']);
                       Map<String, String> uIDToEmailMap = new Map();
@@ -205,6 +205,47 @@ class _CommunityViewState extends State<CommunityView> {
                             emailsToChatMap =
                                 await getUserEmailMapFromUserIdMap(
                                     userIDsToChatMap);
+
+                            final databasestuff = await database
+                                .child('/users')
+                                .child(user!.uid)
+                                .get();
+                            final senderEmail = (Map<String, dynamic>.from(
+                                databasestuff.value as Map)['fname']);
+                            Map<String, String> uIDToEmailMap = {};
+                            print("*******");
+                            print(userIDsToChatMap.keys.toList()[index]);
+                            uIDToEmailMap[user!.uid] = senderEmail;
+                            for (int i = 0;
+                                i <
+                                    userIDsToChatMap.keys
+                                        .toList()[index]
+                                        .length;
+                                i++) {
+                              uIDToEmailMap[userIDsToChatMap.keys
+                                      .toList()[index][i]] =
+                                  emailsToChatMap.keys.toList()[index][i];
+                            }
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HelpCallInProgressWrapper(
+                                            child: ChatScreenView(
+                                                uid: user!.uid,
+                                                recieverids: userIDsToChatMap
+                                                    .keys
+                                                    .toList()[index],
+                                                chatid: emailsToChatMap[
+                                                    emailsToChatMap.keys
+                                                        .toList()[index]]!,
+                                                recieverEmail: emailsToChatMap
+                                                    .keys
+                                                    .toList()[index]
+                                                    .toString(),
+                                                senderEmail: senderEmail,
+                                                uIDToEmailMap:
+                                                    uIDToEmailMap))));
 
                             //
                             // handle message icon click here
@@ -362,26 +403,6 @@ Future<Map<String, dynamic>?> getSpecificUserByEmail(String email) async {
   }
   return completer.future;
 }
-
-/* Future addMessageToDB(String uID) async {
-  try {
-    final database = FirebaseDatabase.instance.ref();
-    final userRef = database.child('/messages/');
-    var userID = uID;
-    final userEntry = userRef.child(userID);
-    await userEntry.set(
-      {
-        'timestamp': DateTime.now().toString(),
-        'messageDetails': "finally",
-      },
-    );
-    print("worked");
-  } catch (e) {
-    print("Messages: An error has occured");
-    print(e);
-  }
-}
-*/
 
 void getUsers() {
   final databaseReference = FirebaseDatabase.instance.ref();
