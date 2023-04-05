@@ -16,6 +16,9 @@
 - [Table of Contents](#table-of-contents)
 - [Description](#description)
 - [Team](#team)
+- [Installation Instructions](#installation-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Installation Guide](#installation-guide)
 - [Release Notes](#release-notes)
   - [v0.4.0](#v040)
     - [Features](#features)
@@ -52,6 +55,30 @@ We will be making our app using Flutter, and the backend for our app will be mad
 | Jamal Faqeeri     | jfaqeeri3@gatech.edu   | (404) 709-6385 | [kozyjamal](https://github.com/kozyjamal)               |
 | Max Ho            | mho61@gatech.edu       | (925) 309-9352 | [acoustic-git-tar](https://github.com/acoustic-git-tar) |
 | Medhana Kadiyala  | mkadiyala7@gatech.edu  | (470) 509-2394 | [medhanak](https://github.com/medhanak)                 |
+
+## Installation Instructions
+
+### Prerequisites
+
+- [Flutter](https://flutter.dev/docs/get-started/install)
+- [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/download)
+- [Android SDK](https://developer.android.com/studio#downloads)
+- An Emulator or a Physical Device
+  - [Android Emulator](https://developer.android.com/studio/run/emulator)
+  - [iOS Emulator](https://developer.apple.com/documentation/xcode/running_your_app_in_the_simulator_or_on_a_device)
+  - [Physical Device (Android)](https://developer.android.com/studio/run/device)
+  - [Physical Device (iOS)](https://developer.apple.com/documentation/xcode/running_your_app_in_the_simulator_or_on_a_device)
+  - Chrome
+- [Firebase](https://firebase.google.com/docs/flutter/setup)
+
+### Installation Guide
+
+Please view the [Installation Guide](./INSTALLATION.md) for more information on how to do the following:
+
+- Install Flutter
+- Run the app in debug mode
+- Build the app for release
+- Deploy the app to devices
 
 ## Release Notes
 
@@ -108,7 +135,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
   - Chats are saved between users
   - Users can look up other user’s emails and start a chat with them
   - Created search bar widget that finds users to chat with
-      - When a user is not in the database, the correct error message pops up
+    - When a user is not in the database, the correct error message pops up
   - Created chat bubble widget for front end in chats
   - Chats are ordered based on time
   - Created text controller widget that sends the chat messages
