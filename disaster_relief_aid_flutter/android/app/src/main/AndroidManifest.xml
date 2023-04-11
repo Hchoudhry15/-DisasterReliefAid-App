@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.2320.disasterreliefaid">
+    package="com.team2320.disasterreliefaid">
    <application
-        android:label="disaster_relief_aid_flutter"
+        android:label="Disaster Relief Aid"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
