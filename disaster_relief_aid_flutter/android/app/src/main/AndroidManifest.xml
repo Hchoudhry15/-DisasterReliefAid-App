@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.disaster_relief_aid_flutter">
+    package="com.2320.disasterreliefaid">
    <application
         android:label="disaster_relief_aid_flutter"
         android:name="${applicationName}"

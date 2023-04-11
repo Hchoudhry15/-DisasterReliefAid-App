@@ -1,4 +1,4 @@
-package com.example.disaster_relief_aid_flutter
+package com.2320.disasterreliefaid
 
 import io.flutter.embedding.android.FlutterActivity
 
