@@ -1,4 +1,5 @@
 import 'package:disaster_relief_aid_flutter/component/HelpCallInProgressWrapper.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'RequestHelp.view.dart';
@@ -57,3 +58,54 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
+    // return Scaffold(
+    //   backgroundColor: Colors.grey[300],
+    //   body: SafeArea(
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         // app bar
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(
+    //             horizontal: 40.0,
+    //             vertical: 25.0,
+    //           ),
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             children: [
+    //               // menu icon
+    //               Icon(
+    //                 Icons.settings,
+    //                 size: 45,
+    //                 color: Colors.grey[800],
+    //               ),
+
+    //               // account icon
+    //               Icon(
+    //                 Icons.person,
+    //                 size: 45,
+    //                 color: Colors.grey[800],
+    //               )
+    //             ],
+    //           ),
+    //         ),
+
+    //         const SizedBox(height: 20.0),
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 40.0),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: const [
+    //               Text("Welcome Home"),
+    //               Text("Jamal Faqeeri", style: TextStyle(fontSize: 40)),
+    //             ],
+    //           ),
+    //         )
+    //         //fix later to be according to email on firebase acc
+    //       ],
+    //     ),
+    //   ),
+    // );
+
+//   }
+// }
