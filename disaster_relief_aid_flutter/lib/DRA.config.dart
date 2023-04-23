@@ -83,10 +83,10 @@ class Config {
   /// The list of vulnerabilities to choose from when registering
   static final vulnerabilities = [
     'Chronic Back Pain',
-    'something',
-    'something else'
+    'Blind',
+    'Asthma',
+    'Allergic to painkillers'
   ];
-  static final skills = ['Strong', 'Have Boat', 'CPR Certified'];
 
   static String passwordWeakMessage = "Password is too weak";
 

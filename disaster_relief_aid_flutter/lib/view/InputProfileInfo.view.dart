@@ -23,6 +23,7 @@ class InputProfileInfo extends StatefulWidget {
 class _InputProfileInfoState extends State<InputProfileInfo> {
   final database = FirebaseDatabase.instance.ref();
   bool isUser = true;
+  List<dynamic> vulns = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,6 +90,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                             onSelected: (List<dynamic> values) {
                               //_profile.vulnerabilities =
                               values.map((e) => e as String).toList();
+                              vulns = values;
                             },
                             labelText: changeLabelTextBasedOnUser(
                                 isUser), //need to make black, don't now how, maybe FocusNode() ?
@@ -130,12 +132,12 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                               final userRef = database.child('/users/');
                               final usernameEntry = userRef.child(userID);
                               try {
-                                  await usernameEntry.update({
+                                await usernameEntry.update({
                                     'userType': isUser ? "User" : "Volunteer",
-                                    'vulnerabilities':
-                                        Config.vulnerabilities.toString()
-                                  });
-                               } catch (e) {
+                                  'vulnerabilities': vulns.toString()
+                                });
+                              } catch (e) {
+
                                 print("An error has occured");
                                 print(e);
                               }
@@ -173,7 +175,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
   }
 
   List<dynamic> changeConfigBasedOnUser(bool isUser) {
-      return Config.vulnerabilities;
+    return Config.vulnerabilities;
   }
 
   String changeUserText(bool isUser) {
