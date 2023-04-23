@@ -133,10 +133,11 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                               final usernameEntry = userRef.child(userID);
                               try {
                                 await usernameEntry.update({
-                                  'userType': 'User',
+                                    'userType': isUser ? "User" : "Volunteer",
                                   'vulnerabilities': vulns.toString()
                                 });
                               } catch (e) {
+
                                 print("An error has occured");
                                 print(e);
                               }

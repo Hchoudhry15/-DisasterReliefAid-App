@@ -197,6 +197,9 @@ class _LogInViewState extends State<LogInView> {
                       }
                     } on FirebaseAuthException catch (e) {
                       // handle exceptions
+                      setState(() {
+                        error = e.message ?? "Error logging in.";
+                      });
                     }
                   }
                 },
