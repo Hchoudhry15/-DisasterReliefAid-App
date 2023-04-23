@@ -20,22 +20,26 @@
   - [Prerequisites](#prerequisites)
   - [Installation Guide](#installation-guide)
 - [Release Notes](#release-notes)
-  - [v0.4.0](#v040)
+  - [v0.5.0](#v050)
     - [Features](#features)
     - [Bug Fixes](#bug-fixes)
     - [Known Issues](#known-issues)
-  - [v0.3.0](#v030)
+  - [v0.4.0](#v040)
     - [Features](#features-1)
     - [Bug Fixes](#bug-fixes-1)
     - [Known Issues](#known-issues-1)
-  - [v0.2.0](#v020)
+  - [v0.3.0](#v030)
     - [Features](#features-2)
     - [Bug Fixes](#bug-fixes-2)
     - [Known Issues](#known-issues-2)
-  - [v0.1.0](#v010)
+  - [v0.2.0](#v020)
     - [Features](#features-3)
     - [Bug Fixes](#bug-fixes-3)
     - [Known Issues](#known-issues-3)
+  - [v0.1.0](#v010)
+    - [Features](#features-4)
+    - [Bug Fixes](#bug-fixes-4)
+    - [Known Issues](#known-issues-4)
 
 ## Description
 
@@ -81,6 +85,40 @@ Please view the [Installation Guide](./INSTALLATION.md) for more information on 
 - Deploy the app to devices
 
 ## Release Notes
+
+### v0.5.0
+
+[![GitHub release](https://badgen.net/badge/Release/v0.5.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.5.0)
+
+<!-- [![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+<!-- [View App Screenshots](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
+
+#### Features
+
+- N/A
+
+#### Bug Fixes
+
+- Community Messaging
+  - Moved user's name above the message bubble
+  - Fixed null pointer error
+  - Fixed other various bugs
+- Help Request
+  - fixed various bugs
+- Account Creation
+  - Fixed bug where user's account type was not updated
+- Login
+  - Fixed bug where login errors were not being shown
+- Logout
+  - Fixed error with logout placing user on a White Screen
+
+#### Known Issues
+
+- Github Release
+  - Firebase is not working in the auto-generated releases, so while the app runs, it will not be able to connect to the database
+
+---
 
 ### v0.4.0
 
