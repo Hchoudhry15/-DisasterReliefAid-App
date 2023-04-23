@@ -95,11 +95,18 @@ class _ChatScreenState extends State<ChatScreenView> {
                           } else {
                             isCurrentUser = false;
                           }
+                          String emailForSender = "";
+                          if (widget.uIDToEmailMap[message['senderid']] ==
+                              null) {
+                            emailForSender = "";
+                          } else {
+                            emailForSender =
+                                widget.uIDToEmailMap[message['senderid']]!;
+                          }
                           return ChatBubble(
                               text: message['messageDetails'],
                               isCurrentUser: isCurrentUser,
-                              senderEmail:
-                                  widget.uIDToEmailMap[message['senderid']]!);
+                              senderEmail: emailForSender);
                         },
                       );
                     } else {
