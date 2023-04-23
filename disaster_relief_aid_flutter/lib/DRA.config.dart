@@ -85,8 +85,7 @@ class Config {
     'Chronic Back Pain',
     'Blind',
     'Asthma',
-    'Allergic to painkillers',
-    'French'
+    'Allergic to painkillers'
   ];
 
   static String passwordWeakMessage = "Password is too weak";
