@@ -131,7 +131,7 @@ class _InputProfileInfoState extends State<InputProfileInfo> {
                               final usernameEntry = userRef.child(userID);
                               try {
                                   await usernameEntry.update({
-                                    'userType': 'User',
+                                    'userType': isUser ? "User" : "Volunteer",
                                     'vulnerabilities':
                                         Config.vulnerabilities.toString()
                                   });
