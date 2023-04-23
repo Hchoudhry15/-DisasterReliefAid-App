@@ -3,6 +3,7 @@ import 'package:disaster_relief_aid_flutter/model/realtimeuserinfo.model.dart';
 import 'package:disaster_relief_aid_flutter/singletons/UserInformation.dart';
 import 'package:disaster_relief_aid_flutter/singletons/Volunteering.dart';
 import 'package:disaster_relief_aid_flutter/view/Home.view.dart';
+import 'package:disaster_relief_aid_flutter/view/LogIn.view.dart';
 import 'package:disaster_relief_aid_flutter/view/controlAdmin.settings.view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -93,11 +94,9 @@ class _MySettingsViewState extends State<SettingsView> {
                         // logout
                         await FirebaseAuth.instance.signOut();
                         // go back to login screen
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const MyApp(isLoggedIn: false),
-                          ),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LogInView())
                         );
                       },
                     ),
