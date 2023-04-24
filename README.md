@@ -72,8 +72,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
   - [iOS Emulator](https://developer.apple.com/documentation/xcode/running_your_app_in_the_simulator_or_on_a_device)
   - [Physical Device (Android)](https://developer.android.com/studio/run/device)
   - [Physical Device (iOS)](https://developer.apple.com/documentation/xcode/running_your_app_in_the_simulator_or_on_a_device)
-  - Chrome
-- [Firebase](https://firebase.google.com/docs/flutter/setup)
+  - [Google Chrome](https://www.google.com/chrome/) (for fast development)
 
 ### Installation Guide
 
@@ -83,6 +82,7 @@ Please view the [Installation Guide](./INSTALLATION.md) for more information on 
 - Run the app in debug mode
 - Build the app for release
 - Deploy the app to devices
+- Common issues
 
 ## Release Notes
 
