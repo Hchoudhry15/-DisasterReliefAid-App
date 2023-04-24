@@ -76,7 +76,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 ### Installation Guide
 
-Please view the [Installation Guide](./INSTALLATION.md) for more information on how to do the following:
+Please view the [Installation Guide](./installation.md) for more information on how to do the following:
 
 - Install Flutter
 - Run the app in debug mode
