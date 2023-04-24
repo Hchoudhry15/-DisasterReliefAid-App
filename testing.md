@@ -7,7 +7,7 @@ All tests for the flutter app are done in the /test/ folder. Every test file nee
 - Views
 - Components
 - Models
-- The entire app! (we will figure this out later 💀)
+- The entire app! (We have not written any tests for this yet)
 
 ## Steps
 
