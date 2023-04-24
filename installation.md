@@ -35,5 +35,4 @@ Check out the [testing.md](testing.md) file for information on how to write test
 
 For any issues with running the app, most of the time you can fix it by running `flutter doctor` and following the instructions to fix any issues.
 
-
-
+Flutter also maintains a list of common issues and their fixes [here](https://github.com/flutter/flutter/wiki/Workarounds-for-common-issues).
