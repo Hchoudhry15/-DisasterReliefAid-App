@@ -26,6 +26,13 @@ We have a Github workflow that will automatically build the app and upload it to
 
 After building the app, you can deploy it to the app store or play store. For testing purposes, you can install the app locally without the app stores. On Android, you can install the app locally using the provided APK file. On iOS, you can install the app locally using XCode.
 
+## Android
+Please view [this](https://flutter.dev/docs/deployment/android) page for instructions on how to deploy the app to the play store.
+
+## iOS
+
+Please view [this](https://flutter.dev/docs/deployment/ios) page for instructions on how to deploy the app to the app store.
+
 # Testing
 
 Check out the [testing.md](testing.md) file for information on how to write tests for the app.
