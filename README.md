@@ -66,7 +66,7 @@ We will be making our app using Flutter, and the backend for our app will be mad
 
 - [Flutter](https://flutter.dev/docs/get-started/install)
 - [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/download)
-- [Android SDK](https://developer.android.com/studio#downloads)
+- [Android SDK](https://developer.android.com/studio#downloads) (if using or building for Android)
 - An Emulator or a Physical Device
   - [Android Emulator](https://developer.android.com/studio/run/emulator)
   - [iOS Emulator](https://developer.apple.com/documentation/xcode/running_your_app_in_the_simulator_or_on_a_device)
