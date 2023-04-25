@@ -19,6 +19,11 @@
 - [Installation Instructions](#installation-instructions)
   - [Prerequisites](#prerequisites)
   - [Installation Guide](#installation-guide)
+- [Release Notes](#release-notes)
+  - [Features](#features)
+  - [Bug Fixes](#bug-fixes)
+  - [Known Issues](#known-issues)
+  - [Future Implementations](#future-implementations)
 
 ## Description
 
@@ -62,3 +67,66 @@ Please view the [Installation Guide](./installation.md) for more information on 
 - Build the app for release
 - Deploy the app to devices
 - Common issues
+
+
+## Release Notes
+
+### Features
+
+- Custom Sign Up
+  - Can sign up as a user or volunteer
+  - Can select Language and any Vulnerabilities they may have
+- Different User Types
+  - User
+    - Can create help requests
+    - Receive updates in real time
+    - View how far away the volunteer is
+  - Volunteer
+    - Respond to help requests from users
+    - Receive updates in real time
+    - Can accept/decline help requests
+  - Control Admin
+    - Disable User/Volunteer accounts as needed
+- Community
+  - Message other users within the app
+  - Create group chats
+  - Receive updates in real time
+- Help Requets
+  - Users can create help requests
+  - Volunteers can respond to help requests
+  - Help requests are assigned to the closest active volunteer
+  - Volunteers can also request help from other volunteers as needed
+  - Help Requests update in real time
+    - Location is shared between both the volunteer and user
+    - Messaging chat is created between the volunteer and user
+    - The help request can be cancelled/marked as complete by both sides
+
+### Bug Fixes
+
+- Fixed logout taking user to white screen. (v0.5.0)
+- Fixed error messages not appearing on login screen. (v0.5.0)
+- Fixed error with user type not being properly set when registering. (v0.5.0)
+- Fixed error with chats occasionally show the error "Unexpected null value." (v0.4.0)
+- Fixed issue where help requests were not able to be cancelled/marked as complete, and help request updates were not shown to the user (v0.3.0).
+- Fixed issue with Firebase account not always staying logged in. (v0.2.0)
+- Fixed issue where Terms and Conditions and birthdate field could be skipped when registering. (v0.2.0)
+
+### Known Issues
+
+- Github Release
+  - Firebase is not working in the auto-generated releases, so while the app runs, it will not be able to connect to the database
+- Security Concerns
+  - Since the user's location is updated in real time, predators could use the app to take advantage of users in the time of a crisis.
+  - Data privacy
+    - Firebase Real-Time database access rules are not set up properly.
+- Scale issues
+  - This app (as it is now) cannot scale
+  - 
+
+
+### Future Implementations
+
+- More control admin features
+  - While a lot of the stuff that we originally saw control admins doing can be done directly through the firebase console, it would be nice to have it in the app/on a portal.
+- Some sort of map visualization
+- Security solutions
