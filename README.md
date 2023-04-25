@@ -20,7 +20,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation Guide](#installation-guide)
 - [Release Notes](#release-notes)
-  - [v0.5.0](#v050)
+  - [v1.0.0](#v100)
     - [Features](#features)
     - [Bug Fixes](#bug-fixes)
     - [Known Issues](#known-issues)
@@ -86,9 +86,9 @@ Please view the [Installation Guide](./installation.md) for more information on 
 
 ## Release Notes
 
-### v0.5.0
+### v1.0.0
 
-[![GitHub release](https://badgen.net/badge/Release/v0.5.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v0.5.0)
+[![GitHub release](https://badgen.net/badge/Release/v1.0.0/blue?icon=github)](https://github.com/JohnRamberger/DisasterReliefAid-JIB-2320/releases/tag/v1.0.0)
 
 <!-- [![Screenshots](https://badgen.net/badge/%20/App%20Screenshots/blue?icon=awesome)](./repo-images/v0.1.0/screenshots-v0.1.0.md) -->
 
